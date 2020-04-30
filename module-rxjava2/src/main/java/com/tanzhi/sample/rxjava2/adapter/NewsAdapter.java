@@ -2,8 +2,6 @@ package com.tanzhi.sample.rxjava2.adapter;
 
 import androidx.annotation.NonNull;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.tanzhi.sample.rxjava2.R;
 import com.tanzhi.sample.rxjava2.bean.NewsResultBean;
 
