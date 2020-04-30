@@ -14,7 +14,7 @@ android {
     buildToolsVersion Libs.Version.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.tainzhi.android.sample.github"
+//        applicationId "com.tainzhi.android.sample.github"
         minSdkVersion Libs.Version.minSdkVersion
         targetSdkVersion Libs.Version.targetSdkVersion
         versionCode 1
