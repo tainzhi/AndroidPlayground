@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter;
@@ -50,18 +53,17 @@ public class RecyclerViewEntranceActivity extends AppCompatActivity {
 		datas.put("StaggeredGridLayoutManager",
 				RecyclerViewStaggeredGridLayoutActivity.class);
 		datas.put("Search Filter/Swpie delete", RecyclerViewFilterableActivity.class);
-		datas.put("RecyclerView in RecyclerView", NestedRecyclerViewActivity.class);
 		List<String> keys = new ArrayList<>(datas.keySet());
 		adapter.addData(keys);
 		recyclerView.setAdapter(adapter);
-		adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+		adapter.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+			public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
 				startActivity(new Intent().setClass(RecyclerViewEntranceActivity.this,
 						datas.get(keys.get(position))));
 			}
 		});
-		
+
 	}
 	
 }

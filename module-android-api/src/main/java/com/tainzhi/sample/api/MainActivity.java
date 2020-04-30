@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter;
 import com.tainzhi.sample.api.handler.HandlerActivity;
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration;
@@ -48,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
 		BasicHorizontalAdapter adapter = new BasicHorizontalAdapter();
 		recyclerView.setAdapter(adapter);
 		adapter.addData(keys);
-		adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+		adapter.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+			public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
 				startActivity(new Intent().setClass(MainActivity.this,
 						data.get(keys.get(position))));
 			}
