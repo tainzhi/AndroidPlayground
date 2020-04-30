@@ -6,7 +6,7 @@ android {
     compileSdkVersion Libs.Version.compileSdkVersion
     buildToolsVersion Libs.Version.buildToolsVersion
     defaultConfig {
-        applicationId "com.tanzhi.sample.rxjava2"
+//        applicationId "com.tanzhi.sample.rxjava2"
         minSdkVersion Libs.Version.minSdkVersion
         targetSdkVersion Libs.Version.targetSdkVersion
         versionCode 1

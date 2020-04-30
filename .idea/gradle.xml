@@ -12,10 +12,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/CustomView" />
-            <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/module-android-api" />
             <option value="$PROJECT_DIR$/module-github" />
+            <option value="$PROJECT_DIR$/rxjava2" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
