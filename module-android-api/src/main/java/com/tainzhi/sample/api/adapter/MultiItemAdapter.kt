@@ -5,7 +5,7 @@ import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.tainzhi.sample.api.MultiItem
 import com.tainzhi.sample.api.R
 
@@ -16,7 +16,7 @@ import com.tainzhi.sample.api.R
  * @description:
  **/
 
-class MultiItemAdapter(data: List<MultiItem>?, rvParent: RecyclerView) :
+class MultiItemAdapter(data: MutableList<MultiItem>?, rvParent: RecyclerView) :
         BaseMultiItemQuickAdapter<MultiItem,
                 BaseViewHolder>
 (data) {
@@ -81,5 +81,9 @@ class MultiItemAdapter(data: List<MultiItem>?, rvParent: RecyclerView) :
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
+    }
+
+    override fun convert(holder: BaseViewHolder, item: MultiItem) {
+        TODO("Not yet implemented")
     }
 }

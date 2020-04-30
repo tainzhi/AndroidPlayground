@@ -3,7 +3,7 @@ package com.tainzhi.sample.api.adapter;
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.tainzhi.sample.api.R;
 
 import java.util.List;

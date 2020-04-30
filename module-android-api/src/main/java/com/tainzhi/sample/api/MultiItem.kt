@@ -9,14 +9,13 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
  * @description:
  **/
 
-class MultiItem(type: Int) : MultiItemEntity {
+class MultiItem( type: Int) : MultiItemEntity {
 
-    var item_type = type
+
+    override val itemType = type
 
     companion object {
         const val FirstType = 0
         const val SecondType = 1
     }
-
-    override fun getItemType() = item_type
 }

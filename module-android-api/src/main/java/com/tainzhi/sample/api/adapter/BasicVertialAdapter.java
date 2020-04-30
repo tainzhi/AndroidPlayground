@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.tainzhi.sample.api.R;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author: tainzhi
@@ -25,9 +27,9 @@ public class BasicVertialAdapter extends BaseQuickAdapter<String, BaseViewHolder
 		super(R.layout.item_basic_vertial_view);
 		this.isWaterFall = isWaterFall;
 	}
-	
+
 	@Override
-	protected void convert(@NonNull BaseViewHolder helper, String item) {
+	protected void convert(@NotNull BaseViewHolder helper, String item) {
 		// 瀑布流式布局
 		if (isWaterFall) {
 			View view = helper.itemView;
