@@ -3,10 +3,8 @@ package com.tainzhi.android.sample.github
 import android.app.Activity
 import android.app.Application
 import com.tainzhi.android.sample.github.di.AppInjector
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
-import timber.log.BuildConfig
 import timber.log.Timber
 import javax.inject.Inject
 

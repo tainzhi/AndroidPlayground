@@ -75,10 +75,9 @@ class RepoFragment : Fragment() , Injectable{
             )
             findNavController().navigate(
                     RepoFragmentDirections.actionRepoFragmentToUserFragment(
-                            contributor.login,
-                            contributor.avatarUrl
-                    ), extras
-            )
+                            contributor.login), extras)
+//                            contributor.avatarUrl), extras
+//            )
         }
         this.adapter = adapter
         binding.contributorList.adapter = adapter
