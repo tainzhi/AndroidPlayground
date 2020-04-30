@@ -1,7 +1,21 @@
 import com.tainzhi.android.buildsrc.Libs
 
-apply plugin: 'com.android.library'
+// ARouter switch
+if (isModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
+// ARouter
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 android {
     compileSdkVersion Libs.Version.compileSdkVersion
     buildToolsVersion Libs.Version.buildToolsVersion
@@ -47,4 +61,7 @@ dependencies {
     implementation Libs.AndroidX.constraintlayout
     implementation Libs.RxJava.rxJava
     implementation Libs.RxJava.rxAndroid
+
+    implementation(Libs.ARouter.api)
+    kapt(Libs.ARouter.compiler)
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter;
 import com.tainzhi.sample.api.handler.HandlerActivity;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+@Route(path = "/api/main")
 public class MainActivity extends AppCompatActivity {
 	
 	Toolbar mToolbar;

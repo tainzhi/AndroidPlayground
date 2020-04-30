@@ -3,6 +3,7 @@ package com.tanzhi.sample.rxjava2;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tanzhi.sample.rxjava2.adapter.TypeAdapter;
 import com.tanzhi.sample.rxjava2.rxbus.RxbusActivity;
 import com.tanzhi.sample.rxjava2.search.SearchActivity;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+@Route(path = "/rxjava2/main")
 public class MainActivity extends AppCompatActivity {
 	
 	@Override

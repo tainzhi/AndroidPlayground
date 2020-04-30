@@ -1,6 +1,11 @@
 import com.tainzhi.android.buildsrc.Libs
 
-apply plugin: 'com.android.library'
+// ARouter switch
+if (isModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
@@ -8,6 +13,12 @@ apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'kotlin-allopen'
 //apply plugin: 'androidx.navigation.safeargs.kotlin'
 
+// ARouter
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 
 android {
     compileSdkVersion Libs.Version.compileSdkVersion
@@ -58,6 +69,9 @@ dependencies {
     kapt Libs.Dagger.androidSupport
     kapt Libs.AndroidX.Room.compiler
     kapt Libs.AndroidX.Lifecycle.compiler
+
+    implementation(Libs.ARouter.api)
+    kapt(Libs.ARouter.compiler)
 //    implementation deps.support.app_compat
 //    implementation deps.support.app_compat
 //    implementation deps.support.recyclerview

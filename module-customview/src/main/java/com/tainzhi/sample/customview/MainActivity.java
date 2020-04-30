@@ -2,6 +2,7 @@ package com.tainzhi.sample.customview;
 
 import android.os.Bundle;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+@Route(path = "/customview/main")
 public class MainActivity extends AppCompatActivity {
 	
 	private CirclePercentView mCirclePercentView;
