@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	tools:context=".CombineLastActivity"
+	tools:showIn="@layout/activity_combine_last">
+	
+	<EditText
+		android:id="@+id/tv_password"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="18dp"
+		android:ems="10"
+		android:hint="至少4位的密码"
+		android:inputType="number"
+		app:layout_constraintEnd_toEndOf="@+id/tv_name"
+		app:layout_constraintStart_toStartOf="@+id/tv_name"
+		app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+	
+	<EditText
+		android:id="@+id/tv_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:ems="10"
+		android:hint="用户名"
+		android:inputType="textPersonName"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+	
+	<Button
+		android:id="@+id/btn_submit"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:text="登录"
+		app:layout_constraintEnd_toEndOf="@+id/tv_password"
+		app:layout_constraintStart_toStartOf="@+id/tv_password"
+		app:layout_constraintTop_toBottomOf="@+id/tv_password" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<resources>
+	<string name="app_name">Rxjava2Sample</string>
+	<string name="action_settings">Settings</string>
+	<string name="title_activity_rxbus">RxbusActivity</string>
+	<string name="title_activity_background_update_ui">BackgroundUpdateUIActivity</string>
+	<string name="title_activity_search">SearchActivity</string>
+	<string name="title_activity_pagination">PaginationActivity</string>
+	<string name="title_activity_retry">RetryActivity</string>
+	<string name="title_activity_combine_last">CombineLastActivity</string>
+</resources>
