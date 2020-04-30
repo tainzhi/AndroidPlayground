@@ -1,2 +1,5 @@
+include ':api'
+include ':CustomView'
+include ':module-github'
 include ':app'
 rootProject.name = "AndroidSample"
