@@ -10,4 +10,11 @@ allprojects {
 }
 ```
 
-###
+## 组件化ARouter
+在gradle.properties中有组件化开关
+
+不能多Application共存, 查询解决办法
+
+## Todo
+- 介绍每个module
+- 
