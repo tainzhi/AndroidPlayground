@@ -41,22 +41,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation 'androidx.appcompat:appcompat:1.1.0'
-//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-//    implementation 'com.google.android.material:material:1.0.0'
-//    testImplementation 'junit:junit:4.12'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
-//    implementation deps.rxjava2
-//    implementation deps.rx_android
-//    implementation deps.logger
-//    implementation deps.recycler_view_quick_adapter
-//    implementation deps.retrofit.core
-//    implementation deps.retrofit.converter
-//    implementation deps.retrofit.adapter
-
     implementation Libs.AndroidX.appcompat
     implementation Libs.AndroidX.constraintlayout
     implementation Libs.Google.material
@@ -67,4 +51,8 @@ dependencies {
     kapt(Libs.ARouter.compiler)
 
     implementation(Libs.baseRecyclerViewAdapterHelper)
+    implementation(Libs.Retrofit.retrofit)
+    implementation(Libs.Retrofit.gsonConverter)
+    implementation(Libs.Retrofit.retrofit_rxjava_adapter)
+    implementation(Libs.logger)
 }

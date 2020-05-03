@@ -5,6 +5,9 @@ import androidx.annotation.NonNull;
 import com.tanzhi.sample.rxjava2.R;
 import com.tanzhi.sample.rxjava2.bean.NewsResultBean;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+
 /**
  * @author: tainzhi
  * @mail: qfq61@qq.com

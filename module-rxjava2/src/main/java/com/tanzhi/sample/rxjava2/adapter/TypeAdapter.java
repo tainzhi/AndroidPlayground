@@ -3,10 +3,8 @@ package com.tanzhi.sample.rxjava2.adapter;
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.tanzhi.sample.rxjava2.R;
-
-import java.util.List;
 
 /**
  * @author: tainzhi
