@@ -86,9 +86,8 @@ public class RecyclerViewFilterableActivity extends AppCompatActivity implements
 	
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.action_search:
-				return true;
+		if (item.getItemId() == R.id.action_search) {
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
