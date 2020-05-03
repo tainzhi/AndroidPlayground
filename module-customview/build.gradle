@@ -17,11 +17,10 @@ kapt {
     }
 }
 android {
-    compileSdkVersion 29
+    compileSdkVersion Libs.Version.compileSdkVersion
     defaultConfig {
-//        applicationId "com.tainzhi.sample.customview"
-        minSdkVersion 23
-        targetSdkVersion 29
+        minSdkVersion Libs.Version.minSdkVersion
+        targetSdkVersion Libs.Version.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
