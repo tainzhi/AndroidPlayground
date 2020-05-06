@@ -21,11 +21,23 @@ android {
     compileSdkVersion Libs.Version.compileSdkVersion
     buildToolsVersion Libs.Version.buildToolsVersion
     defaultConfig {
-//        applicationId "com.tainzhi.sample.api"
+        if (!isModule.toBoolean()) {
+            applicationId "com.tainzhi.sample.api"
+
+        }
         minSdkVersion Libs.Version.minSdkVersion
         targetSdkVersion Libs.Version.targetSdkVersion
         versionCode 1
         versionName "1.0"
+    }
+    sourceSets {
+        main {
+            if (isModule.toBoolean()) {
+                manifest.srcFile 'src/main/buildModule/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
     }
     buildTypes {
         release {

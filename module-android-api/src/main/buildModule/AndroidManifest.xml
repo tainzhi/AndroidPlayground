@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:dist="http://schemas.android.com/apk/distribution" package="com.tainzhi.sample.api">
+	
+	<dist:module dist:instant="true" />
+	
+	<application
+		android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme">
+		<activity
+			android:name=".handler.HandlerActivity" android:label="@string/title_activity_handler" android:theme="@style/AppTheme.NoActionBar" />
+		<activity
+			android:name=".RecyclerViewFilterableActivity" android:label="@string/title_activity_recycler_view_filterable" android:theme="@style/AppTheme.NoActionBar" />
+		<activity
+			android:name=".RecyclerViewStaggeredGridLayoutActivity" android:label="@string/title_activity_recycler_view_staggered_grid_layout" android:theme="@style/AppTheme.NoActionBar" />
+		<activity
+			android:name=".RecyclerViewEntranceActivity" android:label="@string/title_activity_recycler_view_entrance" android:theme="@style/AppTheme.NoActionBar" />
+		<activity
+			android:name=".RecyclerViewGridLayoutActivity" android:label="@string/title_activity_recycler_view_grid_layout" android:theme="@style/AppTheme.NoActionBar" />
+		<activity
+			android:name=".GoogleTabLayoutAdvanceActivity" android:label="@string/title_activity_google_tab_layout_advance" android:theme="@style/AppTheme.NoActionBar" />
+		<activity
+			android:name=".GuidePageActivity" android:label="@string/title_activity_guide_page" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+		<activity
+			android:name=".RecyclerViewActivity" android:label="@string/title_activity_recycler_view" android:theme="@style/AppTheme.NoActionBar" />
+		<activity android:name=".GoogleTabLayoutActivity" />
+		<activity android:name=".MainActivity"/>
+	</application>
+
+</manifest>

@@ -20,12 +20,23 @@ android {
     compileSdkVersion Libs.Version.compileSdkVersion
     buildToolsVersion Libs.Version.buildToolsVersion
     defaultConfig {
-//        applicationId "com.tanzhi.sample.rxjava2"
+        if (!isModule.toBoolean()) {
+            applicationId "com.tanzhi.sample.rxjava2"
+        }
         minSdkVersion Libs.Version.minSdkVersion
         targetSdkVersion Libs.Version.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    sourceSets {
+        main {
+            if (isModule.toBoolean()) {
+                manifest.srcFile 'src/main/buildModule/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
     }
     buildTypes {
         release {
