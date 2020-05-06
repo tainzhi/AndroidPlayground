@@ -22,16 +22,36 @@ class MainActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(context, 2);
             adapter = mainAdapter
         }
-        mainData.add(MainBean("android api", navigateToApi()))
-        mainData.add(MainBean("自定义view", Unit))
-        mainData.add(MainBean("MVVM实现的简易github", Unit))
-        mainData.add(MainBean("rxjava2学习", Unit))
+        mainData.add(MainBean("android api", navigateToApi))
+        mainData.add(MainBean("自定义view", navigateToCustomView))
+        mainData.add(MainBean("MVVM实现的简易github", navigateToGithub))
+        mainData.add(MainBean("rxjava2学习", navigateToRxjava2))
 
-        mainAdapter.data = mainData
+        mainAdapter.run {
+            data = mainData
+            setOnItemClickListener { _, _, position ->
+                mainData[position].navigation.invoke()
+            }
+        }
     }
 
-    private fun navigateToApi()  {
+    private val navigateToApi: () -> Unit = {
         ARouter.getInstance().build("/api/main")
+            .navigation()
+    }
+
+    private val navigateToCustomView: () -> Unit = {
+        ARouter.getInstance().build("/customview/main")
+            .navigation()
+    }
+
+    private val navigateToGithub: () -> Unit = {
+         ARouter.getInstance().build("/github/main")
+            .navigation()
+    }
+
+    private val navigateToRxjava2: () -> Unit = {
+        ARouter.getInstance().build("/rxjava2/main")
             .navigation()
     }
 

@@ -7,4 +7,4 @@ package com.tanzhi.android.androidsample
  * @description:
  **/
  
-data class MainBean(val name: String, val navigation: Unit)
+data class MainBean(val name: String, val navigation: () -> Unit)
