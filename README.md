@@ -10,6 +10,7 @@ allprojects {
 }
 ```
 
+
 ## 组件化ARouter
 在gradle.properties中有组件化开关
 

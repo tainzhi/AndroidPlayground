@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private val mainData = ArrayList<MainBean>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.custom_view_activity_main)
 
         initARouter()
 
