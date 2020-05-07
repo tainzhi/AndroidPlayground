@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".touch.single.SingleTouchActivity">
+
+    <com.tainzhi.sample.api.touch.single.SingleTouchEventView
+        android:id="@+id/singleTouchView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/redSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="255"
+        android:progressTint="@android:color/holo_red_light"
+        android:thumbTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toTopOf="@id/greenSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/singleTouchView" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/greenSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:thumbTint="@android:color/holo_green_light"
+        android:progressTint="@android:color/holo_green_light"
+        android:max="255"
+        app:layout_constraintBottom_toTopOf="@id/blueSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/redSeekBar" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/blueSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="255"
+        android:thumbTint="@android:color/holo_blue_light"
+        android:progressTint="@android:color/holo_blue_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greenSeekBar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

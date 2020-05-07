@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter
 import com.tainzhi.sample.api.adapter.NameClass
 import com.tainzhi.sample.api.handler.HandlerActivity
+import com.tainzhi.sample.api.touch.TouchEntranceActivity
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration
 
 @Route(path = "/api/main")
@@ -25,7 +26,8 @@ class MainActivity : AppCompatActivity() {
             NameClass("引导页", GuidePageActivity::class.java),
             NameClass("TabLayout", GoogleTabLayoutActivity::class.java),
             NameClass("RecyclerView", RecyclerViewEntranceActivity::class.java),
-            NameClass("Handler", HandlerActivity::class.java)
+            NameClass("Handler", HandlerActivity::class.java),
+            NameClass("触摸事件", TouchEntranceActivity::class.java)
         )
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)

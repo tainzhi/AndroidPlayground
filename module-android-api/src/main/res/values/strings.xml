@@ -1,23 +1,23 @@
 <resources>
-	<string name="app_name">ApiSamples</string>
-	<string name="title_activity_recycler_view">RecyclerViewActivity</string>
-	<string name="title_activity_google_tab_layout_advance">GoogleTabLayoutAdvance</string>
-	<string name="title_activity_recycler_view_grid_layout">RecyclerViewGridLayoutActivity</string>
-	<string name="title_activity_recycler_view_entrance">RecyclerViewEntranceActivity</string>
-	<string name="title_activity_guide_page">ViewPager实现的引导页</string>
-	<string name="title_activity_recycler_view_staggered_grid_layout">瀑布流</string>
-	<string name="title_activity_recycler_view_filterable">RecyclerViewFilterableActivity</string>
-	
-	<string name="my_cart">My Cart</string>
-	<string name="delete">DELETE</string>
-	<string name="title_activity_handler">HandlerActivity</string>
-	<string name="title_activity_nested_recycler_view">NestedRecyclerViewActivity</string>
-	<!-- Strings used for fragments for navigation -->
-	<string name="first_fragment_label">First Fragment</string>
-	<string name="second_fragment_label">Second Fragment</string>
-	<string name="next">Next</string>
-	<string name="previous">Previous</string>
-	
-	<string name="hello_first_fragment">Hello first fragment</string>
-	<string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="app_name">ApiSamples</string>
+    <string name="title_activity_recycler_view">RecyclerViewActivity</string>
+    <string name="title_activity_google_tab_layout_advance">GoogleTabLayoutAdvance</string>
+    <string name="title_activity_recycler_view_grid_layout">RecyclerViewGridLayoutActivity</string>
+    <string name="title_activity_recycler_view_entrance">RecyclerViewEntranceActivity</string>
+    <string name="title_activity_guide_page">ViewPager实现的引导页</string>
+    <string name="title_activity_recycler_view_staggered_grid_layout">瀑布流</string>
+    <string name="title_activity_recycler_view_filterable">RecyclerViewFilterableActivity</string>
+
+    <string name="my_cart">My Cart</string>
+    <string name="delete">DELETE</string>
+    <string name="title_activity_handler">HandlerActivity</string>
+    <string name="title_activity_nested_recycler_view">NestedRecyclerViewActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
