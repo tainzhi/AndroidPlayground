@@ -30,6 +30,9 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    if (isModule.toBoolean()) {
+        resourcePrefix "module_api"
+    }
     sourceSets {
         main {
             if (isModule.toBoolean()) {
@@ -46,8 +49,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'

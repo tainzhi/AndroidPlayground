@@ -46,14 +46,15 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     implementation Libs.AndroidX.appcompat
     implementation Libs.AndroidX.constraintlayout
+    implementation Libs.AndroidX.Lifecycle.extensions
     implementation Libs.Google.material
     implementation Libs.RxJava.rxJava
     implementation Libs.RxJava.rxAndroid

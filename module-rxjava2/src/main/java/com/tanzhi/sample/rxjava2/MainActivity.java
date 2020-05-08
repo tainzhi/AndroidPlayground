@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.rxjava2_activity_main);
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 		
 		LinkedHashMap<String, Class> activitySet = new LinkedHashMap<>();
 		activitySet.put("后台更新 UI", BackgroundUpdateUIActivity.class);
-		activitySet.put("rxjava实现简单rxbus", RxbusActivity.class);
+//		activitySet.put("rxjava实现简单rxbus", RxbusActivity.class);
 		activitySet.put("Search", SearchActivity.class);
 		activitySet.put("Retrofit + 分页加载", PaginationActivity.class);
 		activitySet.put("温度数据计算平均值", BufferActivity.class);
