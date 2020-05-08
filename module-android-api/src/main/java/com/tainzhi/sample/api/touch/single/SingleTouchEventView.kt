@@ -27,6 +27,7 @@ class SingleTouchEventView @JvmOverloads constructor(
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
                 path.reset()
+                invalidate()
                 return true
             }
         })
@@ -51,6 +52,7 @@ class SingleTouchEventView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
+        gestureDetector.onTouchEvent(event)
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 path.moveTo(x, y)
@@ -66,7 +68,6 @@ class SingleTouchEventView @JvmOverloads constructor(
                 return false
             }
         }
-        gestureDetector.onTouchEvent(event)
         invalidate()
         return true
     }
