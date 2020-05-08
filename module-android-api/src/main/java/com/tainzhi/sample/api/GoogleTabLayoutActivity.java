@@ -30,7 +30,6 @@ public class GoogleTabLayoutActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_google_tab_layout);
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		toolbar.setTitle(getClass().getSimpleName());
 		init();
 		
 	}

@@ -11,7 +11,7 @@
 			android:name=".CombineLastActivity" android:label="@string/title_activity_combine_last" android:theme="@style/AppTheme.NoActionBar"></activity>
 		<activity
 			android:name=".RetryActivity" android:label="@string/title_activity_retry" android:theme="@style/AppTheme.NoActionBar" />
-		<activity android:name=".BufferActivity" />
+		<activity android:name=".BufferActivity" android:theme="@style/AppTheme.NoActionBar" />
 		<activity
 			android:name=".PaginationActivity" android:label="@string/title_activity_pagination" android:theme="@style/AppTheme.NoActionBar" />
 		<activity

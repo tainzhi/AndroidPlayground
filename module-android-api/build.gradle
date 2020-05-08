@@ -30,9 +30,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    if (isModule.toBoolean()) {
-        resourcePrefix "module_api"
-    }
+    resourcePrefix "api_"
     sourceSets {
         main {
             if (isModule.toBoolean()) {

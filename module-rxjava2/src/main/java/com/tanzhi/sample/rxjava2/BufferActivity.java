@@ -2,6 +2,7 @@ package com.tanzhi.sample.rxjava2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,7 +27,10 @@ public class BufferActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_buffer);
-		
+
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
 		textView = findViewById(R.id.tv);
 		publishSubject = PublishSubject.create();
 		DisposableObserver<List<Double>> disposableObserver = new DisposableObserver<List<Double>>() {

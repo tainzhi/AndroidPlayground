@@ -16,11 +16,11 @@ import kotlinx.android.synthetic.main.api_activity_main.*
 
 @Route(path = "/api/main")
 class MainActivity : AppCompatActivity() {
-    var mToolbar: Toolbar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.api_activity_main)
-        mToolbar = findViewById(R.id.my_toolbar)
+        val mToolbar = findViewById<Toolbar>(R.id.my_toolbar)
+        mToolbar.title = "Android Api"
         setSupportActionBar(mToolbar)
         val data = arrayListOf(
             NameClass("引导页", GuidePageActivity::class.java),
