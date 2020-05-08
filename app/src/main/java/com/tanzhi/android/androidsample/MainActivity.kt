@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tanzhi.android.androidsample.databinding.ActivityMainBinding
+import com.tanzhi.android.playground.router.RouterPath
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -38,22 +39,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val navigateToApi: () -> Unit = {
-        ARouter.getInstance().build("/api/main")
+        ARouter.getInstance().build(RouterPath.PATH_API)
             .navigation()
     }
 
     private val navigateToCustomView: () -> Unit = {
-        ARouter.getInstance().build("/customview/main")
+        ARouter.getInstance().build(RouterPath.PATH_CUSTOM_VIEW)
             .navigation()
     }
 
     private val navigateToGithub: () -> Unit = {
-         ARouter.getInstance().build("/github/main")
+         ARouter.getInstance().build(RouterPath.PATH_GITHUB)
             .navigation()
     }
 
     private val navigateToRxjava2: () -> Unit = {
-        ARouter.getInstance().build("/rxjava2/main")
+        ARouter.getInstance().build(RouterPath.PATH_RXJAVA2)
             .navigation()
     }
 

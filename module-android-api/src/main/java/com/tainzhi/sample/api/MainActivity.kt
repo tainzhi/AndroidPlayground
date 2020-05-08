@@ -12,9 +12,10 @@ import com.tainzhi.sample.api.adapter.NameClass
 import com.tainzhi.sample.api.handler.HandlerActivity
 import com.tainzhi.sample.api.touch.TouchEntranceActivity
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration
+import com.tanzhi.android.playground.router.RouterPath
 import kotlinx.android.synthetic.main.api_activity_main.*
 
-@Route(path = "/api/main")
+@Route(path = RouterPath.PATH_API)
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

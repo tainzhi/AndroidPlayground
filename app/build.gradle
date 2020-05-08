@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    api(project(":router"))
     if (isModule.toBoolean()) {
         implementation(project(':module-android-api'))
         implementation(project(':module-customview'))

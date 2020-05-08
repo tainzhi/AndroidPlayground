@@ -5,8 +5,9 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.tanzhi.android.playground.router.RouterPath
 
-@Route(path = "/customview/main")
+@Route(path = RouterPath.PATH_CUSTOM_VIEW)
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

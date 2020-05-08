@@ -56,6 +56,7 @@ android {
 }
 
 dependencies {
+    api(project(":router"))
     implementation(Libs.Kotlin.stdlib)
     implementation(Libs.AndroidX.appcompat)
     implementation(Libs.AndroidX.constraintlayout)

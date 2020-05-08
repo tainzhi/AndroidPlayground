@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/module-customview" />
             <option value="$PROJECT_DIR$/module-github" />
             <option value="$PROJECT_DIR$/module-rxjava2" />
+            <option value="$PROJECT_DIR$/router" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

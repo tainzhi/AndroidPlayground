@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    api(project(":router"))
     implementation Libs.AndroidX.appcompat
     implementation Libs.AndroidX.constraintlayout
     implementation Libs.AndroidX.Lifecycle.extensions
