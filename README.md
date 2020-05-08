@@ -1,7 +1,7 @@
 ## 引入第三方库需要注意的点
 ### BaseRecyclerViewAdapterHelper
 [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/wiki) 需要添加
-```
+```gradle
 allprojects {
 	repositories {
 		...
@@ -36,4 +36,5 @@ android控件和api使用demo
 - TabLayout
 - RecyclerView各种用法: Search Filter/Swipe delete
 - Handler线程传递消息
+- 触摸事件: Single Touch, multi touch
 

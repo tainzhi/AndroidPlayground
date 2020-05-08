@@ -24,10 +24,10 @@ class MultiTouchView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     val size = 60
-    val activePoints = SparseArray<PointF>()
-    val paint = Paint()
-    val textPaint = Paint()
-    val colors = intArrayOf(Color.BLUE, Color.GREEN, Color.MAGENTA, Color.BLACK,
+    private val activePoints = SparseArray<PointF>()
+    private val paint = Paint()
+    private val textPaint = Paint()
+    private val colors = arrayOf(Color.BLUE, Color.GREEN, Color.MAGENTA, Color.BLACK,
         Color.CYAN, Color.RED, Color.DKGRAY, Color.LTGRAY, Color.YELLOW)
 
     init {
@@ -45,7 +45,6 @@ class MultiTouchView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val pointIndex = event.actionIndex
         val pointId = event.getPointerId(pointIndex)
-        val maskedAction = event.actionMasked
 
         when(event.actionMasked) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
