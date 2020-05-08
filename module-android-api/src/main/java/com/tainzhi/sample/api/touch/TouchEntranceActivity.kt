@@ -1,14 +1,15 @@
 package com.tainzhi.sample.api.touch
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter
 import com.tainzhi.sample.api.adapter.NameClass
+import com.tainzhi.sample.api.touch.multi.MultiTouchActivity
 import com.tainzhi.sample.api.touch.single.SingleTouchActivity
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration
 
@@ -29,7 +30,8 @@ class TouchEntranceActivity : AppCompatActivity() {
         )
         val adapter = BasicHorizontalAdapter()
         val datas = arrayListOf(
-            NameClass("Single Touch", SingleTouchActivity::class.java)
+            NameClass("Single Touch", SingleTouchActivity::class.java),
+            NameClass("Multi Touch", MultiTouchActivity::class.java)
         )
         adapter.setNewInstance(datas)
         recyclerView.adapter = adapter
