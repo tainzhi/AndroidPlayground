@@ -3,4 +3,4 @@ include ':module-android-api'
 include ':module-customview'
 include ':module-github'
 include ':app'
-rootProject.name = "AndroidSample"
+rootProject.name = "AndroidPlayground"
