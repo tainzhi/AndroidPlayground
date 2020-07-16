@@ -11,6 +11,8 @@ import android.view.View
 /**
  * Created by muqing on 2019/7/7.
  * Email: qfq61@qq.com
+ * Description: 圆环进度条
+ * 先画出大圆, 再画出扇形, 然后小圆(和大圆同色)覆盖扇形(展示位圆环), 最后绘制出数字
  */
 class CirclePercentView @JvmOverloads constructor(
     context: Context,
@@ -29,6 +31,57 @@ class CirclePercentView @JvmOverloads constructor(
     private val mSmallColor: Int
     private val mBigColor: Int
     private val mCenterTextSize: Float
+
+    init {
+        context.obtainStyledAttributes(
+            attrs,
+            R.styleable.CirclePercentView, defStyleAttr, 0
+        ).apply {
+            mStripeWidth = getDimension(R.styleable.CirclePercentView_stripWidth, 30f)
+            mCurrentPercent = getInteger(
+                R.styleable.CirclePercentView_percent,
+                0
+            )
+            mSmallColor = getColor(
+                R.styleable.CirclePercentView_smallColor,
+                -0x504b25
+            )
+            mBigColor = getColor(
+                R.styleable.CirclePercentView_bigColor,
+                -0x96af5f
+            )
+            mCenterTextSize = getDimensionPixelSize(
+                R.styleable.CirclePercentView_centerTextSize,
+                50
+            ).toFloat()
+            mRadius = getDimensionPixelSize(
+                R.styleable.CirclePercentView_radius,
+                100
+            ).toFloat()
+        }.recycle()
+    }
+
+    private val bigCirclePaint = Paint().apply {
+        isAntiAlias = true
+        color = mBigColor
+    }
+
+    private val sectorPaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.FILL
+        color = mSmallColor
+    }
+
+    private val smallCirclePaint = Paint().apply {
+        isAntiAlias = true
+        color = mBigColor
+    }
+
+    private val textPaint = Paint().apply {
+        textSize = mCenterTextSize
+        color = Color.WHITE
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
@@ -51,25 +104,20 @@ class CirclePercentView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
+        // 进度是从0-100, 而弧度是从0-360故放大系数为 3.6
         mEndAngle = (mCurrentPercent * 3.6).toInt()
-        val bigCirclepaint = Paint()
-        bigCirclepaint.isAntiAlias = true
-        bigCirclepaint.color = mBigColor
-        canvas.drawCircle(centerX, centerY, mRadius, bigCirclepaint)
-        val sectorPaint = Paint()
-        sectorPaint.color = mSmallColor
-        sectorPaint.isAntiAlias = true
+        // 绘制大圆
+        canvas.drawCircle(centerX, centerY, mRadius, bigCirclePaint)
+    
+        // 绘制扇形
+        // 大坑, 必须在onMeasure()获取mWidth和mHeight后, 再设置rect
+        // rect为drawArc绘制的圆环所在范围
         val rect = RectF(0F, 0F, mWidth.toFloat(), mHeight.toFloat())
         canvas.drawArc(rect, 270f, mEndAngle.toFloat(), true, sectorPaint)
-        val smallCirclePaint = Paint()
-        smallCirclePaint.isAntiAlias = true
-        smallCirclePaint.color = mBigColor
+        // 绘制小圆
         canvas.drawCircle(centerX, centerY, mRadius - mStripeWidth, smallCirclePaint)
-        val textPaint = Paint()
         val text = "$mCurrentPercent%"
-        textPaint.textSize = mCenterTextSize
         val textLength = textPaint.measureText(text)
-        textPaint.color = Color.WHITE
         canvas.drawText(text, centerX - textLength / 2, centerY, textPaint)
     }
 
@@ -82,6 +130,7 @@ class CirclePercentView @JvmOverloads constructor(
         mPercent = percent
         Thread(Runnable {
             var sleepTime = 1
+            // 模拟类似依次变化(进度增加)的效果
             for (i in 0 until mPercent) {
                 if (i % 20 == 0) {
                     sleepTime += 2
@@ -97,31 +146,4 @@ class CirclePercentView @JvmOverloads constructor(
         }).start()
     }
 
-    init {
-        val typedArray = context.obtainStyledAttributes(
-            attrs,
-            R.styleable.CirclePercentView, defStyleAttr, 0
-        )
-        mStripeWidth = typedArray.getDimension(R.styleable.CirclePercentView_stripWidth, 30f)
-        mCurrentPercent = typedArray.getInteger(
-            R.styleable.CirclePercentView_percent,
-            0
-        )
-        mSmallColor = typedArray.getColor(
-            R.styleable.CirclePercentView_smallColor,
-            -0x504b25
-        )
-        mBigColor = typedArray.getColor(
-            R.styleable.CirclePercentView_bigColor,
-            -0x96af5f
-        )
-        mCenterTextSize = typedArray.getDimensionPixelSize(
-            R.styleable.CirclePercentView_centerTextSize,
-            50
-        ).toFloat()
-        mRadius = typedArray.getDimensionPixelSize(
-            R.styleable.CirclePercentView_radius,
-            100
-        ).toFloat()
-    }
 }
