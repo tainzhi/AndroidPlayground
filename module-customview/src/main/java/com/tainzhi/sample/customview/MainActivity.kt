@@ -1,21 +1,56 @@
 package com.tainzhi.sample.customview
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.tainzhi.sample.customview.adapter.BasicHorizontalAdapter
+import com.tainzhi.sample.customview.adapter.NameClass
+import com.tainzhi.sample.customview.widget.MyDividerItemDecoration
 import com.tanzhi.android.playground.router.RouterPath
+import kotlinx.android.synthetic.main.content_main.*
 
 @Route(path = RouterPath.PATH_CUSTOM_VIEW)
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.custom_view_activity_main)
-        findViewById<Button>(R.id.button)?.setOnClickListener(View.OnClickListener { View: View? ->
-            findViewById<CirclePercentView>(R.id.circlePercentView)?.setPercent(
-                (Math.random() * 100).toInt()
+        setContentView(R.layout.activity_custom_main)
+        val mToolbar = findViewById<Toolbar>(R.id.toolbar)
+        mToolbar.title = "Android Api"
+        setSupportActionBar(mToolbar)
+        val data = arrayListOf(
+            NameClass(
+                "环形进度条",
+                CirclePercentActivity::class.java
             )
-        })
+        )
+
+        customRV.run {
+            layoutManager = LinearLayoutManager(
+                this@MainActivity, LinearLayoutManager.VERTICAL,
+                false
+            )
+            addItemDecoration(
+                MyDividerItemDecoration(
+                    this@MainActivity, LinearLayout.VERTICAL,
+                    20
+                )
+            )
+            adapter = BasicHorizontalAdapter()
+                .apply {
+                setNewInstance(data)
+                setOnItemClickListener { adapter, view, position ->
+                    startActivity(
+                        Intent().setClass(
+                            this@MainActivity,
+                            data[position].clazz
+                        )
+                    )
+                }
+            }
+        }
     }
 }
