@@ -22,10 +22,8 @@ class MainActivity : AppCompatActivity() {
         mToolbar.title = "Android Api"
         setSupportActionBar(mToolbar)
         val data = arrayListOf(
-            NameClass(
-                "环形进度条",
-                CirclePercentActivity::class.java
-            )
+            NameClass("环形进度条", CirclePercentActivity::class.java),
+            NameClass("图片指示器的进度条", LevelUpActivity::class.java)
         )
 
         customRV.run {

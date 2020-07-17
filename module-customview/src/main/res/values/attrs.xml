@@ -8,4 +8,9 @@
         <attr name="bigColor" format="color"/>
         <attr name="centerTextSize" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="LevelProgressBar">
+        <attr name="progressBarHeight" format="dimension"/>
+        <attr name="progressBarWidth" format="dimension"/>
+        <attr name="progressBarBackground" format="color"/>
+    </declare-styleable>
 </resources>
