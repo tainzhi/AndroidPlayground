@@ -7,8 +7,21 @@
     tools:context=".LevelUpActivity">
 
     <com.tainzhi.sample.customview.LevelProgressBar
+        android:id="@+id/levelProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:firstLevelIcon="@drawable/ic_ceo_first_level"
+        app:secondLevelIcon="@drawable/ic_ceo_first_level"
+        app:thirdLevelIcon="@drawable/ic_ceo_first_level"
+        app:fourthLevelIcon="@drawable/ic_ceo_first_level"
+        app:fifthLevelIcon="@drawable/ic_ceo_first_level"
+        app:progressBarProgressDrawable="@drawable/progressbar_indeterminate"
+        app:indicatorDrawable="@drawable/icon_location_lit"
+        app:indicatorWidth="16dp"
+        app:indicatorHeight="24dp"
+        app:indicatorPosition="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
