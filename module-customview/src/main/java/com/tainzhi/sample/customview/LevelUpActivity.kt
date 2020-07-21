@@ -22,6 +22,8 @@ class LevelUpActivity : AppCompatActivity() {
         levelProgressBar.levelPoints = arrayListOf(0, 500, 2000, 10000, 20000)
         inputProgress.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                levelProgressBar.point = if (s.toString().trim().isNullOrEmpty()) 0 else s.toString().trim().toInt()
+                currentProgress.text = levelProgressBar.point.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -30,10 +32,5 @@ class LevelUpActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
-
-        submitProgress.setOnClickListener {
-            levelProgressBar.point = inputProgress.text?.trim().toString().toInt()
-            currentProgress.text = levelProgressBar.point.toString()
-        }
     }
 }
