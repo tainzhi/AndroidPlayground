@@ -25,18 +25,36 @@ class LevelProgressBar @JvmOverloads constructor(
             field = value
         }
 
+    var levelPoints = ArrayList<Int>()
+        set(value) {
+            invalidate()
+            field = value
+        }
+    var point = 0
+        set(value) {
+            post { computeProgress() }
+            postInvalidate()
+            field = value
+        }
+
     private var progressBarBackground: Int
 
     // 该空间的宽和高
     private var _width: Int = 0
     private var _height: Int = 0
 
-    private val defaultProgressBarHeight: Float = 12.dp()
+    // 长进度条背景的宽和高
     private var progressBarHeight: Float
     private var progressBarWidth: Float = 0f
+    private var progressBarStartX = 0f
+    private var progressBarEndY = 0f
     private val progressBarRect = RectF()
 
-    private val defaultLevelIconWidth: Float = 48.dp()
+    // 进度条 进度图片
+    private var progressDrawable: Drawable?
+    private lateinit var progressBitmap: Bitmap
+
+    // 等级图片 宽高相等
     private var levelIconWidth: Float
 
     // 5个icon的中心y坐标
@@ -51,9 +69,6 @@ class LevelProgressBar @JvmOverloads constructor(
     private var levelIconRectF = arrayOfNulls<RectF>(5)
     private val levelIconSrcRect = Rect()
 
-    // 进度图片
-    private var progressDrawable: Drawable?
-    private lateinit var progressBitmap: Bitmap
 
     // indicator
     private var indicatorDrawable: Drawable?
@@ -62,10 +77,12 @@ class LevelProgressBar @JvmOverloads constructor(
     private var indicatorHeight: Float = 24.dp()
     private var indicatorPosition: Float = 30.dp()
 
+    // text距离progressBar垂直中心线的距离
+    private val textPadding = 5 // fuck, 绘制text总有边界没有绘制出来
     private var textPosition = 0
     private var textSize: Int = 0
     private var textBounds = arrayOf(Rect(), Rect(), Rect(), Rect(), Rect())
-    var levelTextSequences = arrayOf<String> (
+    var levelTextSequences = arrayOf<String>(
         "新晋CEO",
         "进阶CEO",
         "王牌CEO",
@@ -73,22 +90,25 @@ class LevelProgressBar @JvmOverloads constructor(
         "至尊CEO"
     )
 
+    private var pointTextSize: Int = 0
+    private var pointTextPostion = 0
+    private var pointTextColor = 0
+    private var pointTextBound = Rect()
+
     init {
 
         context.obtainStyledAttributes(
             attrs,
             R.styleable.LevelProgressBar, defStyleAttr, 0
         ).apply {
-            progressBarHeight = getDimension(
-                R.styleable.LevelProgressBar_progressBarHeight,
-                defaultProgressBarHeight
-            )
+            progressBarHeight =
+                getDimension(R.styleable.LevelProgressBar_progressBarHeight, 12.dp())
             progressBarBackground = getColor(
                 R.styleable.LevelProgressBar_progressBarBackground,
                 ContextCompat.getColor(context, R.color.levelProgressBarBackGround)
             )
             levelIconWidth =
-                getDimension(R.styleable.LevelProgressBar_levelIconWidth, defaultLevelIconWidth)
+                getDimension(R.styleable.LevelProgressBar_levelIconWidth, 48.dp())
             levelIconDrawable[0] = getDrawable(R.styleable.LevelProgressBar_firstLevelIcon)
             levelIconDrawable[1] = getDrawable(R.styleable.LevelProgressBar_secondLevelIcon)
             levelIconDrawable[2] = getDrawable(R.styleable.LevelProgressBar_thirdLevelIcon)
@@ -97,12 +117,25 @@ class LevelProgressBar @JvmOverloads constructor(
             progressDrawable = getDrawable(R.styleable.LevelProgressBar_progressBarProgressDrawable)
 
             indicatorDrawable = getDrawable(R.styleable.LevelProgressBar_indicatorDrawable)
-            indicatorWidth = getDimension(R.styleable.LevelProgressBar_indicatorWidth, indicatorWidth)
-            indicatorHeight = getDimension(R.styleable.LevelProgressBar_indicatorHeight, indicatorHeight)
-            indicatorPosition = getDimension(R.styleable.LevelProgressBar_indicatorPosition, indicatorPosition)
+            indicatorWidth =
+                getDimension(R.styleable.LevelProgressBar_indicatorWidth, indicatorWidth)
+            indicatorHeight =
+                getDimension(R.styleable.LevelProgressBar_indicatorHeight, indicatorHeight)
+            indicatorPosition =
+                getDimension(R.styleable.LevelProgressBar_indicatorPosition, indicatorPosition)
 
             textSize = getDimensionPixelSize(R.styleable.LevelProgressBar_textSize, 13.dp().toInt())
-            textPosition = getDimensionPixelSize(R.styleable.LevelProgressBar_textPosition, 16.dp().toInt())
+            textPosition =
+                getDimensionPixelSize(R.styleable.LevelProgressBar_textPosition, 16.dp().toInt())
+
+            pointTextSize =
+                getDimensionPixelSize(R.styleable.LevelProgressBar_pointTextSize, 8.dp().toInt())
+            pointTextColor =
+                getColor(R.styleable.LevelProgressBar_pointTextColor, Color.parseColor("#000000"))
+            pointTextPostion = getDimensionPixelSize(
+                R.styleable.LevelProgressBar_pointTextPosition,
+                20.dp().toInt()
+            )
 
         }.recycle()
 
@@ -152,16 +185,54 @@ class LevelProgressBar @JvmOverloads constructor(
         isAntiAlias = true
         style = Paint.Style.FILL
 
-        for (i in 0 until 0) {
-            textPaint.getTextBounds(levelTextSequences[i],0, levelTextSequences[i].length, textBounds[i])
-        }
     }
 
     private val textPaint = Paint().apply {
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
         textSize = this@LevelProgressBar.textSize.toFloat()
-        color = Color.parseColor("#000000")
+        color = Color.parseColor("#8a8f96")
+
+        for (i in 0 until 5) {
+            this.getTextBounds(
+                levelTextSequences[i],
+                0,
+                levelTextSequences[i].length,
+                textBounds[i]
+            )
+        }
+
+        this.getTextBounds("0", 0, 1, pointTextBound)
+    }
+
+    private val pointTextPaint = Paint().apply {
+        isAntiAlias = true
+        textAlign = Paint.Align.CENTER
+        textSize = this@LevelProgressBar.pointTextSize.toFloat()
+        color = pointTextColor
+        this.getTextBounds("0", 0, 1, pointTextBound)
+    }
+
+    private fun computeProgress() {
+        // 求出所在等级
+        var pointLevel = 0
+        if (levelPoints.size == 0) return
+        for (i in 0 until levelPoints.size) {
+            if (point >= levelPoints[i]) {
+                pointLevel = i
+            }
+        }
+        // 再该等级页下一等级之间求出所占百分比
+        if (pointLevel < 4) {
+            val percent =
+                (point - levelPoints[pointLevel]) * 1f / (levelPoints[pointLevel + 1] - levelPoints[pointLevel])
+            val paddingProgressBarStart = (levelIconsCenterX[pointLevel] - levelIconsCenterX[0]) +
+                    percent * (levelIconsCenterX[pointLevel + 1] - levelIconsCenterX[pointLevel])
+            progress = (paddingProgressBarStart * 100 / progressBarWidth).toInt()
+        } else {
+            // 已经是最高等级
+            progress = 100
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -171,8 +242,12 @@ class LevelProgressBar @JvmOverloads constructor(
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
 
         _width = widthSize
-
-        _height = (indicatorHeight / 2 + indicatorPosition + textBounds[0].height() + textPosition).toInt()
+        _height = (indicatorHeight / 2 + indicatorPosition
+                + textPosition
+                + pointTextPostion
+                + pointTextBound.height() / 2
+                + textPadding
+                ).toInt()
         setMeasuredDimension(_width, _height)
     }
 
@@ -181,19 +256,28 @@ class LevelProgressBar @JvmOverloads constructor(
 
         val halfIconWidth = levelIconWidth / 2f
         levelIconsCenterY = indicatorPosition + indicatorHeight / 2
+        // 尽量使得text和icon都能放置下
+        progressBarStartX =
+            Math.max(levelIconWidth / 2, textBounds[0].width().toFloat() / 2) + textPadding
+        progressBarEndY = Math.min(
+            _width.toFloat() - levelIconWidth / 2,
+            _width.toFloat() - textBounds[4].width() / 2
+        ) - textPadding
+//        progressBarStartX = textBounds[0].width() / 2.toFloat()
+//        progressBarEndY = _width.toFloat() - textBounds[4].width() / 2
         // 中间有4个间隔
-        val interval = (_width - halfIconWidth * 2) / 4
-        levelIconsCenterX[0] = levelIconWidth / 2
+        val interval = (progressBarEndY - progressBarStartX) / 4
+        levelIconsCenterX[0] = progressBarStartX
         levelIconsCenterX[1] = levelIconsCenterX[0] + interval
         levelIconsCenterX[2] = levelIconsCenterX[1] + interval
         levelIconsCenterX[3] = levelIconsCenterX[2] + interval
-        levelIconsCenterX[4] = _width - halfIconWidth
+        levelIconsCenterX[4] = progressBarEndY
 
-        progressBarWidth = width - paddingEnd - levelIconWidth
+        progressBarWidth = progressBarEndY - progressBarStartX
         progressBarRect.set(
-            paddingStart + halfIconWidth,
+            progressBarStartX,
             levelIconsCenterY - progressBarHeight / 2f,
-            _width - paddingEnd - halfIconWidth,
+            progressBarEndY,
             levelIconsCenterY + progressBarHeight / 2f
         )
 
@@ -214,11 +298,16 @@ class LevelProgressBar @JvmOverloads constructor(
 
         // progressDrawable绘制
         val progressDrawableWidth = progressBarWidth * progress / 100
-        var progressDrawableStart = levelIconWidth / 2
+        var progressDrawableStart = progressBarStartX
         val progressDrawableTop = levelIconsCenterY - (progressBarHeight / 2)
         // 先画出整数个progressDrawable
         for (i in 0 until (progressDrawableWidth / progressBitmap.width).toInt()) {
-            canvas.drawBitmap(progressBitmap, progressDrawableStart, progressDrawableTop, strokePaint)
+            canvas.drawBitmap(
+                progressBitmap,
+                progressDrawableStart,
+                progressDrawableTop,
+                strokePaint
+            )
             progressDrawableStart += progressBitmap.width
         }
         canvas.drawBitmap(
@@ -226,13 +315,13 @@ class LevelProgressBar @JvmOverloads constructor(
             Rect(
                 0,
                 0,
-                (levelIconWidth / 2 +  progressDrawableWidth - progressDrawableStart).toInt(),
+                (progressDrawableWidth + progressBarStartX - progressDrawableStart).toInt(),
                 progressBarHeight.toInt()
             ),
             RectF(
                 progressDrawableStart,
                 progressDrawableTop,
-                levelIconWidth / 2 +  progressDrawableWidth,
+                progressDrawableWidth + progressBarStartX + 1,
                 progressDrawableTop + progressBarHeight
             )
             , strokePaint
@@ -246,9 +335,9 @@ class LevelProgressBar @JvmOverloads constructor(
             indicatorBitmap,
             Rect(0, 0, indicatorBitmap!!.width, indicatorBitmap!!.height),
             RectF(
-                levelIconWidth / 2 + progressDrawableWidth - (indicatorBitmap!!.width) / 2,
+                progressBarStartX + progressDrawableWidth - (indicatorBitmap!!.width) / 2,
                 0f,
-                indicatorBitmap!!.width / 2 + progressDrawableWidth + levelIconWidth / 2,
+                progressBarStartX + progressDrawableWidth + indicatorBitmap!!.width / 2,
                 indicatorBitmap!!.height.toFloat()
             ),
             strokePaint
@@ -257,7 +346,18 @@ class LevelProgressBar @JvmOverloads constructor(
         val textY =
             levelIconsCenterY + textPosition + textBounds[0].height() / 2
         for (i in 0 until 5) {
-            canvas.drawText(levelTextSequences[i], levelIconsCenterX[i] - textBounds[i].height() / 2, textY, textPaint)
+            canvas.drawText(levelTextSequences[i], levelIconsCenterX[i], textY, textPaint)
+        }
+
+        val pointTextY =
+            levelIconsCenterY + textPosition + pointTextPostion + pointTextBound.height() / 2
+        for (i in 0 until levelPoints.size) {
+            canvas.drawText(
+                levelPoints[i].toString(),
+                levelIconsCenterX[i],
+                pointTextY,
+                pointTextPaint
+            )
         }
     }
 }

@@ -27,5 +27,10 @@
         <attr name="textSize" format="dimension|reference"/>
 <!--        text距离progresBar中心点的垂直距离-->
         <attr name="textPosition" format="dimension|reference" />
+        <attr name="textColor" format="color"/>
+<!--        每个等级的积分-->
+        <attr name="pointTextSize" format="dimension|reference"/>
+        <attr name="pointTextPosition" format="dimension|reference"/>
+        <attr name="pointTextColor" format="color"/>
     </declare-styleable>
 </resources>

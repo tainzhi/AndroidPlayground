@@ -20,10 +20,42 @@
         app:indicatorWidth="16dp"
         app:indicatorHeight="24dp"
         app:indicatorPosition="40dp"
-        app:textSize="20sp"
-        app:textPosition="46dp"
+        app:textSize="16sp"
+        app:textPosition="36dp"
+        app:pointTextSize="12dp"
+        app:pointTextColor="#fc556c"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/currentProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/levelProgressBar"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/inputProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="10000"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@+id/currentProgress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/submitProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="submit"
+        app:layout_constraintEnd_toEndOf="@+id/inputProgress"
+        app:layout_constraintStart_toStartOf="@+id/inputProgress"
+        app:layout_constraintTop_toBottomOf="@+id/inputProgress" />
 </androidx.constraintlayout.widget.ConstraintLayout>
