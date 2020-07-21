@@ -24,5 +24,8 @@
         <attr name="indicatorHeight" format="dimension|reference"/>
 <!--        indicator距离progressBar中心点的垂直距离-->
         <attr name="indicatorPosition" format="dimension|reference"/>
+        <attr name="textSize" format="dimension|reference"/>
+<!--        text距离progresBar中心点的垂直距离-->
+        <attr name="textPosition" format="dimension|reference" />
     </declare-styleable>
 </resources>

@@ -20,6 +20,8 @@
         app:indicatorWidth="16dp"
         app:indicatorHeight="24dp"
         app:indicatorPosition="40dp"
+        app:textSize="20sp"
+        app:textPosition="46dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
