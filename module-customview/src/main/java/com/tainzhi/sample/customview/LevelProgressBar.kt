@@ -19,7 +19,7 @@ class LevelProgressBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    var progress: Int = 50
+    var progress: Int = 0
         set(value) {
             invalidate()
             field = value
@@ -33,7 +33,7 @@ class LevelProgressBar @JvmOverloads constructor(
     var point = 0
         set(value) {
             post { computeProgress() }
-            postInvalidate()
+            invalidate()
             field = value
         }
 
@@ -67,7 +67,7 @@ class LevelProgressBar @JvmOverloads constructor(
 
     // 5个icon的绘制位置
     private var levelIconRectF = arrayOfNulls<RectF>(5)
-    private val levelIconSrcRect = Rect()
+    private val levelIconSrcRect = arrayOfNulls<Rect>(5)
 
 
     // indicator
@@ -104,9 +104,7 @@ class LevelProgressBar @JvmOverloads constructor(
             progressBarHeight =
                 getDimension(R.styleable.LevelProgressBar_progressBarHeight, 12.dp())
             progressBarBackground = getColor(
-                R.styleable.LevelProgressBar_progressBarBackground,
-                ContextCompat.getColor(context, R.color.levelProgressBarBackGround)
-            )
+                R.styleable.LevelProgressBar_progressBarBackground ,Color.parseColor("#FFEDD1"))
             levelIconWidth =
                 getDimension(R.styleable.LevelProgressBar_levelIconWidth, 48.dp())
             levelIconDrawable[0] = getDrawable(R.styleable.LevelProgressBar_firstLevelIcon)
@@ -208,9 +206,24 @@ class LevelProgressBar @JvmOverloads constructor(
     private val pointTextPaint = Paint().apply {
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
+        typeface = Typeface.DEFAULT_BOLD
         textSize = this@LevelProgressBar.pointTextSize.toFloat()
         color = pointTextColor
         this.getTextBounds("0", 0, 1, pointTextBound)
+    }
+
+    /**
+     * @param index 5个icon中的第index个
+     * @param bitmap icon的bitmap
+     */
+    fun updateIcon(index: Int, bitmap: Bitmap) {
+        post {
+                levelIconSrcRect[index] =
+                    Rect(0, 0, bitmap.width, bitmap.height)
+                levellIconBitmap[index] = bitmap
+        }
+        postInvalidate()
+
     }
 
     private fun computeProgress() {
@@ -281,8 +294,8 @@ class LevelProgressBar @JvmOverloads constructor(
             levelIconsCenterY + progressBarHeight / 2f
         )
 
-        levelIconSrcRect.set(0, 0, levellIconBitmap[0]!!.width, levellIconBitmap[0]!!.height)
         for (i in 0 until 5) {
+            levelIconSrcRect[i] = Rect(0, 0, levellIconBitmap[0]!!.width, levellIconBitmap[0]!!.height)
             levelIconRectF[i] = RectF(
                 levelIconsCenterX[i] - halfIconWidth,
                 levelIconsCenterY - halfIconWidth,
@@ -328,7 +341,7 @@ class LevelProgressBar @JvmOverloads constructor(
         )
 
         for (i in 0 until 5) {
-            canvas.drawBitmap(levellIconBitmap[i]!!, levelIconSrcRect, levelIconRectF[i]!!, strokePaint)
+            canvas.drawBitmap(levellIconBitmap[i]!!, levelIconSrcRect[i], levelIconRectF[i]!!, strokePaint)
         }
 
         canvas.drawBitmap(

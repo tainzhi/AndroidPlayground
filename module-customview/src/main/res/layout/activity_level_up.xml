@@ -63,4 +63,12 @@
         app:layout_constraintTop_toBottomOf="@+id/currentProgress"
         tools:text="2000" />
 
+    <Button
+        android:id="@+id/updatePicButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="更新图片"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputProgress" />
 </androidx.constraintlayout.widget.ConstraintLayout>
