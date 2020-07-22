@@ -32,5 +32,10 @@
         <attr name="pointTextSize" format="dimension|reference"/>
         <attr name="pointTextPosition" format="dimension|reference"/>
         <attr name="pointTextColor" format="color"/>
+<!--        底部indicator-->
+        <attr name="bottomIndicatorDrawable" format="reference"/>
+        <attr name="bottomIndicatorWidth" format="dimension|reference"/>
+        <attr name="bottomIndicatorHeight" format="dimension|reference"/>
+        <attr name="bottomIndicatorPosition" format="dimension|reference"/>
     </declare-styleable>
 </resources>
