@@ -21,16 +21,16 @@ class LevelProgressBar @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private var progress: Int = 0
-//        set(value) {
-////            invalidate()
-//            field = value
-//        }
+        set(value) {
+            requestLayout()
+            field = value
+        }
 
     private var levelPoints = arrayOf(0, 500, 1000, 2000, 20000)
     var point = 0
         set(value) {
-            // post { computeProgress() }
-            // invalidate()
+             post { computeProgress() }
+             invalidate()
             field = value
         }
 
