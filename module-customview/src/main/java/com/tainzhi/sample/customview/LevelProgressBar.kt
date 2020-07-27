@@ -243,6 +243,14 @@ class LevelProgressBar @JvmOverloads constructor(
         textAlign = Paint.Align.CENTER
         textSize = this@LevelProgressBar.textSize.toFloat()
         color = Color.parseColor("#8a8f96")
+        for (i in levelTextSequences.indices) {
+            getTextBounds(
+                    levelTextSequences[i],
+                    0,
+                    levelTextSequences[i].length,
+                    textBounds[i]
+            )
+        }
     }
 
     private val pointTextPaint = Paint().apply {
