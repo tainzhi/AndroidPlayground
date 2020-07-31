@@ -38,4 +38,12 @@
         <attr name="bottomIndicatorHeight" format="dimension|reference"/>
         <attr name="bottomIndicatorPosition" format="dimension|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="WaveProgressView">
+        <attr name="wave_color" format="color"/>
+        <attr name="second_wave_color" format="color"/>
+        <attr name="wave_bg_color" format="color"/>
+        <attr name="wave_width" format="dimension"/>
+        <attr name="wave_height" format="dimension"/>
+    </declare-styleable>
 </resources>
