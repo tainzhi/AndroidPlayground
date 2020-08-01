@@ -94,8 +94,8 @@ class WaveProgressView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        val width = measureSize(defaultSize, widthMeasureSpec)
-        val height = measureSize(defaultSize, heightMeasureSpec)
+        val width = measureSize(defaultSize.toInt(), widthMeasureSpec)
+        val height = measureSize(defaultSize.toInt(), heightMeasureSpec)
         viewSize = Math.min(width, height)
         setMeasuredDimension(viewSize, viewSize)
         waveNum = (viewSize / waveWidth / 2).toInt()
@@ -111,6 +111,39 @@ class WaveProgressView @JvmOverloads constructor(
             result = Math.min(result, specSize)
         }
         return result
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        bitmap = Bitmap.createBitmap(viewSize, viewSize, Bitmap.Config.ARGB_8888)
+        bitmapCanvas = Canvas(bitmap)
+
+        bitmapCanvas.drawCircle((viewSize/2).toFloat(), viewSize/2f, viewSize/2f, circlePaint)
+        bitmapCanvas.drawPath(getWavePath(), wavePaint)
+        if (isDrawSecondWave) {
+            bitmapCanvas.drawPath(getSecondWavePath(), secondWavePaint)
+        }
+        canvas.drawBitmap(bitmap, 0f, 0f, null)
+    }
+
+    private fun getWavePath(): Float {
+        val changeWaveHeight = (1 - percent) * waveHeight
+        onAnimationListener?.let {
+
+            if (it.howToChangeWaveHeight(percent, waveHeight) == 0 && percent < 1) {
+                changeWaveHeight = waveHeight
+            } else {
+                it.howToChangeWaveHeight(percent, waveHeight)
+            }
+        }
+
+        wavePath.run {
+            reset()
+            // 移动到右上方
+            moveTo(viewSize.toFloat(), (1 - percent) * viewSize)
+            lineTo(viewSize.toFloat(), viewSize.toFloat())
+
+        }
     }
 
     interface OnAnimationListener {
