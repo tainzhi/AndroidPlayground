@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         val data = arrayListOf(
             NameClass("环形进度条", CirclePercentActivity::class.java),
-            NameClass("图片指示器的进度条", LevelUpActivity::class.java)
+            NameClass("图片指示器的进度条", LevelUpActivity::class.java),
+            NameClass("波浪进度", WaveProgressActivity::class.java)
         )
 
         customRV.run {
