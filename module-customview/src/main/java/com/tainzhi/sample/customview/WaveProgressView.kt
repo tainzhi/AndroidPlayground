@@ -7,14 +7,15 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.Transformation
-import android.widget.TextView
 import com.tainzhi.sample.customview.Util.dp
 
 /**
  * @author:      tainzhi
  * @mail:        qfq61@qq.com
  * @date:        2020/7/31 22:32
- * @description: 第二层波浪覆盖第一层波浪上面
+ * @description: 第二层波浪覆盖第一层波浪上面. 第一层波浪向左波动, 第二层波浪向右波动
+ *
+ * [参考: 贝塞尔曲线和水波浪进度框][https://juejin.im/post/6844903529623224333]
  **/
 
 class WaveProgressView @JvmOverloads constructor(
@@ -52,14 +53,14 @@ class WaveProgressView @JvmOverloads constructor(
     private var secondWaveColor = 0 // 第二层波浪颜色
     private var bgColor = 0 // 背景颜色
 
-    private var isDrawSecondWave = false
-
+    // 是否绘制第二层播放
+    var isDrawSecondWave = false
     var progressNum = 0f // 可以更新的进度条数值
         set(value) {
             field = value
             percent = 0f
             waveProgressAnim.run {
-                duration = 2000
+                duration = 5000
                 repeatCount = Animation.INFINITE // 无限循环动画
                 interpolator = LinearInterpolator() // 平稳播放动画
             }
@@ -72,10 +73,10 @@ class WaveProgressView @JvmOverloads constructor(
             attrs,
             R.styleable.WaveProgressView, defStyleAttr, 0
         ).apply {
-            waveWidth = getDimension(R.styleable.WaveProgressView_wave_width, 25.dp())
-            waveHeight = getDimension(R.styleable.WaveProgressView_wave_height, 5.dp())
-            waveColor = getColor(R.styleable.WaveProgressView_wave_color, Color.GREEN)
-            secondWaveColor = getColor(R.styleable.WaveProgressView_second_wave_color, Color.BLUE)
+            waveWidth = getDimension(R.styleable.WaveProgressView_wave_width, 40.dp())
+            waveHeight = getDimension(R.styleable.WaveProgressView_wave_height, 15.dp())
+            waveColor = getColor(R.styleable.WaveProgressView_wave_color, Color.parseColor("#4ba34f") )
+            secondWaveColor = getColor(R.styleable.WaveProgressView_second_wave_color, Color.parseColor("#800de6e8"))
             bgColor = getColor(R.styleable.WaveProgressView_wave_bg_color, Color.GRAY)
         }.recycle()
 
@@ -144,6 +145,8 @@ class WaveProgressView @JvmOverloads constructor(
         if (isDrawSecondWave) {
             bitmapCanvas.drawPath(getSecondWavePath(), secondWavePaint)
         }
+        
+        // 把bitmap绘制到canvas上
         canvas.drawBitmap(bitmap, 0f, 0f, null)
     }
 
@@ -182,9 +185,9 @@ class WaveProgressView @JvmOverloads constructor(
 
     private fun getSecondWavePath() : Path{
         var changeWaveHeight = (1 - percent) * waveHeight
-//        onAnimationListener?.let {
-//            changeWaveHeight = if (it.howToChangeWaveHeight(percent, waveHeight).toInt() == 0 && percent < 1) waveHeight else it.howToChangeWaveHeight(percent, waveHeight)
-//        }
+        // onAnimationListener?.let {
+        //     changeWaveHeight = if (it.howToChangeWaveHeight(percent, waveHeight).toInt() == 0 && percent < 1) waveHeight else it.howToChangeWaveHeight(percent, waveHeight)
+        // }
 
         return wavePath.apply {
             reset()

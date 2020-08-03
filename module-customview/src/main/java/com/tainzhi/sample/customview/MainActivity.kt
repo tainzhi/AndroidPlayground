@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val data = arrayListOf(
             NameClass("环形进度条", CirclePercentActivity::class.java),
             NameClass("图片指示器的进度条", LevelUpActivity::class.java),
-            NameClass("波浪进度", WaveProgressActivity::class.java)
+            NameClass("波浪形态的进度条", WaveProgressActivity::class.java)
         )
 
         customRV.run {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             adapter = BasicHorizontalAdapter()
                 .apply {
                 setNewInstance(data)
-                setOnItemClickListener { adapter, view, position ->
+                setOnItemClickListener { _, _, position ->
                     startActivity(
                         Intent().setClass(
                             this@MainActivity,
