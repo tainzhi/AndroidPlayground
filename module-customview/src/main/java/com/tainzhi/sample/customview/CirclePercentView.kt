@@ -38,18 +38,9 @@ class CirclePercentView @JvmOverloads constructor(
             R.styleable.CirclePercentView, defStyleAttr, 0
         ).apply {
             mStripeWidth = getDimension(R.styleable.CirclePercentView_stripWidth, 30f)
-            mCurrentPercent = getInteger(
-                R.styleable.CirclePercentView_percent,
-                0
-            )
-            mSmallColor = getColor(
-                R.styleable.CirclePercentView_smallColor,
-                -0x504b25
-            )
-            mBigColor = getColor(
-                R.styleable.CirclePercentView_bigColor,
-                -0x96af5f
-            )
+            mCurrentPercent = getInteger( R.styleable.CirclePercentView_percent, 0 )
+            mSmallColor = getColor( R.styleable.CirclePercentView_smallColor, Color.parseColor("#504b25") )
+            mBigColor = getColor( R.styleable.CirclePercentView_bigColor, Color.parseColor("#96af5f") )
             mCenterTextSize = getDimensionPixelSize(
                 R.styleable.CirclePercentView_centerTextSize,
                 50
@@ -116,9 +107,12 @@ class CirclePercentView @JvmOverloads constructor(
         canvas.drawArc(rect, 270f, mEndAngle.toFloat(), true, sectorPaint)
         // 绘制小圆
         canvas.drawCircle(centerX, centerY, mRadius - mStripeWidth, smallCirclePaint)
+        // 绘制文字
         val text = "$mCurrentPercent%"
-        val textLength = textPaint.measureText(text)
-        canvas.drawText(text, centerX - textLength / 2, centerY, textPaint)
+        val textWidth = textPaint.measureText(text)
+        val fontMetrics = textPaint.fontMetrics
+        val baseLine = mRadius + (fontMetrics.ascent -   fontMetrics.descent) / 2 - fontMetrics.ascent
+        canvas.drawText(text,mRadius - textWidth / 2, baseLine, textPaint)
     }
 
     fun setPercent(percent: Int) {
@@ -128,6 +122,7 @@ class CirclePercentView @JvmOverloads constructor(
 
     private fun setCurrentPercent(percent: Int) {
         mPercent = percent
+        // 用handler, 也可以用thread, 也可以用animation
         Thread(Runnable {
             var sleepTime = 1
             // 模拟类似依次变化(进度增加)的效果
