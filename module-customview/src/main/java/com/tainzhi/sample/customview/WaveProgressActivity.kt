@@ -13,19 +13,6 @@ class WaveProgressActivity : AppCompatActivity() {
         waveProgressView.run {
             isDrawSecondWave = true
             progressNum = 50f
-            onAnimationListener = object: WaveProgressView.OnAnimationListener {
-                override fun howToChangeText(
-                    interpolatedTime: Float,
-                    updateNum: Float,
-                    maxNum: Float
-                ): String {
-                    TODO("Not yet implemented")
-                }
-
-                override fun howToChangeWaveHeight(percent: Float, waveHeight: Float): Float {
-                    TODO("Not yet implemented")
-                }
-            }
             setOnClickListener {
                 progressNum = Random.nextFloat()* 100
             }

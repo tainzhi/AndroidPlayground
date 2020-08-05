@@ -39,7 +39,6 @@ class WaveProgressView @JvmOverloads constructor(
     private lateinit var bitmapCanvas: Canvas
 
     private var waveProgressAnim: WaveProgressAnim
-//    private var textView: TextView
 
     private var waveWidth = 0f
     private var waveHeight = 0f
@@ -179,14 +178,6 @@ class WaveProgressView @JvmOverloads constructor(
     private fun getWavePath(): Path {
         // 波浪高度越来越低
         var changeWaveHeight = (1 - percent) * waveHeight
-//        onAnimationListener?.let {
-//
-//            if ((it.howToChangeWaveHeight(percent, waveHeight).toInt() == 0) && (percent < 1)) {
-//                changeWaveHeight = waveHeight
-//            } else {
-//                it.howToChangeWaveHeight(percent, waveHeight)
-//            }
-//        }
 
         return wavePath.apply {
             reset()
@@ -212,9 +203,6 @@ class WaveProgressView @JvmOverloads constructor(
 
     private fun getSecondWavePath() : Path{
         var changeWaveHeight = (1 - percent) * waveHeight
-        // ?.let {
-        //     changeWaveHeight = if (it.howToChangeWaveHeight(percent, waveHeight).toInt() == 0 && percent < 1) waveHeight else it.howToChangeWaveHeight(percent, waveHeight)
-        // }
 
         return wavePath.apply {
             reset()
@@ -232,24 +220,6 @@ class WaveProgressView @JvmOverloads constructor(
             }
             close()
         }
-    }
-
-    interface OnAnimationListener {
-
-        /**
-         * 如何处理要显示的进度数字
-         * @param interpolatedTime 从0渐变到1, 到1时结束动画
-         * @param updateNum 角度条数值
-         * @param maxNum 进度条最大值
-         */
-        fun howToChangeText(interpolatedTime: Float, updateNum: Float, maxNum: Float): String
-
-        /**
-         * 如何处理波浪高度
-         * @param percent 进度占比
-         * @param waveHeight 波浪高度
-         */
-        fun howToChangeWaveHeight(percent: Float, waveHeight: Float):  Float
     }
 
     inner class WaveProgressAnim: Animation() {
