@@ -40,10 +40,12 @@
     </declare-styleable>
 
     <declare-styleable name="WaveProgressView">
-        <attr name="wave_color" format="color"/>
-        <attr name="second_wave_color" format="color"/>
-        <attr name="wave_bg_color" format="color"/>
-        <attr name="wave_width" format="dimension"/>
-        <attr name="wave_height" format="dimension"/>
+        <attr name="wave_color" format="color|reference"/>
+        <attr name="second_wave_color" format="color|reference"/>
+        <attr name="wave_bg_color" format="color|reference"/>
+        <attr name="wave_width" format="dimension|reference"/>
+        <attr name="wave_height" format="dimension|reference"/>
+        <attr name="text_size" format="dimension|reference" />
+        <attr name="text_color" format="color|reference" />
     </declare-styleable>
 </resources>

@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
 import android.view.animation.Transformation
 import com.tainzhi.sample.customview.Util.dp
 
@@ -14,6 +14,8 @@ import com.tainzhi.sample.customview.Util.dp
  * @mail:        qfq61@qq.com
  * @date:        2020/7/31 22:32
  * @description: 第二层波浪覆盖第一层波浪上面. 第一层波浪向左波动, 第二层波浪向右波动
+ * 波浪上升通过Animation实现
+ * 波浪平移通过绘制实现
  *
  * [参考: 贝塞尔曲线和水波浪进度框][https://juejin.im/post/6844903529623224333]
  **/
@@ -30,13 +32,14 @@ class WaveProgressView @JvmOverloads constructor(
     private var wavePath: Path
     // 第二个波浪画笔
     private var secondWavePaint: Paint
+    // 进度文字画笔
+    private var textPaint: Paint
 
     private lateinit var bitmap: Bitmap
     private lateinit var bitmapCanvas: Canvas
 
     private var waveProgressAnim: WaveProgressAnim
 //    private var textView: TextView
-//    private var onAnimationListener: OnAnimationListener
 
     private var waveWidth = 0f
     private var waveHeight = 0f
@@ -53,6 +56,11 @@ class WaveProgressView @JvmOverloads constructor(
     private var secondWaveColor = 0 // 第二层波浪颜色
     private var bgColor = 0 // 背景颜色
 
+    private var textSize = 0 // 字体大小
+    private var textColor = 0 // 字体颜色
+
+    var onAnimationListener: OnAnimationListener? = null
+
     // 是否绘制第二层播放
     var isDrawSecondWave = false
     var progressNum = 0f // 可以更新的进度条数值
@@ -61,8 +69,9 @@ class WaveProgressView @JvmOverloads constructor(
             percent = 0f
             waveProgressAnim.run {
                 duration = 5000
-                repeatCount = Animation.INFINITE // 无限循环动画
-                interpolator = LinearInterpolator() // 平稳播放动画
+                // repeatCount = Animation.INFINITE // 无限循环动画
+                repeatCount = 1
+                interpolator = AccelerateDecelerateInterpolator() // 平稳播放动画
             }
             startAnimation(waveProgressAnim)
         }
@@ -78,6 +87,9 @@ class WaveProgressView @JvmOverloads constructor(
             waveColor = getColor(R.styleable.WaveProgressView_wave_color, Color.parseColor("#4ba34f") )
             secondWaveColor = getColor(R.styleable.WaveProgressView_second_wave_color, Color.parseColor("#800de6e8"))
             bgColor = getColor(R.styleable.WaveProgressView_wave_bg_color, Color.GRAY)
+            textSize = getDimensionPixelSize(R.styleable.WaveProgressView_text_size, 100)
+            textColor = getColor(R.styleable.WaveProgressView_text_color, Color.WHITE)
+
         }.recycle()
 
         wavePath = Path()
@@ -98,6 +110,13 @@ class WaveProgressView @JvmOverloads constructor(
             color = bgColor
             isAntiAlias = true
         }
+        textPaint = Paint().apply {
+            color = textColor
+            textSize = this@WaveProgressView.textSize.toFloat()
+            isAntiAlias = true
+            isDither = true
+        }
+
         waveProgressAnim = WaveProgressAnim().apply {
             setAnimationListener(object: Animation.AnimationListener {
                 override fun onAnimationRepeat(animation: Animation?) {
@@ -148,9 +167,17 @@ class WaveProgressView @JvmOverloads constructor(
         
         // 把bitmap绘制到canvas上
         canvas.drawBitmap(bitmap, 0f, 0f, null)
+
+
+        val text = String.format("%.2f%%", percent * 100)
+        val textWidth = textPaint.measureText(text)
+        val fontMetrics = textPaint.fontMetrics
+        val baseLine = viewSize / 2 + (fontMetrics.ascent -   fontMetrics.descent) / 2 - fontMetrics.ascent
+        canvas.drawText(text,viewSize / 2 - textWidth / 2, baseLine, textPaint)
     }
 
     private fun getWavePath(): Path {
+        // 波浪高度越来越低
         var changeWaveHeight = (1 - percent) * waveHeight
 //        onAnimationListener?.let {
 //
@@ -185,7 +212,7 @@ class WaveProgressView @JvmOverloads constructor(
 
     private fun getSecondWavePath() : Path{
         var changeWaveHeight = (1 - percent) * waveHeight
-        // onAnimationListener?.let {
+        // ?.let {
         //     changeWaveHeight = if (it.howToChangeWaveHeight(percent, waveHeight).toInt() == 0 && percent < 1) waveHeight else it.howToChangeWaveHeight(percent, waveHeight)
         // }
 
@@ -228,10 +255,9 @@ class WaveProgressView @JvmOverloads constructor(
     inner class WaveProgressAnim: Animation() {
         override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
             super.applyTransformation(interpolatedTime, t)
-//            if (percent < progressNum / maxNum ) {
-//
-//            }
-            percent = interpolatedTime * progressNum / maxNum
+            if (percent < progressNum / maxNum) {
+                percent = interpolatedTime * progressNum / maxNum
+            }
             waveMovingDistance = interpolatedTime * waveNum * waveWidth * 2
             postInvalidate()
         }
