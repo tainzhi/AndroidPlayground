@@ -58,8 +58,6 @@ class WaveProgressView @JvmOverloads constructor(
     private var textSize = 0 // 字体大小
     private var textColor = 0 // 字体颜色
 
-    var onAnimationListener: OnAnimationListener? = null
-
     // 是否绘制第二层播放
     var isDrawSecondWave = false
     var progressNum = 0f // 可以更新的进度条数值
