@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         val data = arrayListOf(
             NameClass("环形进度条", CirclePercentActivity::class.java),
             NameClass("图片指示器的进度条", LevelUpActivity::class.java),
+            NameClass("验证码填入框", VerificationCodeActivity::class.java),
             NameClass("波浪形态的进度条", WaveProgressActivity::class.java)
         )
 

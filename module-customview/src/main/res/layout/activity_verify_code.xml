@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VerificationCodeActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.tainzhi.sample.customview.VerificationCodeView
+        android:id="@+id/vfcView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/view"
+        app:layout_constraintEnd_toEndOf="@id/view"
+        app:layout_constraintStart_toStartOf="@id/view"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.4"
+        app:vcv_et_bg="@drawable/verification_code_input_bg"
+        app:vcv_et_cursor_visible="false"
+        app:vcv_et_height="45dp"
+        app:vcv_et_inputType="number"
+        app:vcv_et_number="6"
+        app:vcv_et_spacing="7dp"
+        app:vcv_et_text_color="#F73651"
+        app:vcv_et_text_size="8sp"
+        app:vcv_et_width="36dp" />
+
+    <TextView
+        android:id="@+id/verificodeTv"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        tools:text="123456"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/vfcView"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/vfcView"
+        app:layout_constraintTop_toBottomOf="@+id/vfcView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
