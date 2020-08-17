@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerificationCodeActivity"></activity>
+        <activity android:name=".ScrollPickerActivity"></activity>
+        <activity android:name=".VerificationCodeActivity" />
         <activity android:name=".WaveProgressActivity" />
         <activity android:name=".LevelUpActivity" />
         <activity
