@@ -1,9 +1,15 @@
 # module/application介绍
+## usage
+```
+git clone --recursive https://github.com/tainzhi/AndroidPlayground
+```
+
 ## module-customview 自定义View
 - 环形的进度条
 - 图片指示器进度条,可动态更改图片指示器
 - 验证码输入框
 - 波浪形态的圆形进度条
+- 水平或者竖直滑动选择器(String, Bitmap)等等
 
 ## module-android-api
 android控件和api使用demo
