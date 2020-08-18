@@ -21,7 +21,7 @@ import java.util.List;
  * @author: tainzhi
  * @mail: qfq61@qq.com
  * @date: 2020/8/18 07:15
- * @description: 字符串滚动选择器
+ * @description: 字符串滚动选择器 [copy自](https://blog.csdn.net/u012964944/article/details/73189206)
  **/
 
 public class StringScrollPicker extends ScrollPickerView<CharSequence> {

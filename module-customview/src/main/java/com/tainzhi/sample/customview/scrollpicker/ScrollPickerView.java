@@ -30,7 +30,7 @@ import java.util.List;
  * @author: tainzhi
  * @mail: qfq61@qq.com
  * @date: 2020/8/17 23:32
- * @description:
+ * @description: [copy自](https://blog.csdn.net/u012964944/article/details/73189206)
  **/
 
 public abstract class ScrollPickerView<T> extends View {
@@ -179,6 +179,7 @@ public abstract class ScrollPickerView<T> extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    // 控件发生改变时调用. 初始化会被调用一次
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);

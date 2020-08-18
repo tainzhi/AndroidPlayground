@@ -9,7 +9,7 @@
     <com.tainzhi.sample.customview.scrollpicker.StringScrollPicker
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="64dp"
         android:layout_marginTop="10dp"
         android:background="#22888888"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,7 +19,7 @@
         app:spv_draw_bitmap_height="40dp"
         app:spv_draw_bitmap_mode="size"
         app:spv_draw_bitmap_width="40dp"
-        app:spv_is_circulation="true"
+        app:spv_is_circulation="false"
         app:spv_max_line_width="300dp"
         app:spv_max_text_size="38dp"
         app:spv_min_text_size="28dp"

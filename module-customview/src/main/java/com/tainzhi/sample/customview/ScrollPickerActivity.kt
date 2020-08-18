@@ -21,9 +21,16 @@ class ScrollPickerActivity : AppCompatActivity() {
         bitmaps.add(BitmapFactory.decodeResource(resources, R.drawable.ic_ceo_first_level))
         bitmaps.add(BitmapFactory.decodeResource(resources, R.drawable.ic_ceo_first_level))
         bitmapScrollPicker.data = bitmaps
+        bitmapScrollPicker.setOnSelectedListener { _, position ->
+            scrollView.selectedPosition = position
+        }
 
         scrollView.data = arrayListOf<CharSequence>(
             "one", "two", "three", "four", "five", "six", "seven"
         )
+        scrollView.setOnSelectedListener { _, position ->
+            bitmapScrollPicker.selectedPosition = position
+        }
+
     }
 }
