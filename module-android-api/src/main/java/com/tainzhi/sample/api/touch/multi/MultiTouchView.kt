@@ -38,7 +38,7 @@ class MultiTouchView @JvmOverloads constructor(
         }
         textPaint.run {
             isAntiAlias = true
-            textSize = 20f
+            textSize = 40f
         }
     }
 
@@ -74,6 +74,6 @@ class MultiTouchView @JvmOverloads constructor(
             }
             canvas.drawCircle(point.x, point.y, size.toFloat(), paint)
         }
-        canvas.drawText("Total pointers: " + activePoints.size(), 10F, 40F, textPaint)
+        canvas.drawText("Total pointers: " + activePoints.size(), 40F, 100F, textPaint)
     }
 }

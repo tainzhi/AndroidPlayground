@@ -61,9 +61,10 @@ class SingleTouchEventView @JvmOverloads constructor(
             MotionEvent.ACTION_MOVE -> {
                 path.lineTo(x, y)
             }
-//            MotionEvent.ACTION_UP -> {
-//                path.lineTo(x, y)
-//            }
+
+            MotionEvent.ACTION_UP -> {
+                path.lineTo(x, y)
+            }
             else -> {
                 return false
             }
