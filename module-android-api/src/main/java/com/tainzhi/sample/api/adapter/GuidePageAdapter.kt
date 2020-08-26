@@ -1,50 +1,30 @@
-package com.tainzhi.sample.api.adapter;
+package com.tainzhi.sample.api.adapter
 
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-
-import java.util.List;
+import android.view.View
+import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 
 /**
  * @author: tainzhi
  * @mail: qfq61@qq.com
  * @date: 2019-10-11 09:03
  * @description:
- **/
+ */
+class GuidePageAdapter(private val mViewList: List<View>?) : PagerAdapter() {
+    override fun getCount(): Int {
+        return mViewList?.size ?: 0
+    }
 
-public class GuidePageAdapter extends PagerAdapter {
-	private List<View> mViewList;
-	
-	public GuidePageAdapter(List<View> data) {
-		mViewList = data;
-	}
-	
-	@Override
-	public int getCount() {
-		if (mViewList == null) {
-			return 0;
-		} else {
-			return mViewList.size();
-		}
-	}
-	
-	@NonNull
-	@Override
-	public Object instantiateItem(@NonNull ViewGroup container, int position) {
-		container.addView(mViewList.get(position));
-		return mViewList.get(position);
-	}
-	
-	@Override
-	public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-		container.removeView(mViewList.get(position));
-	}
-	
-	@Override
-	public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-		return view == object;
-	}
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        container.addView(mViewList!![position])
+        return mViewList[position]
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(mViewList!![position])
+    }
+
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return view === `object`
+    }
 }

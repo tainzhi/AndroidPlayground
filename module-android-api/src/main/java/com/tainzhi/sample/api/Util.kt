@@ -1,43 +1,43 @@
-package com.tainzhi.sample.api;
+package com.tainzhi.sample.api
 
-import android.app.Activity;
-import android.content.Context;
-import android.util.DisplayMetrics;
+import android.app.Activity
+import android.content.Context
+import android.util.DisplayMetrics
 
 /**
  * Created by muqing on 2019-08-15.
  * Email: qfq61@qq.com
  */
-public class Util {
-	public static class Dimens {
-		public static float dpToPx(Context context, float dp) {
-			return dp * context.getResources().getDisplayMetrics().density;
-		}
-		
-		public static float pxToDp(Context context, float px) {
-			return px / context.getResources().getDisplayMetrics().density;
-		}
-		
-		public static int dpToPxInt(Context context, float dp) {
-			return (int) (dpToPx(context, dp) + 0.5f);
-		}
-		
-		public static int pxToDpCeilInt(Context context, float px) {
-			return (int) (pxToDp(context, px) + 0.5f);
-		}
-	}
-	
-	public static class Display {
-		public static int getScreenWidth(Activity context) {
-			DisplayMetrics dm = new DisplayMetrics();
-			context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-			return dm.widthPixels;
-		}
-		
-		public static int getScreenHeight(Activity context) {
-			DisplayMetrics dm = new DisplayMetrics();
-			context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-			return dm.heightPixels;
-		}
-	}
+class Util {
+    object Dimens {
+        fun dpToPx(context: Context, dp: Float): Float {
+            return dp * context.resources.displayMetrics.density
+        }
+
+        fun pxToDp(context: Context, px: Float): Float {
+            return px / context.resources.displayMetrics.density
+        }
+
+        fun dpToPxInt(context: Context, dp: Float): Int {
+            return (dpToPx(context, dp) + 0.5f).toInt()
+        }
+
+        fun pxToDpCeilInt(context: Context, px: Float): Int {
+            return (pxToDp(context, px) + 0.5f).toInt()
+        }
+    }
+
+    object Display {
+        fun getScreenWidth(context: Activity): Int {
+            val dm = DisplayMetrics()
+            context.windowManager.defaultDisplay.getMetrics(dm)
+            return dm.widthPixels
+        }
+
+        fun getScreenHeight(context: Activity): Int {
+            val dm = DisplayMetrics()
+            context.windowManager.defaultDisplay.getMetrics(dm)
+            return dm.heightPixels
+        }
+    }
 }

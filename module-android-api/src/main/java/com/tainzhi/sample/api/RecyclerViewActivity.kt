@@ -1,170 +1,179 @@
-package com.tainzhi.sample.api;
+package com.tainzhi.sample.api
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.tainzhi.sample.api.Util.Dimens
+import com.tainzhi.sample.api.adapter.BasicAdapter
+import com.tainzhi.sample.api.adapter.CenterAdapter
+import com.tainzhi.sample.api.adapter.CenterHighlightAdapter
+import com.tainzhi.sample.api.adapter.QuickAdapter
+import com.tainzhi.sample.api.widget.HorizontalSpaceItemDecoration
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
+class RecyclerViewActivity : AppCompatActivity() {
+    private var mList = ArrayList<Int>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_recycler_view)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        initView()
+    }
 
-import com.tainzhi.sample.api.adapter.BasicAdapter;
-import com.tainzhi.sample.api.adapter.CenterAdapter;
-import com.tainzhi.sample.api.adapter.CenterHighlightAdapter;
-import com.tainzhi.sample.api.adapter.QuickAdapter;
-import com.tainzhi.sample.api.widget.HorizontalSpaceItemDecoration;
+    fun initView() {
+        mList = ArrayList()
+        for (i in 0..19) {
+            mList.add(i)
+        }
+        initBasicRecyclerView()
+        initQuickRecyclerView()
+        // 首尾item居中显示
+        initCenterRecyclerView()
+        initCenterHighlightRecyclerView()
+    }
 
-import java.util.ArrayList;
-import java.util.List;
+    private fun initBasicRecyclerView() {
+        val basicAdapter = BasicAdapter(mList)
+        basicAdapter.setOnItemClickListener(object : BasicAdapter.OnItemClickListener {
+            override fun onClick(view: View?, position: Int) {
+                Toast.makeText(
+                    this@RecyclerViewActivity, "click $position",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
-public class RecyclerViewActivity extends AppCompatActivity {
-	
-	private RecyclerView rvBasic;
-	private RecyclerView rvQuick;
-	private RecyclerView rvCenter;
-	private RecyclerView rvCenterHighlight;
-	private List<Integer> mList;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recycler_view);
-		Toolbar toolbar = findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-		
-		initView();
-	}
-	
-	public void initView() {
-		mList = new ArrayList<>();
-		for (int i = 0; i < 20; i++) { mList.add(i); }
-		
-		initBasicRecyclerView();
-		initQuickRecyclerView();
-		// 首尾item居中显示
-		initCenterRecyclerView();
-		initCenterHighlightRecyclerView();
-	}
-	
-	private void initBasicRecyclerView() {
-		BasicAdapter basicAdapter = new BasicAdapter(mList);
-		basicAdapter.setOnItemClickListener(new BasicAdapter.OnItemClickListener() {
-			@Override
-			public void onClick(View view, int position) {
-				Toast.makeText(RecyclerViewActivity.this, "click " + position,
-						Toast.LENGTH_SHORT).show();
-			}
-			
-			@Override
-			public void onItemLongClick(View view, int position) {
-				Toast.makeText(RecyclerViewActivity.this, "long click " + position,
-						Toast.LENGTH_SHORT).show();
-			}
-		});
-		rvBasic = findViewById(R.id.rv_basic);
-		rvBasic.setAdapter(basicAdapter);
-		rvBasic.setLayoutManager(new LinearLayoutManager(
-				this,
-				LinearLayoutManager.HORIZONTAL,
-				false));
-		final PagerSnapHelper linearSnapHelper = new PagerSnapHelper();
-		linearSnapHelper.attachToRecyclerView(rvBasic);
-		// rvBasic.addItemDecoration(new HorizontalSpaceItemDecoration(
-		// 		(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
-	}
-	
-	private void initQuickRecyclerView() {
-		rvQuick = findViewById(R.id.rv_quick);
-		rvQuick.setAdapter(new QuickAdapter(mList));
-		rvQuick.setLayoutManager(new LinearLayoutManager(
-				this,
-				LinearLayoutManager.HORIZONTAL,
-				false));
-		rvQuick.addItemDecoration(new HorizontalSpaceItemDecoration(
-				(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
-	}
-	
-	private void initCenterRecyclerView() {
-		// 首尾item居中显示
-		rvCenter = findViewById(R.id.rv_center);
-		ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) rvCenter.getLayoutParams();
-		int left = rvCenter.getLeft();
-		int right = rvCenter.getRight();
-		int recyclerWidth = layoutParams.width;
-		if (recyclerWidth == -1) {
-			recyclerWidth =
-					Util.Display.getScreenWidth(this) - layoutParams.leftMargin - layoutParams.rightMargin;
-		}
-		rvCenter.setAdapter(new CenterAdapter(mList, recyclerWidth));
-		// 添加LayoutManger, 使得横向显示
-		rvCenter.setLayoutManager(new LinearLayoutManager(
-				this,
-				LinearLayoutManager.HORIZONTAL,
-				false));
-		//添加间隔空白
-		rvCenter.addItemDecoration(new HorizontalSpaceItemDecoration(
-				(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
-		// 必须添加SnapHelper
-		final LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
-		linearSnapHelper.attachToRecyclerView(rvCenter);
-		rvCenter.addOnScrollListener(new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-				super.onScrolled(recyclerView, dx, dy);
-				int childCount = rvCenter.getChildCount();
-				int[] location = new int[2];
-				for (int i = 0; i < childCount; i++) {
-					rvCenter.getLocationOnScreen(location);
-					int recyclerViewCenterX = location[0] + rvCenter.getWidth() / 2;
-					View v = rvCenter.getChildAt(i);
-					v.getLocationOnScreen(location);
-					int itemCenterX = location[0] + v.getWidth() / 2;
-					//                   ★ 两边的图片缩放比例
-					float scale = 0.8f;
-					//                     ★某个item中心X坐标距recyclerview中心X坐标的偏移量
-					int offX = Math.abs(itemCenterX - recyclerViewCenterX);
-					//                    ★ 在一个item的宽度范围内，item从1缩放至scale，那么改变了（1-scale），从下列公式算出随着offX变化，item的变化缩放百分比
-					float percent = offX * (1 - scale) / v.getWidth();
-					//                   ★  取反哟
-					float interpretateScale = 1 - percent;
-					//                    这个if不走的话，得到的是多级渐变模式
-					if (interpretateScale < scale) {
-						interpretateScale = scale;
-					}
-					v.setScaleX((interpretateScale));
-					v.setScaleY((interpretateScale));
-				}
-			}
-			
-		});
-	}
-	
-	private void initCenterHighlightRecyclerView() {
-		rvCenterHighlight = findViewById(R.id.rv_center_hightlight);
-		ViewGroup.LayoutParams layoutParams = rvCenterHighlight.getLayoutParams();
-		int recyclerWidth = layoutParams.width;
-		if (recyclerWidth == -1) {
-			int recyclerLeftMargin = Util.Dimens.dpToPxInt(this,
-					getResources().getDimension(R.dimen.base_margin));
-			recyclerWidth = Util.Display.getScreenWidth(this) - recyclerLeftMargin * 2;
-		}
-		CenterHighlightAdapter adapter = new CenterHighlightAdapter(this, mList);
-		rvCenterHighlight.setAdapter(adapter);
-		rvCenterHighlight.setLayoutManager(new LinearLayoutManager(
-				this,
-				LinearLayoutManager.HORIZONTAL,
-				false));
-		rvCenterHighlight.addItemDecoration(new HorizontalSpaceItemDecoration(
-				(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
-		final LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
-		linearSnapHelper.attachToRecyclerView(rvCenterHighlight);
-//		rvCenterHighlight.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            override fun onItemLongClick(view: View?, position: Int) {
+                Toast.makeText(
+                    this@RecyclerViewActivity, "long click $position",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+        val rvBasic = findViewById<RecyclerView>(R.id.rv_basic).apply {
+            adapter = basicAdapter
+            layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
+        val linearSnapHelper = PagerSnapHelper()
+        linearSnapHelper.attachToRecyclerView(rvBasic)
+        // rvBasic.addItemDecoration(new HorizontalSpaceItemDecoration(
+        // 		(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
+    }
+
+    private fun initQuickRecyclerView() {
+        val rvQuick = findViewById<RecyclerView>(R.id.rv_quick)
+        rvQuick.setAdapter(QuickAdapter(mList))
+        rvQuick.setLayoutManager(
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
+        rvQuick.addItemDecoration(
+            HorizontalSpaceItemDecoration(
+                Dimens.dpToPx(this@RecyclerViewActivity, 10f).toInt()
+            )
+        )
+    }
+
+    private fun initCenterRecyclerView() {
+        // 首尾item居中显示
+        val rvCenter = findViewById<RecyclerView>(R.id.rv_center)
+        val layoutParams = rvCenter.getLayoutParams() as ConstraintLayout.LayoutParams
+        val left = rvCenter.getLeft()
+        val right = rvCenter.getRight()
+        var recyclerWidth = layoutParams.width
+        if (recyclerWidth == -1) {
+            recyclerWidth =
+                Util.Display.getScreenWidth(this) - layoutParams.leftMargin - layoutParams.rightMargin
+        }
+        rvCenter.setAdapter(CenterAdapter(mList, recyclerWidth))
+        // 添加LayoutManger, 使得横向显示
+        rvCenter.setLayoutManager(
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
+        //添加间隔空白
+        rvCenter.addItemDecoration(
+            HorizontalSpaceItemDecoration(
+                Dimens.dpToPx(this@RecyclerViewActivity, 10f).toInt()
+            )
+        )
+        // 必须添加SnapHelper
+        val linearSnapHelper = LinearSnapHelper()
+        linearSnapHelper.attachToRecyclerView(rvCenter)
+        rvCenter.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val childCount = rvCenter.getChildCount()
+                val location = IntArray(2)
+                for (i in 0 until childCount) {
+                    rvCenter.getLocationOnScreen(location)
+                    val recyclerViewCenterX = location[0] + rvCenter.getWidth() / 2
+                    val v = rvCenter.getChildAt(i)
+                    v.getLocationOnScreen(location)
+                    val itemCenterX = location[0] + v.width / 2
+                    //                   ★ 两边的图片缩放比例
+                    val scale = 0.8f
+                    //                     ★某个item中心X坐标距recyclerview中心X坐标的偏移量
+                    val offX = Math.abs(itemCenterX - recyclerViewCenterX)
+                    //                    ★ 在一个item的宽度范围内，item从1缩放至scale，那么改变了（1-scale），从下列公式算出随着offX变化，item的变化缩放百分比
+                    val percent = offX * (1 - scale) / v.width
+                    //                   ★  取反哟
+                    var interpretateScale = 1 - percent
+                    //                    这个if不走的话，得到的是多级渐变模式
+                    if (interpretateScale < scale) {
+                        interpretateScale = scale
+                    }
+                    v.scaleX = interpretateScale
+                    v.scaleY = interpretateScale
+                }
+            }
+        })
+    }
+
+    private fun initCenterHighlightRecyclerView() {
+        val rvCenterHighlight = findViewById<RecyclerView>(R.id.rv_center_hightlight)
+        val layoutParams = rvCenterHighlight.getLayoutParams()
+        var recyclerWidth = layoutParams.width
+        if (recyclerWidth == -1) {
+            val recyclerLeftMargin = Dimens.dpToPxInt(
+                this,
+                resources.getDimension(R.dimen.base_margin)
+            )
+            recyclerWidth = Util.Display.getScreenWidth(this) - recyclerLeftMargin * 2
+        }
+        val adapter = CenterHighlightAdapter(this, mList)
+        rvCenterHighlight.setAdapter(adapter)
+        rvCenterHighlight.setLayoutManager(
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
+        rvCenterHighlight.addItemDecoration(
+            HorizontalSpaceItemDecoration(
+                Dimens.dpToPx(this@RecyclerViewActivity, 10f).toInt()
+            )
+        )
+        val linearSnapHelper = LinearSnapHelper()
+        linearSnapHelper.attachToRecyclerView(rvCenterHighlight)
+        //		rvCenterHighlight.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //			@Override
 //			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 //				super.onScrollStateChanged(recyclerView, newState);
@@ -189,5 +198,5 @@ public class RecyclerViewActivity extends AppCompatActivity {
 //				}
 //			}
 //		});
-	}
+    }
 }

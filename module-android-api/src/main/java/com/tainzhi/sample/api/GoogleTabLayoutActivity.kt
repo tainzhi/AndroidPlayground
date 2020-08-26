@@ -1,69 +1,61 @@
-package com.tainzhi.sample.api;
+package com.tainzhi.sample.api
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.Intent
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
+import com.tainzhi.sample.api.adapter.SimpleFragmentPagerAdapter
+import kotlin.collections.ArrayList
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
+class GoogleTabLayoutActivity : AppCompatActivity() {
+    private val mTabLayout: TabLayout by lazy { findViewById<TabLayout>(R.id.tablayout) }
+    private val mViewPager: ViewPager by lazy { findViewById<ViewPager>(R.id.view_pager) }
+    private val mFragmentList =  ArrayList<Fragment>()
+    private val mTitleList = ArrayList<String>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_google_tab_layout)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        init()
+    }
 
-import com.google.android.material.tabs.TabLayout;
-import com.tainzhi.sample.api.adapter.SimpleFragmentPagerAdapter;
+    private fun init() {
+        val titleString = arrayOf("TAB1", "TAB2", "TAB3", "TAB4", "TAB5")
+        for (i in 0..4) {
+            mTitleList.add(titleString[i])
+            mFragmentList.add(MiniumFragment(titleString[i]))
+        }
+        mViewPager.setOffscreenPageLimit(2) //pre load
+        mViewPager.setAdapter(
+            SimpleFragmentPagerAdapter(
+                supportFragmentManager,
+                mTitleList,
+                mFragmentList
+            )
+        )
+        mTabLayout.setupWithViewPager(mViewPager) //必须添加
+    }
 
-import java.util.ArrayList;
-import java.util.List;
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_tablayout, menu)
+        return true
+    }
 
-public class GoogleTabLayoutActivity extends AppCompatActivity {
-	
-	private TabLayout mTabLayout;
-	private ViewPager mViewPager;
-	private List<Fragment> mFragmentList;
-	private List<String> mTitleList;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_google_tab_layout);
-		Toolbar toolbar = findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-		init();
-		
-	}
-	
-	private void init() {
-		mTabLayout = findViewById(R.id.tablayout);
-		mViewPager = findViewById(R.id.view_pager);
-		String[] titleString = {"TAB1", "TAB2", "TAB3", "TAB4", "TAB5"};
-		mFragmentList = new ArrayList<>();
-		mTitleList = new ArrayList<>();
-		for (int i = 0; i< 5; i++) {
-			mTitleList.add(titleString[i]);
-			mFragmentList.add(new MiniumFragment(titleString[i]));
-		}
-		mViewPager.setOffscreenPageLimit(2); //pre load
-		mViewPager.setAdapter(new SimpleFragmentPagerAdapter(
-				getSupportFragmentManager(),
-				mTitleList,
-				mFragmentList));
-		mTabLayout.setupWithViewPager(mViewPager); //必须添加
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_tablayout, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-		if (item.getItemId() == R.id.action_tab_with_icon) {
-			startActivity(new Intent().setClass(GoogleTabLayoutActivity.this,
-					GoogleTabLayoutAdvanceActivity.class));
-		}
-		return true;
-	}
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_tab_with_icon) {
+            startActivity(
+                Intent().setClass(
+                    this@GoogleTabLayoutActivity,
+                    GoogleTabLayoutAdvanceActivity::class.java
+                )
+            )
+        }
+        return true
+    }
 }
