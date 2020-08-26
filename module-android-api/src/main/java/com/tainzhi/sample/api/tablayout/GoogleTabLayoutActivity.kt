@@ -1,4 +1,4 @@
-package com.tainzhi.sample.api
+package com.tainzhi.sample.api.tablayout
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.SimpleFragmentPagerAdapter
 import kotlin.collections.ArrayList
 

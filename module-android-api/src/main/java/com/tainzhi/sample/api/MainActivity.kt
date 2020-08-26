@@ -10,6 +10,8 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter
 import com.tainzhi.sample.api.adapter.NameClass
 import com.tainzhi.sample.api.handler.HandlerActivity
+import com.tainzhi.sample.api.recyclerview.RecyclerViewEntranceActivity
+import com.tainzhi.sample.api.tablayout.GoogleTabLayoutActivity
 import com.tainzhi.sample.api.touch.TouchEntranceActivity
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration
 import com.tanzhi.android.playground.router.RouterPath

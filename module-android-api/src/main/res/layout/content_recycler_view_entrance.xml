@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_recycler_view_entrance"
-    tools:context=".RecyclerViewEntranceActivity">
+    tools:context=".recyclerview.RecyclerViewEntranceActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

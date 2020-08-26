@@ -1,4 +1,4 @@
-package com.tainzhi.sample.api
+package com.tainzhi.sample.api.recyclerview
 
 import android.os.Bundle
 import android.view.View
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.tainzhi.sample.api.R
+import com.tainzhi.sample.api.Util
 import com.tainzhi.sample.api.Util.Dimens
 import com.tainzhi.sample.api.adapter.BasicAdapter
 import com.tainzhi.sample.api.adapter.CenterAdapter

@@ -1,4 +1,4 @@
-package com.tainzhi.sample.api
+package com.tainzhi.sample.api.recyclerview
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.BasicVertialAdapter
 import java.util.*
 

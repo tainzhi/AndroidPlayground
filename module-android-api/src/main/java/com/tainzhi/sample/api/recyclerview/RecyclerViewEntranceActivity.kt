@@ -1,4 +1,4 @@
-package com.tainzhi.sample.api
+package com.tainzhi.sample.api.recyclerview
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter
 import com.tainzhi.sample.api.adapter.NameClass
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration
-import kotlinx.coroutines.internal.RemoveFirstDesc
-import java.util.*
 
 class RecyclerViewEntranceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

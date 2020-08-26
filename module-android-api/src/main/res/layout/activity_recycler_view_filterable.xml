@@ -5,7 +5,7 @@
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecyclerViewFilterableActivity">
+    tools:context=".recyclerview.RecyclerViewFilterableActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

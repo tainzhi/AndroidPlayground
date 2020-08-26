@@ -8,20 +8,20 @@
 		<activity
 			android:name=".handler.HandlerActivity" android:label="@string/title_activity_handler" android:theme="@style/AppTheme.NoActionBar" />
 		<activity
-			android:name=".RecyclerViewFilterableActivity" android:label="@string/title_activity_recycler_view_filterable" android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".recyclerview.RecyclerViewFilterableActivity" android:label="@string/title_activity_recycler_view_filterable" android:theme="@style/AppTheme.NoActionBar" />
 		<activity
-			android:name=".RecyclerViewStaggeredGridLayoutActivity" android:label="@string/title_activity_recycler_view_staggered_grid_layout" android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".recyclerview.RecyclerViewStaggeredGridLayoutActivity" android:label="@string/title_activity_recycler_view_staggered_grid_layout" android:theme="@style/AppTheme.NoActionBar" />
 		<activity
-			android:name=".RecyclerViewEntranceActivity" android:label="@string/title_activity_recycler_view_entrance" android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".recyclerview.RecyclerViewEntranceActivity" android:label="@string/title_activity_recycler_view_entrance" android:theme="@style/AppTheme.NoActionBar" />
 		<activity
-			android:name=".RecyclerViewGridLayoutActivity" android:label="@string/title_activity_recycler_view_grid_layout" android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".recyclerview.RecyclerViewGridLayoutActivity" android:label="@string/title_activity_recycler_view_grid_layout" android:theme="@style/AppTheme.NoActionBar" />
 		<activity
-			android:name=".GoogleTabLayoutAdvanceActivity" android:label="@string/title_activity_google_tab_layout_advance" android:theme="@style/AppTheme.NoActionBar" />
+			android:name=".tablayout.GoogleTabLayoutAdvanceActivity" android:label="@string/title_activity_google_tab_layout_advance" android:theme="@style/AppTheme.NoActionBar" />
 		<activity
 			android:name=".GuidePageActivity" android:label="@string/title_activity_guide_page" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 		<activity
-			android:name=".RecyclerViewActivity" android:label="@string/title_activity_recycler_view" android:theme="@style/AppTheme.NoActionBar" />
-		<activity android:name=".GoogleTabLayoutActivity" android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".recyclerview.RecyclerViewActivity" android:label="@string/title_activity_recycler_view" android:theme="@style/AppTheme.NoActionBar" />
+		<activity android:name=".tablayout.GoogleTabLayoutActivity" android:theme="@style/AppTheme.NoActionBar"/>
 		<activity android:name=".touch.multi.MultiTouchActivity" android:theme="@style/AppTheme.NoActionBar"/>
 		<activity android:name=".touch.single.SingleTouchActivity" android:theme="@style/AppTheme.NoActionBar"/>
 		<activity android:name=".touch.TouchEntranceActivity" android:theme="@style/AppTheme.NoActionBar"/>

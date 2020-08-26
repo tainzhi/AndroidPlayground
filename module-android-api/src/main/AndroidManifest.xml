@@ -20,23 +20,23 @@
             android:label="@string/title_activity_handler"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RecyclerViewFilterableActivity"
+            android:name=".recyclerview.RecyclerViewFilterableActivity"
             android:label="@string/title_activity_recycler_view_filterable"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RecyclerViewStaggeredGridLayoutActivity"
+            android:name=".recyclerview.RecyclerViewStaggeredGridLayoutActivity"
             android:label="@string/title_activity_recycler_view_staggered_grid_layout"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RecyclerViewEntranceActivity"
+            android:name=".recyclerview.RecyclerViewEntranceActivity"
             android:label="@string/title_activity_recycler_view_entrance"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RecyclerViewGridLayoutActivity"
+            android:name=".recyclerview.RecyclerViewGridLayoutActivity"
             android:label="@string/title_activity_recycler_view_grid_layout"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GoogleTabLayoutAdvanceActivity"
+            android:name=".tablayout.GoogleTabLayoutAdvanceActivity"
             android:label="@string/title_activity_google_tab_layout_advance"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -44,10 +44,10 @@
             android:label="@string/title_activity_guide_page"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".RecyclerViewActivity"
+            android:name=".recyclerview.RecyclerViewActivity"
             android:label="@string/title_activity_recycler_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".GoogleTabLayoutActivity" />
+        <activity android:name=".tablayout.GoogleTabLayoutActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.tainzhi.sample.api
+package com.tainzhi.sample.api.recyclerview
 
 import android.app.SearchManager
 import android.graphics.Color
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.FilterableAdapter
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration
 import com.tainzhi.sample.api.widget.RecyclerItemTouchHelper

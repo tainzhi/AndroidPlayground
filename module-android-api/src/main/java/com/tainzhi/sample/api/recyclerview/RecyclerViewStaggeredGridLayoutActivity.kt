@@ -1,4 +1,4 @@
-package com.tainzhi.sample.api
+package com.tainzhi.sample.api.recyclerview
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.BasicVertialAdapter
 import java.util.*
 

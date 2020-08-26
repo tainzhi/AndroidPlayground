@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".RecyclerViewFilterableActivity"
+    tools:context=".recyclerview.RecyclerViewFilterableActivity"
     tools:showIn="@layout/activity_recycler_view_filterable">
 
     <androidx.recyclerview.widget.RecyclerView
