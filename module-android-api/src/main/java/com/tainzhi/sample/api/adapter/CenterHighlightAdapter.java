@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,12 +44,13 @@ public class CenterHighlightAdapter extends RecyclerView.Adapter<CenterHighlight
 	public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 		holder.tvId.setText(String.valueOf(mList.get(position)));
 		if (position == mCenterIndex) {
-			holder.clRoot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
+			holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
 		} else {
-			holder.clRoot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey));
+			holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey));
 		}
 	}
-	
+
+
 	@Override
 	public int getItemCount() {
 		return mList.size();
@@ -63,11 +65,13 @@ public class CenterHighlightAdapter extends RecyclerView.Adapter<CenterHighlight
 	public static class MyViewHolder extends RecyclerView.ViewHolder {
 		ConstraintLayout clRoot;
 		TextView tvId;
+		ImageView imageView;
 		
 		public MyViewHolder(View view) {
 			super(view);
 			clRoot = view.findViewById(R.id.cl_root);
 			tvId = view.findViewById(R.id.tv_basic_id);
+			imageView = view.findViewById(R.id.imageView);
 		}
 	}
 }

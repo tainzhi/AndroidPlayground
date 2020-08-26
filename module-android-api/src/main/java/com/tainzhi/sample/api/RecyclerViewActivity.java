@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tainzhi.sample.api.adapter.BasicAdapter;
@@ -72,8 +73,10 @@ public class RecyclerViewActivity extends AppCompatActivity {
 				this,
 				LinearLayoutManager.HORIZONTAL,
 				false));
-		rvBasic.addItemDecoration(new HorizontalSpaceItemDecoration(
-				(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
+		final PagerSnapHelper linearSnapHelper = new PagerSnapHelper();
+		linearSnapHelper.attachToRecyclerView(rvBasic);
+		// rvBasic.addItemDecoration(new HorizontalSpaceItemDecoration(
+		// 		(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
 	}
 	
 	private void initQuickRecyclerView() {
@@ -161,30 +164,30 @@ public class RecyclerViewActivity extends AppCompatActivity {
 				(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
 		final LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
 		linearSnapHelper.attachToRecyclerView(rvCenterHighlight);
-		rvCenterHighlight.addOnScrollListener(new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-				super.onScrollStateChanged(recyclerView, newState);
-				if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-					LinearLayoutManager manager =
-							(LinearLayoutManager) rvCenterHighlight.getLayoutManager();
-					int firstVisibleItemPosition = manager.findFirstCompletelyVisibleItemPosition();
-					int lastVisibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
-					int recyclerViewCenterX = manager.getWidth() / 2 + manager.getPaddingLeft();
-					int centerIndex = 0;
-					for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
-						View view = manager.findViewByPosition(i);
-						int[] location = new int[2];
-						view.getLocationOnScreen(location);
-						int itemViewCenterX = view.getLeft() + view.getWidth() / 2;
-						if (Math.abs(itemViewCenterX - recyclerViewCenterX) < 30) {
-							centerIndex = i;
-							break;
-						}
-					}
-					adapter.setCenterIndex(centerIndex);
-				}
-			}
-		});
+//		rvCenterHighlight.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//			@Override
+//			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//				super.onScrollStateChanged(recyclerView, newState);
+//				if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//					LinearLayoutManager manager =
+//							(LinearLayoutManager) rvCenterHighlight.getLayoutManager();
+//					int firstVisibleItemPosition = manager.findFirstCompletelyVisibleItemPosition();
+//					int lastVisibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
+//					int recyclerViewCenterX = manager.getWidth() / 2 + manager.getPaddingLeft();
+//					int centerIndex = 0;
+//					for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
+//						View view = manager.findViewByPosition(i);
+//						int[] location = new int[2];
+//						view.getLocationOnScreen(location);
+//						int itemViewCenterX = view.getLeft() + view.getWidth() / 2;
+//						if (Math.abs(itemViewCenterX - recyclerViewCenterX) < 30) {
+//							centerIndex = i;
+//							break;
+//						}
+//					}
+//					adapter.setCenterIndex(centerIndex);
+//				}
+//			}
+//		});
 	}
 }
