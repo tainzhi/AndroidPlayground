@@ -16,6 +16,7 @@
         app:spv_alignment="center"
         app:spv_center_item_background="@color/colorPrimary"
         app:spv_disallow_intercept_touch="true"
+        app:spv_center_item_position="0"
         app:spv_draw_bitmap_height="40dp"
         app:spv_draw_bitmap_mode="size"
         app:spv_draw_bitmap_width="40dp"
