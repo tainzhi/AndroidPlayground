@@ -68,7 +68,7 @@ class RecyclerViewActivity : AppCompatActivity() {
                 false
             )
         }
-        val linearSnapHelper = PagerSnapHelper()
+        val linearSnapHelper = LinearSnapHelper()
         linearSnapHelper.attachToRecyclerView(rvBasic)
         // rvBasic.addItemDecoration(new HorizontalSpaceItemDecoration(
         // 		(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
@@ -85,7 +85,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             // )
             CustomLayoutManager(this, Util.Display.getScreenWidth(this), 100.dp().toInt())
         )
-        LinearSnapHelper().attachToRecyclerView(rvQuick)
+        SnapCenter().attachToRecyclerView(rvQuick)
         rvQuick.addItemDecoration(
             HorizontalSpaceItemDecoration(
                 Dimens.dpToPx(this@RecyclerViewActivity, 10f).toInt()

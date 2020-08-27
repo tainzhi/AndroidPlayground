@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
  **/
 
 class SnapCenter : LinearSnapHelper() {
+    private var mVerticalHelper: OrientationHelper? = null
+    private var mHorizontalHelper: OrientationHelper? = null
+
     override fun calculateDistanceToFinalSnap(
         layoutManager: RecyclerView.LayoutManager,
         targetView: View
@@ -48,18 +51,14 @@ class SnapCenter : LinearSnapHelper() {
     }
 
     private fun getVerticalHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {
-        if (mVerticalHelper == null || mVerticalHelper!!.mLayoutManager !== layoutManager) {
-            mVerticalHelper = OrientationHelper.createVerticalHelper(layoutManager)
-        }
+        mVerticalHelper = OrientationHelper.createVerticalHelper(layoutManager)
         return mVerticalHelper!!
     }
 
     private fun getHorizontalHelper(
         layoutManager: RecyclerView.LayoutManager
     ): OrientationHelper {
-        if (mHorizontalHelper == null || mHorizontalHelper!!.mLayoutManager !== layoutManager) {
-            mHorizontalHelper = OrientationHelper.createHorizontalHelper(layoutManager)
-        }
+        mHorizontalHelper = OrientationHelper.createHorizontalHelper(layoutManager)
         return mHorizontalHelper!!
     }
 
