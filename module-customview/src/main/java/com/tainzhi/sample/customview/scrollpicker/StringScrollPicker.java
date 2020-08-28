@@ -9,6 +9,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.widget.OverScroller;
 
 import com.tainzhi.sample.customview.R;
 import com.tainzhi.sample.customview.Util.ColorUtil;
@@ -181,8 +182,7 @@ public class StringScrollPicker extends ScrollPickerView<CharSequence> {
             if (moveLength > 0) { // 向下滑动
                 mPaint.setTextSize(mMinTextSize);
             } else { // 向上滑动
-                mPaint.setTextSize(mMinTextSize + (mMaxTextSize - mMinTextSize)
-                        * -moveLength / itemSize);
+                mPaint.setTextSize(mMinTextSize + (mMaxTextSize - mMinTextSize) * -moveLength / itemSize);
             }
         } else { // 其他
             mPaint.setTextSize(mMinTextSize);

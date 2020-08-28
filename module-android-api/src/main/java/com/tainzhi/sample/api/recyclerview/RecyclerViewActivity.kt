@@ -107,11 +107,7 @@ class RecyclerViewActivity : AppCompatActivity() {
         rvCenter.setAdapter(CenterAdapter(mList, recyclerWidth))
         // 添加LayoutManger, 使得横向显示
         rvCenter.setLayoutManager(
-            LinearLayoutManager(
-                this,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+            CustomLayoutManager(this, Util.Display.getScreenWidth(this), 90.dp().toInt())
         )
         //添加间隔空白
         rvCenter.addItemDecoration(
@@ -120,8 +116,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             )
         )
         // 必须添加SnapHelper
-        val linearSnapHelper = LinearSnapHelper()
-        linearSnapHelper.attachToRecyclerView(rvCenter)
+        SnapCenter().attachToRecyclerView(rvCenter)
         rvCenter.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -134,7 +129,7 @@ class RecyclerViewActivity : AppCompatActivity() {
                     v.getLocationOnScreen(location)
                     val itemCenterX = location[0] + v.width / 2
                     //                   ★ 两边的图片缩放比例
-                    val scale = 0.8f
+                    val scale = 0.9f
                     //                     ★某个item中心X坐标距recyclerview中心X坐标的偏移量
                     val offX = Math.abs(itemCenterX - recyclerViewCenterX)
                     //                    ★ 在一个item的宽度范围内，item从1缩放至scale，那么改变了（1-scale），从下列公式算出随着offX变化，item的变化缩放百分比

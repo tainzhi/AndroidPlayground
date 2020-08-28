@@ -44,8 +44,10 @@ class SnapCenter : LinearSnapHelper() {
         layoutManager: RecyclerView.LayoutManager,
         targetView: View, helper: OrientationHelper
     ): Int {
+        val targetPosition = layoutManager.getPosition(targetView)
         val childCenter = (helper.getDecoratedStart(targetView)
-                + helper.getDecoratedMeasurement(targetView) / 2) - 30
+                + (if (targetPosition == 0) 0 else (+15))
+                + helper.getDecoratedMeasurement(targetView) / 2)
         val containerCenter = helper.startAfterPadding + helper.totalSpace / 2
         return childCenter - containerCenter
     }
