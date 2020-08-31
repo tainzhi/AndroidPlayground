@@ -8,16 +8,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.Util
 import com.tainzhi.sample.api.Util.Dimens
 import com.tainzhi.sample.api.adapter.BasicAdapter
 import com.tainzhi.sample.api.adapter.CenterAdapter
 import com.tainzhi.sample.api.adapter.CenterHighlightAdapter
-import com.tainzhi.sample.api.adapter.QuickAdapter
 import com.tainzhi.sample.api.widget.HorizontalSpaceItemDecoration
 import com.tainzhi.sample.util.dp
 

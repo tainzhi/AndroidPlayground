@@ -46,7 +46,7 @@ class RecyclerViewEntranceActivity : AppCompatActivity() {
         val datas = arrayListOf(
             NameClass("horizontal/middle", RecyclerViewActivity::class.java),
             NameClass("GridLayoutManager", RecyclerViewGridLayoutActivity::class.java),
-            NameClass("CustomSnaper", CustomSnaperActivity::class.java),
+            NameClass("CardScaleHelper", CardScaleHelperActivity::class.java),
             NameClass("StaggeredGridLayoutManager", RecyclerViewStaggeredGridLayoutActivity::class.java),
             NameClass("Search Filter/Swipe delete", RecyclerViewFilterableActivity::class.java)
         )

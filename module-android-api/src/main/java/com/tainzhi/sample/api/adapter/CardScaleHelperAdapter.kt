@@ -13,13 +13,11 @@ import com.tainzhi.sample.api.R
  * Created by muqing on 2019-08-14.
  * Email: qfq61@qq.com
  */
-class BasicAdapter(private val mDataList: List<Int>?) :
-    RecyclerView.Adapter<BasicAdapter.MyViewHolder>() {
+class CardScaleHelperAdapter(private val mDataList: List<Int>?) :
+    RecyclerView.Adapter<CardScaleHelperAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(
-                R.layout.item_basic_horizontal_view, parent, false
-            )
+            .inflate( R.layout.item_scale_card, parent, false )
         return MyViewHolder(view)
     }
 

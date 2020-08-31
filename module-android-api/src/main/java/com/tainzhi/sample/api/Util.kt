@@ -2,7 +2,9 @@ package com.tainzhi.sample.api
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.util.DisplayMetrics
+import kotlin.random.Random
 
 /**
  * Created by muqing on 2019-08-15.
@@ -40,4 +42,13 @@ class Util {
             return dm.heightPixels
         }
     }
+}
+
+object ColorUtils {
+    fun randomColor() = Color.argb(
+        Random.nextInt(255),
+        Random.nextInt(255),
+        Random.nextInt(255),
+        Random.nextInt(255)
+    )
 }
