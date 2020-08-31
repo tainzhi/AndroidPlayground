@@ -92,7 +92,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         }
         rvCenterHighlight.addItemDecoration(CenterFirstLastItemDecoration(itemOffset))
-        ItemDecorationSnapHelper(itemOffset, 0.6f) { centerIndex ->
+        ItemDecorationSnapHelper(itemOffset, 1f) { centerIndex ->
             centerAdapter.setCenterIndex(centerIndex)
         }.attachToRecyclerView(rvCenterHighlight)
     }
