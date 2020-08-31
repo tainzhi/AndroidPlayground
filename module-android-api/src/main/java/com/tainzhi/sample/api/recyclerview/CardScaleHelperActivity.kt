@@ -15,7 +15,7 @@ class CardScaleHelperActivity : AppCompatActivity() {
     ) { index -> index + 1 }
 
     private val adapter by lazy {
-        CardScaleHelperAdapter(mList)
+        CardScaleHelperAdapter(this, mList)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

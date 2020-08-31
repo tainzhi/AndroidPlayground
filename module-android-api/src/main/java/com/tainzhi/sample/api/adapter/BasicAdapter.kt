@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.tainzhi.sample.util.ColorUtils
 import com.tainzhi.sample.api.R
+import com.tainzhi.sample.util.ColorUtils
 
 /**
  * Created by muqing on 2019-08-14.
  * Email: qfq61@qq.com
  */
-class BasicAdapter(private val mDataList: List<Int>?) :
+class BasicAdapter(private val mDataList: List<Int>) :
     RecyclerView.Adapter<BasicAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context)

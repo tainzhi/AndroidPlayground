@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @description:
  **/
 
-class SnapCenter : LinearSnapHelper() {
+class ItemDecorationSnapHelper(val itemOffset: Int) : LinearSnapHelper() {
     private var mVerticalHelper: OrientationHelper? = null
     private var mHorizontalHelper: OrientationHelper? = null
 
@@ -38,17 +38,17 @@ class SnapCenter : LinearSnapHelper() {
         } else {
             out[1] = 0
         }
-        return out    }
+        return out
+    }
 
     private fun distanceToCenter(
         layoutManager: RecyclerView.LayoutManager,
         targetView: View, helper: OrientationHelper
     ): Int {
-        val targetPosition = layoutManager.getPosition(targetView)
         val childCenter = (helper.getDecoratedStart(targetView)
-                + (if (targetPosition == 0) 0 else (+15))
                 + helper.getDecoratedMeasurement(targetView) / 2)
-        val containerCenter = helper.startAfterPadding + helper.totalSpace / 2
+        // itemOffset /2 为新中心偏移距离
+        val containerCenter = helper.startAfterPadding + helper.totalSpace / 2 + itemOffset / 2
         return childCenter - containerCenter
     }
 

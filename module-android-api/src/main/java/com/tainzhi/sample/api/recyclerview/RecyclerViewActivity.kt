@@ -5,20 +5,21 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.BasicAdapter
-import com.tainzhi.sample.api.adapter.CenterAdapter
 import com.tainzhi.sample.api.adapter.CenterHighlightAdapter
+import com.tainzhi.sample.api.widget.CenterFirstLastItemDecoration
 import com.tainzhi.sample.api.widget.HorizontalSpaceItemDecoration
 import com.tainzhi.sample.util.dpToPx
 import com.tainzhi.sample.util.screenWidth
 
 class RecyclerViewActivity : AppCompatActivity() {
-    private var mList = ArrayList<Int>()
+    private val mList = MutableList(20) { index ->
+        index
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recycler_view)
@@ -28,10 +29,6 @@ class RecyclerViewActivity : AppCompatActivity() {
     }
 
     fun initView() {
-        mList = ArrayList()
-        for (i in 0..19) {
-            mList.add(i)
-        }
         initBasicRecyclerView()
         initQuickRecyclerView()
         // 首尾item居中显示
@@ -66,50 +63,27 @@ class RecyclerViewActivity : AppCompatActivity() {
         }
         val linearSnapHelper = LinearSnapHelper()
         linearSnapHelper.attachToRecyclerView(rvBasic)
-        // rvBasic.addItemDecoration(new HorizontalSpaceItemDecoration(
-        // 		(int) Util.Dimens.dpToPx(RecyclerViewActivity.this, 10)));
     }
 
     private fun initQuickRecyclerView() {
-        val rvQuick = findViewById<RecyclerView>(R.id.rv_quick)
-        rvQuick.setAdapter(BasicAdapter(mList))
-        rvQuick.setLayoutManager(
-            // LinearLayoutManager(
-            //     this,
-            //     LinearLayoutManager.HORIZONTAL,
-            //     false
-            // )
-            CustomLayoutManager(this, this.screenWidth(), this.dpToPx(10))
-        )
-        SnapCenter().attachToRecyclerView(rvQuick)
-        rvQuick.addItemDecoration(
-            HorizontalSpaceItemDecoration(this.dpToPx(10))
-        )
+        val itemOffset = this.dpToPx<Int>(10) // item之间的间距
+        val rvQuick = findViewById<RecyclerView>(R.id.rv_quick).apply {
+            adapter = BasicAdapter(mList)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
+        ItemDecorationSnapHelper(itemOffset).attachToRecyclerView(rvQuick)
+        rvQuick.addItemDecoration( CenterFirstLastItemDecoration(itemOffset) )
     }
 
     private fun initCenterRecyclerView() {
         // 首尾item居中显示
-        val rvCenter = findViewById<RecyclerView>(R.id.rv_center)
-        val layoutParams = rvCenter.getLayoutParams() as ConstraintLayout.LayoutParams
-        val left = rvCenter.getLeft()
-        val right = rvCenter.getRight()
-        var recyclerWidth = layoutParams.width
-        if (recyclerWidth == -1) {
-            recyclerWidth =
-                this.screenWidth() - layoutParams.leftMargin - layoutParams.rightMargin
+        val rvCenter = findViewById<RecyclerView>(R.id.rv_center).apply {
+            adapter = BasicAdapter(mList)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
-        rvCenter.setAdapter(CenterAdapter(mList, recyclerWidth))
-        // 添加LayoutManger, 使得横向显示
-        rvCenter.setLayoutManager(
-            CustomLayoutManager(this, this.screenWidth(), this.dpToPx(90) ))
-        //添加间隔空白
-        rvCenter.addItemDecoration(
-            HorizontalSpaceItemDecoration(
-                this.dpToPx(10)
-            )
-        )
+        rvCenter.addItemDecoration(HorizontalSpaceItemDecoration(10) )
         // 必须添加SnapHelper
-        SnapCenter().attachToRecyclerView(rvCenter)
+        LinearSnapHelper().attachToRecyclerView(rvCenter)
         rvCenter.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -164,7 +138,7 @@ class RecyclerViewActivity : AppCompatActivity() {
         )
         val linearSnapHelper = LinearSnapHelper()
         linearSnapHelper.attachToRecyclerView(rvCenterHighlight)
-        //		rvCenterHighlight.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        // rvCenterHighlight.addOnScrollListener(object: RecyclerView.OnScrollListener() {
 //			@Override
 //			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 //				super.onScrollStateChanged(recyclerView, newState);

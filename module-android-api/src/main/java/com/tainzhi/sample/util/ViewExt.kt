@@ -2,7 +2,6 @@ package com.tainzhi.sample.util
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.util.DisplayMetrics
 import android.util.TypedValue
 
@@ -17,6 +16,18 @@ inline fun <reified T> Activity.dpToPx(value: Int): T {
     val result = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         value.toFloat(), this.resources.displayMetrics)
+
+    return when (T::class) {
+        Float::class -> result as T
+        Int::class -> result.toInt() as T
+        else -> throw IllegalStateException("Type not supported")
+    }
+}
+
+inline fun <reified T> Context.dpToPx(value: Int): T {
+    val result = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            value.toFloat(), this.resources.displayMetrics)
 
     return when (T::class) {
         Float::class -> result as T
@@ -42,7 +53,6 @@ fun Activity.screenWidth(): Int {
     this.windowManager.defaultDisplay.getMetrics(dm)
     return dm.widthPixels
 }
-
 
 fun Activity.screenHeight(): Int {
     val dm = DisplayMetrics()
