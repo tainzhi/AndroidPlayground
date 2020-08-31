@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.tainzhi.sample.api.R
-import com.tainzhi.sample.api.Util
-import com.tainzhi.sample.api.Util.Dimens
 import com.tainzhi.sample.api.adapter.BasicAdapter
 import com.tainzhi.sample.api.adapter.CenterAdapter
 import com.tainzhi.sample.api.adapter.CenterHighlightAdapter
 import com.tainzhi.sample.api.widget.HorizontalSpaceItemDecoration
-import com.tainzhi.sample.util.dp
+import com.tainzhi.sample.util.dpToPx
+import com.tainzhi.sample.util.screenWidth
 
 class RecyclerViewActivity : AppCompatActivity() {
     private var mList = ArrayList<Int>()
@@ -80,13 +79,11 @@ class RecyclerViewActivity : AppCompatActivity() {
             //     LinearLayoutManager.HORIZONTAL,
             //     false
             // )
-            CustomLayoutManager(this, Util.Display.getScreenWidth(this), 100.dp().toInt())
+            CustomLayoutManager(this, this.screenWidth(), this.dpToPx(10))
         )
         SnapCenter().attachToRecyclerView(rvQuick)
         rvQuick.addItemDecoration(
-            HorizontalSpaceItemDecoration(
-                Dimens.dpToPx(this@RecyclerViewActivity, 10f).toInt()
-            )
+            HorizontalSpaceItemDecoration(this.dpToPx(10))
         )
     }
 
@@ -99,17 +96,16 @@ class RecyclerViewActivity : AppCompatActivity() {
         var recyclerWidth = layoutParams.width
         if (recyclerWidth == -1) {
             recyclerWidth =
-                Util.Display.getScreenWidth(this) - layoutParams.leftMargin - layoutParams.rightMargin
+                this.screenWidth() - layoutParams.leftMargin - layoutParams.rightMargin
         }
         rvCenter.setAdapter(CenterAdapter(mList, recyclerWidth))
         // 添加LayoutManger, 使得横向显示
         rvCenter.setLayoutManager(
-            CustomLayoutManager(this, Util.Display.getScreenWidth(this), 90.dp().toInt())
-        )
+            CustomLayoutManager(this, this.screenWidth(), this.dpToPx(90) ))
         //添加间隔空白
         rvCenter.addItemDecoration(
             HorizontalSpaceItemDecoration(
-                Dimens.dpToPx(this@RecyclerViewActivity, 10f).toInt()
+                this.dpToPx(10)
             )
         )
         // 必须添加SnapHelper
@@ -149,11 +145,8 @@ class RecyclerViewActivity : AppCompatActivity() {
         val layoutParams = rvCenterHighlight.getLayoutParams()
         var recyclerWidth = layoutParams.width
         if (recyclerWidth == -1) {
-            val recyclerLeftMargin = Dimens.dpToPxInt(
-                this,
-                resources.getDimension(R.dimen.base_margin)
-            )
-            recyclerWidth = Util.Display.getScreenWidth(this) - recyclerLeftMargin * 2
+            val recyclerLeftMargin: Int = this.dpToPx(10)
+            recyclerWidth = this.screenWidth() - recyclerLeftMargin * 2
         }
         val adapter = CenterHighlightAdapter(this, mList)
         rvCenterHighlight.setAdapter(adapter)
@@ -166,7 +159,7 @@ class RecyclerViewActivity : AppCompatActivity() {
         )
         rvCenterHighlight.addItemDecoration(
             HorizontalSpaceItemDecoration(
-                Dimens.dpToPx(this@RecyclerViewActivity, 10f).toInt()
+                this.dpToPx(10)
             )
         )
         val linearSnapHelper = LinearSnapHelper()

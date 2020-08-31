@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.tainzhi.sample.api.ColorUtils
+import com.tainzhi.sample.util.ColorUtils
 import com.tainzhi.sample.api.R
 
 /**
@@ -64,3 +64,10 @@ class CardScaleHelperAdapter(private val mDataList: List<Int>?) :
         fun onItemLongClick(view: View?, position: Int)
     }
 }
+
+class CardAdapterHelper {
+    fun onCreateViewHolder(parent: ViewGroup, itemView: View) {
+    
+    }
+}
+
