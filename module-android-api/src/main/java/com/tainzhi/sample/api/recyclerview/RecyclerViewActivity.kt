@@ -12,9 +12,7 @@ import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.BasicAdapter
 import com.tainzhi.sample.api.adapter.CenterHighlightAdapter
 import com.tainzhi.sample.api.widget.CenterFirstLastItemDecoration
-import com.tainzhi.sample.api.widget.HorizontalSpaceItemDecoration
 import com.tainzhi.sample.util.dpToPx
-import com.tainzhi.sample.util.screenWidth
 
 class RecyclerViewActivity : AppCompatActivity() {
     private val mList = MutableList(20) { index ->
@@ -71,97 +69,31 @@ class RecyclerViewActivity : AppCompatActivity() {
             adapter = BasicAdapter(mList)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
-        ItemDecorationSnapHelper(itemOffset).attachToRecyclerView(rvQuick)
+        ItemDecorationSnapHelper(itemOffset, 1F).attachToRecyclerView(rvQuick)
         rvQuick.addItemDecoration( CenterFirstLastItemDecoration(itemOffset) )
     }
 
     private fun initCenterRecyclerView() {
-        // 首尾item居中显示
+        val itemOffset = this.dpToPx<Int>(10)
         val rvCenter = findViewById<RecyclerView>(R.id.rv_center).apply {
             adapter = BasicAdapter(mList)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
-        rvCenter.addItemDecoration(HorizontalSpaceItemDecoration(10) )
-        // 必须添加SnapHelper
-        LinearSnapHelper().attachToRecyclerView(rvCenter)
-        rvCenter.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val childCount = rvCenter.getChildCount()
-                val location = IntArray(2)
-                for (i in 0 until childCount) {
-                    rvCenter.getLocationOnScreen(location)
-                    val recyclerViewCenterX = location[0] + rvCenter.getWidth() / 2
-                    val v = rvCenter.getChildAt(i)
-                    v.getLocationOnScreen(location)
-                    val itemCenterX = location[0] + v.width / 2
-                    //                   ★ 两边的图片缩放比例
-                    val scale = 0.9f
-                    //                     ★某个item中心X坐标距recyclerview中心X坐标的偏移量
-                    val offX = Math.abs(itemCenterX - recyclerViewCenterX)
-                    //                    ★ 在一个item的宽度范围内，item从1缩放至scale，那么改变了（1-scale），从下列公式算出随着offX变化，item的变化缩放百分比
-                    val percent = offX * (1 - scale) / v.width
-                    //                   ★  取反哟
-                    var interpretateScale = 1 - percent
-                    //                    这个if不走的话，得到的是多级渐变模式
-                    if (interpretateScale < scale) {
-                        interpretateScale = scale
-                    }
-                    v.scaleX = interpretateScale
-                    v.scaleY = interpretateScale
-                }
-            }
-        })
+        rvCenter.addItemDecoration(CenterFirstLastItemDecoration(itemOffset))
+        ItemDecorationSnapHelper(itemOffset, 0.2f).attachToRecyclerView(rvCenter)
     }
 
     private fun initCenterHighlightRecyclerView() {
-        val rvCenterHighlight = findViewById<RecyclerView>(R.id.rv_center_hightlight)
-        val layoutParams = rvCenterHighlight.getLayoutParams()
-        var recyclerWidth = layoutParams.width
-        if (recyclerWidth == -1) {
-            val recyclerLeftMargin: Int = this.dpToPx(10)
-            recyclerWidth = this.screenWidth() - recyclerLeftMargin * 2
+        val itemOffset = this.dpToPx<Int>(10)
+        val centerAdapter = CenterHighlightAdapter(this, mList)
+        val rvCenterHighlight = findViewById<RecyclerView>(R.id.rv_center_hightlight).apply {
+            adapter = centerAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
         }
-        val adapter = CenterHighlightAdapter(this, mList)
-        rvCenterHighlight.setAdapter(adapter)
-        rvCenterHighlight.setLayoutManager(
-            LinearLayoutManager(
-                this,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-        )
-        rvCenterHighlight.addItemDecoration(
-            HorizontalSpaceItemDecoration(
-                this.dpToPx(10)
-            )
-        )
-        val linearSnapHelper = LinearSnapHelper()
-        linearSnapHelper.attachToRecyclerView(rvCenterHighlight)
-        // rvCenterHighlight.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-//			@Override
-//			public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//				super.onScrollStateChanged(recyclerView, newState);
-//				if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//					LinearLayoutManager manager =
-//							(LinearLayoutManager) rvCenterHighlight.getLayoutManager();
-//					int firstVisibleItemPosition = manager.findFirstCompletelyVisibleItemPosition();
-//					int lastVisibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
-//					int recyclerViewCenterX = manager.getWidth() / 2 + manager.getPaddingLeft();
-//					int centerIndex = 0;
-//					for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
-//						View view = manager.findViewByPosition(i);
-//						int[] location = new int[2];
-//						view.getLocationOnScreen(location);
-//						int itemViewCenterX = view.getLeft() + view.getWidth() / 2;
-//						if (Math.abs(itemViewCenterX - recyclerViewCenterX) < 30) {
-//							centerIndex = i;
-//							break;
-//						}
-//					}
-//					adapter.setCenterIndex(centerIndex);
-//				}
-//			}
-//		});
+        rvCenterHighlight.addItemDecoration(CenterFirstLastItemDecoration(itemOffset))
+        ItemDecorationSnapHelper(itemOffset, 0.6f) { centerIndex ->
+            centerAdapter.setCenterIndex(centerIndex)
+        }.attachToRecyclerView(rvCenterHighlight)
     }
 }
