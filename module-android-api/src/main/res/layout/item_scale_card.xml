@@ -2,13 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    app:cardElevation="5dp"
-    app:cardMaxElevation="5dp"
+    android:layout_width="270dp"
+    app:cardElevation="1dp"
+    app:cardMaxElevation="1dp"
     app:cardCornerRadius="20dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
-    android:layout_height="400dp">
+    app:cardUseCompatPadding="false"
+    android:layout_height="360dp">
 
     <ImageView
         android:id="@+id/imageView"

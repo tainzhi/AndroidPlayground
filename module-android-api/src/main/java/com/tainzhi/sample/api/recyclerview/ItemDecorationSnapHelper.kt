@@ -17,6 +17,15 @@ import com.tainzhi.sample.util.ColorUtils
  * @description:
  **/
 
+/**
+ * 使得首尾item能够居中, 而且还有缩放效果
+ *
+ * @itemOffset item之间的间距 单位px
+ * @scale 是否需要缩放,缩放比率
+ * @onCenter 传递中心item事件
+ *
+ * 因为添加了itemOffset, 使得整个RecyclerView的center移动了itemOffset / 2
+ */
 class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1.0f, onCenter: ((centerIndex: Int) -> Unit)? = null) : LinearSnapHelper() {
     companion object {
         const val TAG = "ItemDecorationSnapHelper"
@@ -53,10 +62,13 @@ class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1
         layoutManager: RecyclerView.LayoutManager,
         targetView: View, helper: OrientationHelper
     ): Int {
+        // 有itemOffset之后, 每个新item等于旧item + 左边的itemOffset
+        // 起始位置为 helper.getDecoratedStart(targetView) - itemOffset
+        // 宽度为 helper.getDecoratedMeasurement(targetView) + itemOffset
         val childCenter = (helper.getDecoratedStart(targetView)
-                + helper.getDecoratedMeasurement(targetView) / 2)
-        // itemOffset /2 为新中心偏移距离
-        val containerCenter = helper.startAfterPadding + helper.totalSpace / 2 + itemOffset / 2
+                - itemOffset
+                + (helper.getDecoratedMeasurement(targetView) + itemOffset) / 2)
+        val containerCenter = helper.startAfterPadding + helper.totalSpace / 2
         return childCenter - containerCenter
     }
 
@@ -83,17 +95,11 @@ class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1
             val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
             val childCount = layoutManager.childCount
             val helper = getHorizontalHelper(layoutManager)
-            val recyclerViewCenter = helper.totalSpace / 2 + itemOffset / 2
-            val first = layoutManager.findFirstVisibleItemPosition()
-            val last = layoutManager.findLastVisibleItemPosition()
+            val recyclerViewCenter = helper.totalSpace / 2
             for (i in 0 until childCount) {
 
                 val itemView = layoutManager.getChildAt(i)!!
-                val itemPosition = layoutManager.getPosition(itemView)
-                // val itemCenterX = (helper.getDecoratedStart(itemView)
-                //         + helper.getDecoratedMeasurement(itemView) / 2)
-                val anotherCenterX = itemView.layoutParams.width/2 + itemView.x
-                val itemCenterX = anotherCenterX + itemOffset / 2
+                val itemCenterX = itemView.layoutParams.width/2 + itemView.x
                 //                   ★ 两边的图片缩放比例
                 // val scale = 0.9f
                 //                     ★某个item中心X坐标距recyclerview中心X坐标的偏移量
@@ -106,13 +112,13 @@ class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1
                 if (interpretateScale < scale) {
                     interpretateScale = scale
                 }
-                Log.d(TAG, "itemCenterX=${itemCenterX}, anotherCenterX=${anotherCenterX},position=${layoutManager.getPosition(itemView)}, scal=${interpretateScale}")
+                Log.d(TAG, "itemCenterX=${itemCenterX}, position=${layoutManager.getPosition(itemView)}, scale=${interpretateScale}")
                 itemView.scaleX = interpretateScale
                 itemView.scaleY = interpretateScale
                 CenterHighlightAdapter.MyViewHolder(itemView).setColor(ColorUtils.computeGradientColor(
                     Color.parseColor("#535353"),
                     Color.parseColor("#F10D0D"),
-                    interpretateScale
+                    (interpretateScale - scale) / (1 - scale)
                 ))
             }
         }

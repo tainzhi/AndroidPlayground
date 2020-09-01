@@ -1,6 +1,7 @@
 package com.tainzhi.sample.api.widget
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
@@ -23,7 +24,11 @@ class CenterFirstLastItemDecoration(private val itemOffset: Int) : RecyclerView.
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         // 首尾item居中后, 所需要的padding
-        val parentOffset = (parent.width - view.layoutParams.width )/ 2
+        var parentOffset = (parent.width - view.layoutParams.width )/ 2
+        Log.d(TAG, "parentOffset=${parentOffset}")
+        if (parentOffset < 0)  {
+            parentOffset = (parent.measuredWidth - view.layoutParams.width) /2
+        }
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.left = parentOffset
             outRect.right = itemOffset
@@ -32,5 +37,10 @@ class CenterFirstLastItemDecoration(private val itemOffset: Int) : RecyclerView.
         } else {
             outRect.right = itemOffset
         }
+
+    }
+
+    companion object {
+        const val TAG = "CenterFirstLastItemDecoration"
     }
 }

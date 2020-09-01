@@ -29,13 +29,8 @@ class BasicAdapter(private val mDataList: List<Int>) :
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var tvId: TextView
-        var imageView: ImageView
-
-        init {
-            tvId = view.findViewById(R.id.tv_basic_id)
-            imageView = view.findViewById(R.id.imageView)
-        }
+        val tvId = view.findViewById<TextView>(R.id.tv_basic_id)
+        val imageView = view.findViewById<ImageView>(R.id.imageView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
