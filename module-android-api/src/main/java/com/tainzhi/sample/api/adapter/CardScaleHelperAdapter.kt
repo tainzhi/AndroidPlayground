@@ -27,16 +27,6 @@ class CardScaleHelperAdapter( private val mDataList: List<Int>) :
         return mDataList.size
     }
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var tvId: TextView
-        var imageView: ImageView
-
-        init {
-            tvId = view.findViewById(R.id.tv_basic_id)
-            imageView = view.findViewById(R.id.imageView)
-        }
-    }
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.tvId.text = mDataList[position].toString()
@@ -65,5 +55,16 @@ class CardScaleHelperAdapter( private val mDataList: List<Int>) :
         fun onClick(view: View?, position: Int)
         fun onItemLongClick(view: View?, position: Int)
     }
+
+    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var tvId: TextView
+        var imageView: ImageView
+
+        init {
+            tvId = view.findViewById(R.id.tv_basic_id)
+            imageView = view.findViewById(R.id.imageView)
+        }
+    }
+
 }
 

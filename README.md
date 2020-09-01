@@ -15,7 +15,7 @@ git clone --recursive https://github.com/tainzhi/AndroidPlayground
 android控件和api使用demo
 - ViewPager2实现的引导页
 - TabLayout
-- RecyclerView各种用法: Search Filter/Swipe delete
+- RecyclerView各种用法: Item首尾居中, 缩放, notifyItemChanged(position, payload), Search Filter/Swipe delete
 - Handler线程传递消息
 - 触摸事件: Single Touch, multi touch
 

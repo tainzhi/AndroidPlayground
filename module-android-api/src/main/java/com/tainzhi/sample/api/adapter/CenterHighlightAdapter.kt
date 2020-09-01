@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tainzhi.sample.api.R
 
@@ -18,6 +19,8 @@ class CenterHighlightAdapter(private val mContext: Context, private val mList: L
     RecyclerView.Adapter<CenterHighlightAdapter.MyViewHolder>() {
     companion object {
         const val TAG = "CenterHighlightAdapter"
+        const val CENTER = 0
+        const val NOT_CENTER = 1
     }
     private var mCenterIndex = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -31,17 +34,21 @@ class CenterHighlightAdapter(private val mContext: Context, private val mList: L
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.tvId.text = mList[position].toString()
         Log.d(TAG, "position=${position}, ${holder.itemView.scaleX}")
+        // FIXME: 2020/9/1 此处不知道为啥scaleX和scaleY不是1.0f
         // holder.itemView.scaleX = 1.0F
         // holder.itemView.scaleY = 1.0F
-//        if (position == mCenterIndex) {
-//            holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red))
-//        } else {
-//            holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey))
-//        }
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
+        if (payloads.isNotEmpty()) {
+            val center = payloads[0] as Int
+            if (center == CENTER) {
+                holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red))
+            } else {
+                holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey))
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -49,8 +56,10 @@ class CenterHighlightAdapter(private val mContext: Context, private val mList: L
     }
 
     fun setCenterIndex(newCenterIndex: Int) {
-        notifyItemChanged(mCenterIndex, "change color")
-        notifyItemChanged(newCenterIndex, "change color")
+        // 原来的中心item改变, 不再是中心
+        // payload不为null, 不是全更新
+        notifyItemChanged(mCenterIndex, NOT_CENTER)
+        notifyItemChanged(newCenterIndex, CENTER)
         mCenterIndex = newCenterIndex
     }
 
