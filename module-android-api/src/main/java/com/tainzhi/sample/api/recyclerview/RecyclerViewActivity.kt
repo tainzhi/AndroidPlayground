@@ -15,7 +15,7 @@ import com.tainzhi.sample.api.widget.CenterFirstLastItemDecoration
 import com.tainzhi.sample.util.dpToPx
 
 class RecyclerViewActivity : AppCompatActivity() {
-    private val mList = MutableList(20) { index ->
+    private val mList = MutableList(50) { index ->
         index
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +92,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         }
         rvCenterHighlight.addItemDecoration(CenterFirstLastItemDecoration(itemOffset))
-        ItemDecorationSnapHelper(itemOffset, 1f) { centerIndex ->
+        ItemDecorationSnapHelper(itemOffset, 0.8f) { centerIndex ->
             centerAdapter.setCenterIndex(centerIndex)
         }.attachToRecyclerView(rvCenterHighlight)
     }

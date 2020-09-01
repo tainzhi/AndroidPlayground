@@ -1,13 +1,12 @@
 package com.tainzhi.sample.api.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tainzhi.sample.api.R
 
@@ -15,8 +14,11 @@ import com.tainzhi.sample.api.R
  * Created by muqing on 8/31/2019.
  * Email: qfq61@qq.com
  */
-class CenterHighlightAdapter(private val mContext: Context, private val mList: List<Int>?) :
+class CenterHighlightAdapter(private val mContext: Context, private val mList: List<Int>) :
     RecyclerView.Adapter<CenterHighlightAdapter.MyViewHolder>() {
+    companion object {
+        const val TAG = "CenterHighlightAdapter"
+    }
     private var mCenterIndex = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -27,33 +29,37 @@ class CenterHighlightAdapter(private val mContext: Context, private val mList: L
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvId.text = mList!![position].toString()
-        if (position == mCenterIndex) {
-            holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red))
-        } else {
-            holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey))
-        }
+        holder.tvId.text = mList[position].toString()
+        Log.d(TAG, "position=${position}, ${holder.itemView.scaleX}")
+        // holder.itemView.scaleX = 1.0F
+        // holder.itemView.scaleY = 1.0F
+//        if (position == mCenterIndex) {
+//            holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red))
+//        } else {
+//            holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey))
+//        }
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int, payloads: MutableList<Any>) {
+        super.onBindViewHolder(holder, position, payloads)
     }
 
     override fun getItemCount(): Int {
-        return mList!!.size
+        return mList.size
     }
 
     fun setCenterIndex(newCenterIndex: Int) {
-        notifyItemChanged(mCenterIndex)
-        notifyItemChanged(newCenterIndex)
+        notifyItemChanged(mCenterIndex, "change color")
+        notifyItemChanged(newCenterIndex, "change color")
         mCenterIndex = newCenterIndex
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var clRoot: ConstraintLayout
-        var tvId: TextView
-        var imageView: ImageView
+        val tvId: TextView = view.findViewById(R.id.tv_basic_id)
+        val imageView: ImageView = view.findViewById(R.id.imageView)
 
-        init {
-            clRoot = view.findViewById(R.id.cl_root)
-            tvId = view.findViewById(R.id.tv_basic_id)
-            imageView = view.findViewById(R.id.imageView)
+        fun setColor(color: Int) {
+            imageView.setBackgroundColor(color)
         }
     }
 }

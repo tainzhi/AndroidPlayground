@@ -22,20 +22,18 @@ import com.tainzhi.sample.api.widget.RecyclerItemTouchHelper
 import com.tainzhi.sample.api.widget.RecyclerItemTouchHelper.RecyclerItemTouchHelperListener
 
 class RecyclerViewFilterableActivity : AppCompatActivity(), RecyclerItemTouchHelperListener {
-    private var mCoordinatorLayoutRoot: CoordinatorLayout? = null
+    private val mCoordinatorLayoutRoot by lazy { findViewById<CoordinatorLayout>(R.id.cl_root)}
     private val mRecyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view)}
     private var mAdapter: FilterableAdapter? = null
     private var mSearchView: SearchView? = null
-    private val mList: MutableList<String> = arrayListOf()
+    private val mList: MutableList<String> = MutableList(30) {index ->
+        index.toString()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recycler_view_filterable)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        for (i in 0..29) {
-            mList.add(i.toString())
-        }
-        mCoordinatorLayoutRoot = findViewById(R.id.cl_root)
 
         mRecyclerView.setLayoutManager(LinearLayoutManager(this, RecyclerView.VERTICAL, false))
         mRecyclerView.addItemDecoration(
@@ -86,9 +84,9 @@ class RecyclerViewFilterableActivity : AppCompatActivity(), RecyclerItemTouchHel
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
         if (viewHolder is FilterableAdapter.MyViewHolder) {
-            val text = mList!![viewHolder.getAdapterPosition()]
+            val text = mList[viewHolder.getAdapterPosition()]
             val deletedIndex = viewHolder.getAdapterPosition()
-            val deletedItem = mList!![deletedIndex]
+            val deletedItem = mList[deletedIndex]
             mAdapter!!.removeItem(deletedIndex)
             val snackbar = Snackbar.make(
                 mCoordinatorLayoutRoot!!, "$text removed from list!",

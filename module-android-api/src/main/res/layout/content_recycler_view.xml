@@ -64,16 +64,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_quick" />
 
-        <TextView
-            android:id="@+id/tv_center_highlight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="RecyclerView高亮居中item"
-            android:textSize="30sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_center" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_center"
             android:layout_width="match_parent"
@@ -84,10 +74,21 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_center" />
 
+        <TextView
+            android:id="@+id/tv_center_highlight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="RecyclerView高亮居中item"
+            android:textSize="30sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_center" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_center_hightlight"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/base_margin"
+            android:layout_marginRight="@dimen/base_margin"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_center_highlight" />

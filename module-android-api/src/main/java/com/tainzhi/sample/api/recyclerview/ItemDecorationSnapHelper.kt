@@ -1,11 +1,14 @@
 package com.tainzhi.sample.api.recyclerview
 
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.tainzhi.sample.api.adapter.CenterHighlightAdapter
+import com.tainzhi.sample.util.ColorUtils
 
 /**
  * @author:      tainzhi
@@ -15,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
  **/
 
 class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1.0f, onCenter: ((centerIndex: Int) -> Unit)? = null) : LinearSnapHelper() {
+    companion object {
+        const val TAG = "ItemDecorationSnapHelper"
+    }
     private var mHorizontalHelper: OrientationHelper? = null
 
     override fun calculateDistanceToFinalSnap(
@@ -77,19 +83,20 @@ class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1
             val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
             val childCount = layoutManager.childCount
             val helper = getHorizontalHelper(layoutManager)
-            val recyclerViewCenter = helper.totalSpace / 2
+            val recyclerViewCenter = helper.totalSpace / 2 + itemOffset / 2
             val first = layoutManager.findFirstVisibleItemPosition()
             val last = layoutManager.findLastVisibleItemPosition()
             for (i in 0 until childCount) {
 
                 val itemView = layoutManager.getChildAt(i)!!
                 val itemPosition = layoutManager.getPosition(itemView)
-                val itemCenterX = (helper.getDecoratedStart(itemView)
-                        + helper.getDecoratedMeasurement(itemView) / 2)
+                // val itemCenterX = (helper.getDecoratedStart(itemView)
+                //         + helper.getDecoratedMeasurement(itemView) / 2)
+                val anotherCenterX = itemView.layoutParams.width/2 + itemView.x
+                val itemCenterX = anotherCenterX + itemOffset / 2
                 //                   ★ 两边的图片缩放比例
                 // val scale = 0.9f
                 //                     ★某个item中心X坐标距recyclerview中心X坐标的偏移量
-                Log.d("qfq", "itemCenterX=${itemCenterX}, position=${layoutManager.getPosition(itemView)}")
                 val offX = Math.abs(itemCenterX - recyclerViewCenter)
                 //                    ★ 在一个item的宽度范围内，item从1缩放至scale，那么改变了（1-scale），从下列公式算出随着offX变化，item的变化缩放百分比
                 val percent = offX * (1 - scale) / (itemView.layoutParams).width
@@ -99,8 +106,14 @@ class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1
                 if (interpretateScale < scale) {
                     interpretateScale = scale
                 }
+                Log.d(TAG, "itemCenterX=${itemCenterX}, anotherCenterX=${anotherCenterX},position=${layoutManager.getPosition(itemView)}, scal=${interpretateScale}")
                 itemView.scaleX = interpretateScale
                 itemView.scaleY = interpretateScale
+                CenterHighlightAdapter.MyViewHolder(itemView).setColor(ColorUtils.computeGradientColor(
+                    Color.parseColor("#535353"),
+                    Color.parseColor("#F10D0D"),
+                    interpretateScale
+                ))
             }
         }
 
