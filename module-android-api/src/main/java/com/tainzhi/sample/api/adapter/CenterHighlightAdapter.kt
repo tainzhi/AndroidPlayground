@@ -51,16 +51,25 @@ class CenterHighlightAdapter(private val mContext: Context, private val mList: L
         }
     }
 
+    override fun onViewRecycled(holder: MyViewHolder) {
+        // 回收的ViewHolder的颜色恢复到非高亮, 否则因为ViewHolder复用会导致颜色混乱
+        Log.d(TAG, "onViewRecycled, position=${holder.adapterPosition}, ${holder.layoutPosition}")
+        holder.imageView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey))
+        super.onViewRecycled(holder)
+    }
+
     override fun getItemCount(): Int {
         return mList.size
     }
 
     fun setCenterIndex(newCenterIndex: Int) {
+        // 有两次相同的被调用, 不响应第二次的调用
+        if (newCenterIndex == mCenterIndex) return
         // 原来的中心item改变, 不再是中心
         // payload不为null, 不是全更新
         notifyItemChanged(mCenterIndex, NOT_CENTER)
-        notifyItemChanged(newCenterIndex, CENTER)
         mCenterIndex = newCenterIndex
+        notifyItemChanged(newCenterIndex, CENTER)
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {

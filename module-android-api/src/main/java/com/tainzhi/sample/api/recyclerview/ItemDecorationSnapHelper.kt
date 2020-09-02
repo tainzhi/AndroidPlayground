@@ -1,12 +1,13 @@
 package com.tainzhi.sample.api.recyclerview
 
-import android.graphics.Color
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.CenterHighlightAdapter
 import com.tainzhi.sample.util.ColorUtils
 
@@ -115,9 +116,10 @@ class ItemDecorationSnapHelper(private val itemOffset: Int, val scale: Float = 1
                 Log.d(TAG, "itemCenterX=${itemCenterX}, position=${layoutManager.getPosition(itemView)}, scale=${interpretateScale}")
                 itemView.scaleX = interpretateScale
                 itemView.scaleY = interpretateScale
-                CenterHighlightAdapter.MyViewHolder(itemView).setColor(ColorUtils.computeGradientColor(
-                    Color.parseColor("#535353"),
-                    Color.parseColor("#F10D0D"),
+                CenterHighlightAdapter.MyViewHolder(itemView).setColor(
+                    ColorUtils.computeGradientColor(
+                    ContextCompat.getColor(recyclerView.context, R.color.grey),
+                    ContextCompat.getColor(recyclerView.context, R.color.red),
                     (interpretateScale - scale) / (1 - scale)
                 ))
             }
