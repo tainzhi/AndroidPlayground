@@ -3,6 +3,7 @@ package com.tainzhi.sample.api.handler
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.widget.TextView
 
 /**
  * @author: tainzhi
@@ -10,7 +11,7 @@ import android.os.Message
  * @date: 2019-10-26 08:33
  * @description:
  */
-class Runnable2 : Runnable {
+class Runnable2(val textView: TextView) : Runnable {
     var mylooper2: Looper? = null
     var handler2: Handler? = null
     override fun run() {
@@ -19,8 +20,7 @@ class Runnable2 : Runnable {
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
                 if (msg.what == Constants.MAIN_2_SUB2) {
-                    println("I am from main thread")
-                    println("thread=" + Thread.currentThread().name)
+                    textView.append("${Thread.currentThread().name}, handleMessage\n")
                 }
             }
         }
