@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.tainzhi.sample.api">
+<manifest package="com.tainzhi.sample.api"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution">
 
     <dist:module dist:instant="true" />
 
@@ -12,6 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".service.ServiceActivity"/>
+
+        <service
+            android:name=".service.RemoteService"
+            android:process=":remote"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity android:name=".recyclerview.CardScaleHelperActivity" />
         <activity android:name=".touch.multi.MultiTouchActivity" />
         <activity android:name=".touch.single.SingleTouchActivity" />

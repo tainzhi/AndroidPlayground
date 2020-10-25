@@ -11,11 +11,12 @@ import com.tainzhi.sample.api.adapter.BasicHorizontalAdapter
 import com.tainzhi.sample.api.adapter.NameClass
 import com.tainzhi.sample.api.handler.HandlerActivity
 import com.tainzhi.sample.api.recyclerview.RecyclerViewEntranceActivity
+import com.tainzhi.sample.api.service.ServiceActivity
 import com.tainzhi.sample.api.tablayout.GoogleTabLayoutActivity
 import com.tainzhi.sample.api.touch.TouchEntranceActivity
 import com.tainzhi.sample.api.widget.MyDividerItemDecoration
 import com.tanzhi.android.playground.router.RouterPath
-import kotlinx.android.synthetic.main.api_activity_main.*
+import kotlinx.android.synthetic.main.api_activity_main.recycler_view
 
 @Route(path = RouterPath.PATH_API)
 class MainActivity : AppCompatActivity() {
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity() {
             NameClass("TabLayout", GoogleTabLayoutActivity::class.java),
             NameClass("RecyclerView", RecyclerViewEntranceActivity::class.java),
             NameClass("Handler", HandlerActivity::class.java),
-            NameClass("触摸事件", TouchEntranceActivity::class.java)
+            NameClass("触摸事件", TouchEntranceActivity::class.java),
+            NameClass("Service: 进程间服务通信", ServiceActivity::class.java),
         )
 
         recycler_view.run {
