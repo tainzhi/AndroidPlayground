@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             NameClass("RecyclerView", RecyclerViewEntranceActivity::class.java),
             NameClass("Handler", HandlerActivity::class.java),
             NameClass("触摸事件", TouchEntranceActivity::class.java),
-            NameClass("Service: 进程间服务通信", ServiceActivity::class.java),
+            NameClass("Service: 进程间服务通信", ServiceActivity::class.java)
         )
 
         recycler_view.run {
