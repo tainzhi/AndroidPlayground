@@ -21,6 +21,10 @@ class RemoteService : Service() {
 
     companion object {
         const val TAG = "RemoteService"
+
+        fun printCurrentProcessThread(funName: String) {
+            Log.d("qfq_$funName", "pid=${Process.myPid()}, tid=${Thread.currentThread().id}")
+        }
     }
 
     private var isSerivceDestroyed = AtomicBoolean(false)
@@ -30,8 +34,8 @@ class RemoteService : Service() {
     override fun onCreate() {
         super.onCreate()
         showNotification()
-        Log.d(TAG, "onCreate")
-        Thread(AutoAddBookWorker()).start()
+        printCurrentProcessThread("Service.onCreate")
+        // Thread(AutoAddBookWorker()).start()
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -63,10 +67,12 @@ class RemoteService : Service() {
         }
 
         override fun getBookList(): List<Book> {
+            printCurrentProcessThread("service.getBookList")
             return books
         }
 
         override fun addBook(book: Book) {
+            printCurrentProcessThread("service.addBook")
             books.add(book)
         }
 
@@ -111,6 +117,7 @@ class RemoteService : Service() {
 
     fun arriveNewBook(book: Book) {
         books.add(book)
+        printCurrentProcessThread("arriveNewBook()")
         val listenSize = listeners.beginBroadcast()
         for (i in 0 until listenSize) {
             listeners.getBroadcastItem(i)?.onNewBookArrived(book)
@@ -126,6 +133,7 @@ class RemoteService : Service() {
                 Thread.sleep(2000)
                 val bookId = Random.nextInt(10000)
                 arriveNewBook(Book(bookId, "Book $bookId AutoAdded_by_BookManager"))
+                printCurrentProcessThread("AddBookWooker.run()")
             }
         }
     }
