@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
 		
 		adapter.addData(dataList);
 		adapter.setOnItemClickListener((_adapter, v, position) -> {
-			startActivity(new Intent().setClass(MainActivity.this,
-					activitySet.get(dataList.get(position))));
+			startActivity(new Intent(MainActivity.this, activitySet.get(dataList.get(position))));
 		});
 	}
 	
