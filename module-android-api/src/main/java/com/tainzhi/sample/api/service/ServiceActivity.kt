@@ -31,6 +31,7 @@ class ServiceActivity : AppCompatActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
+            bookManager.unregisterCallback(onIOnNewBookArrivedListener)
             printRunningDetail("onServiceDisconnected")
         }
 
