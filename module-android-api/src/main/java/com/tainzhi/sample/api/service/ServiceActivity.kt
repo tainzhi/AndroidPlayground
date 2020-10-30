@@ -13,7 +13,6 @@ import android.os.Process
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.tainzhi.sample.api.R
-import com.tainzhi.sample.api.service.RemoteService.Companion.printCurrentProcessThread
 import kotlinx.android.synthetic.main.activity_service.addBookBtn
 import kotlinx.android.synthetic.main.activity_service.bindBtn
 import kotlinx.android.synthetic.main.activity_service.getBooksBtn
@@ -61,7 +60,6 @@ class ServiceActivity : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             when(msg.what) {
                 1 -> {
-                    printCurrentProcessThread("Activity.handleMessage()")
                     printRunningDetail("Arrive new book: ${(msg.obj as Book).name}")
                 }
             }
@@ -71,9 +69,7 @@ class ServiceActivity : AppCompatActivity() {
 
     private val onIOnNewBookArrivedListener = object: IOnNewBookArrivedListener.Stub(){
         override fun onNewBookArrived(book: Book) {
-            Log.d("qfq", "pid=${Process.myPid()}, tid=${Thread.currentThread().id}")
             handler.obtainMessage(1, book).sendToTarget()
-            printCurrentProcessThread("Activity.onNewBookArrived()")
         }
     }
 
