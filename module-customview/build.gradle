@@ -51,6 +51,7 @@ android {
 
 dependencies {
     api(project(":router"))
+    api(project(":common"))
     implementation(Libs.AndroidX.appcompat)
     implementation(Libs.AndroidX.constraintlayout)
     implementation(Libs.Google.material)
@@ -59,6 +60,6 @@ dependencies {
     implementation(Libs.ARouter.api)
     implementation(Libs.baseRecyclerViewAdapterHelper)
     implementation(Libs.Glide.glide)
-//    kapt(Libs.Glide.compiler)
     kapt(Libs.ARouter.compiler)
+
 }
