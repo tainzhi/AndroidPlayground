@@ -10,6 +10,7 @@ git clone --recursive https://github.com/tainzhi/AndroidPlayground
 - 验证码输入框
 - 波浪形态的圆形进度条
 - 水平或者竖直滑动选择器(String, Bitmap)等等
+- 加入购物车动画
 
 ## module-android-api
 android控件和api使用demo

@@ -1,7 +1,7 @@
 package com.tanzhi.android.androidsample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tanzhi.android.androidsample.databinding.ActivityMainBinding
@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         mainData.add(MainBean("android api", navigateToApi))
         mainData.add(MainBean("自定义view", navigateToCustomView))
         mainData.add(MainBean("MVVM实现的简易github", navigateToGithub))
-        mainData.add(MainBean("rxjava2学习", navigateToRxjava2))
 
         mainAdapter.run {
             data = mainData
@@ -50,11 +49,6 @@ class MainActivity : AppCompatActivity() {
 
     private val navigateToGithub: () -> Unit = {
          ARouter.getInstance().build(RouterPath.PATH_GITHUB)
-            .navigation()
-    }
-
-    private val navigateToRxjava2: () -> Unit = {
-        ARouter.getInstance().build(RouterPath.PATH_RXJAVA2)
             .navigation()
     }
 
