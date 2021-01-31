@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Binder
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -27,6 +28,7 @@ class ServiceActivity : AppCompatActivity() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             bookManager = IBookManager.Stub.asInterface(service)
             bookManager.registerCallback(onIOnNewBookArrivedListener)
+            (bookManager as Binder).linkToDeath(connectionDeathRecipient, 0)
             printRunningDetail("onServiceConnected")
         }
 
@@ -41,6 +43,15 @@ class ServiceActivity : AppCompatActivity() {
 
         override fun onNullBinding(name: ComponentName?) {
             super.onNullBinding(name)
+        }
+    }
+
+    private val connectionDeathRecipient = object: IBinder.DeathRecipient {
+        override fun binderDied() {
+            if (!(bookManager as Binder).isBinderAlive) {
+                bookManager.asBinder().unlinkToDeath(this, 0)
+                bindService()
+            }
         }
     }
 
