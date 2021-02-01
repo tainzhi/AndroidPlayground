@@ -47,11 +47,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
     api(project(":router"))
     api(project(":common"))
+    implementation(Libs.Kotlin.stdlib)
     implementation(Libs.AndroidX.appcompat)
     implementation(Libs.AndroidX.constraintlayout)
     implementation(Libs.Google.material)
@@ -60,6 +64,6 @@ dependencies {
     implementation(Libs.ARouter.api)
     implementation(Libs.baseRecyclerViewAdapterHelper)
     implementation(Libs.Glide.glide)
-    kapt(Libs.ARouter.compiler)
-
+    kapt(Libs.Glide.compiler)
+    implementation(Libs.circleImageView)
 }

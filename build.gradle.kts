@@ -1,4 +1,5 @@
 buildscript {
+    val kotlin_version by extra("1.4.21")
     repositories {
         maven { setUrl("https://maven.aliyun.com/repository/public/") }
         maven { setUrl("https://maven.aliyun.com/repository/jcenter/")}
@@ -11,6 +12,9 @@ buildscript {
             classpath(kotlin("gradle-plugin", com.tainzhi.android.buildsrc.Libs.Kotlin.version))
             classpath(com.tainzhi.android.buildsrc.Libs.ARouter.register)
         }
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
 

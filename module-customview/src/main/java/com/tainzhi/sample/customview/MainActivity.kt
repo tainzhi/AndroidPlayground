@@ -22,11 +22,12 @@ class MainActivity : AppCompatActivity() {
         mToolbar.title = "Android Api"
         setSupportActionBar(mToolbar)
         val data = arrayListOf(
-                NameClass("环形进度条", CirclePercentActivity::class.java),
-                NameClass("图片指示器的进度条", LevelUpActivity::class.java),
-                NameClass("验证码填入框", VerificationCodeActivity::class.java),
-                NameClass("波浪形态的进度条", WaveProgressActivity::class.java),
-                NameClass("水平滚动选择器", ScrollPickerActivity::class.java)
+            NameClass("环形进度条", CirclePercentActivity::class.java),
+            NameClass("图片指示器的进度条", LevelUpActivity::class.java),
+            NameClass("验证码填入框", VerificationCodeActivity::class.java),
+            NameClass("波浪形态的进度条", WaveProgressActivity::class.java),
+            NameClass("水平滚动选择器", ScrollPickerActivity::class.java),
+            NameClass("购物车动画", ShopCarAnimationActivity::class.java),
         )
 
         customRV.run {
@@ -42,16 +43,16 @@ class MainActivity : AppCompatActivity() {
             )
             adapter = BasicHorizontalAdapter()
                 .apply {
-                setNewInstance(data)
-                setOnItemClickListener { _, _, position ->
-                    startActivity(
-                        Intent().setClass(
-                            this@MainActivity,
-                            data[position].clazz
+                    setNewInstance(data)
+                    setOnItemClickListener { _, _, position ->
+                        startActivity(
+                            Intent().setClass(
+                                this@MainActivity,
+                                data[position].clazz
+                            )
                         )
-                    )
+                    }
                 }
-            }
         }
     }
 }
