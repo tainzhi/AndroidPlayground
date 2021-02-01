@@ -1,4 +1,4 @@
-package com.tainzhi.sample.customview
+package com.tainzhi.sample.customview.widget
 
 import android.animation.*
 import android.app.Activity
@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.tainzhi.android.common.util.screenHeight
 import com.tainzhi.android.common.util.screenWidth
+import com.tainzhi.sample.customview.R
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.math.min
 import kotlin.math.pow
