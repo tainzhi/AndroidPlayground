@@ -3,9 +3,9 @@ package com.tainzhi.sample.customview
 import android.animation.*
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PointF
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
@@ -76,13 +76,12 @@ class Add2ShopCarAnim(
 
     fun start() {
         Glide.with(context)
-            .asBitmap()
             .load(startViewUrl)
-            .listener(object : RequestListener<Bitmap> {
+            .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     setAnim()
@@ -90,9 +89,9 @@ class Add2ShopCarAnim(
                 }
 
                 override fun onResourceReady(
-                    resource: Bitmap?,
+                    resource: Drawable?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
@@ -143,29 +142,30 @@ class Add2ShopCarAnim(
         }
         val scaleXAnimator = ObjectAnimator.ofFloat(circleImageView, "scaleX", 1.0f, 0.1f)
         val scaleYAnimator = ObjectAnimator.ofFloat(circleImageView, "scaleY", 1.0f, 0.1f)
-        val animatorSet = AnimatorSet()
-        animatorSet.duration = if (animTime * scale < 1000) 1000 else (animTime * scale).toLong()
-        animatorSet.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-                add2ShopCarAnimListener?.onAnimStart()
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                add2ShopCarAnimListener?.onAnimEnd()
-                startEndViewAnim()
-                rootView.post {
-                    rootView.removeView(animLayout)
+        val animatorSet = AnimatorSet().apply {
+            duration = if (animTime * scale < 1000) 1000 else (animTime * scale).toLong()
+            playTogether(translateAnimator, scaleXAnimator, scaleYAnimator)
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                    add2ShopCarAnimListener?.onAnimStart()
                 }
-            }
 
-            override fun onAnimationCancel(animation: Animator?) {
-            }
+                override fun onAnimationEnd(animation: Animator?) {
+                    add2ShopCarAnimListener?.onAnimEnd()
+                    startEndViewAnim()
+                    rootView.post {
+                        rootView.removeView(animLayout)
+                    }
+                }
 
-            override fun onAnimationRepeat(animation: Animator?) {
-            }
+                override fun onAnimationCancel(animation: Animator?) {
+                }
 
-        })
-        animatorSet.playTogether(translateAnimator, scaleXAnimator, scaleYAnimator)
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+            })
+        }
         animatorSet.start()
     }
 
