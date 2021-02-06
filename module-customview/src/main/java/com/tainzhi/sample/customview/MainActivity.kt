@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             NameClass("波浪形态的进度条", WaveProgressActivity::class.java),
             NameClass("水平滚动选择器", ScrollPickerActivity::class.java),
             NameClass("购物车动画", ShopCarAnimationActivity::class.java),
+            NameClass("自定义ItemDecoration", RecyclerViewItemDecorationActivity::class.java),
         )
 
         customRV.run {
