@@ -11,6 +11,7 @@ buildscript {
             classpath(com.tainzhi.android.buildsrc.Libs.androidToolBuildGradle)
             classpath(kotlin("gradle-plugin", com.tainzhi.android.buildsrc.Libs.Kotlin.version))
             classpath(com.tainzhi.android.buildsrc.Libs.ARouter.register)
+            classpath(com.tainzhi.android.buildsrc.Libs.AndroidX.Navigation.safeArgs)
         }
     }
     dependencies {
