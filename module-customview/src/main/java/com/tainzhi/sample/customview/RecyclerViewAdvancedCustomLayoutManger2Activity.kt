@@ -10,10 +10,10 @@ import com.tainzhi.android.common.base.ui.BaseViewBindingActivity
 import com.tainzhi.sample.customview.databinding.ActivityCustomLayoutMangerBinding
 import kotlin.math.max
 
-class RecyclerViewAdvancedCustomLayoutMangerActivity : BaseViewBindingActivity<ActivityCustomLayoutMangerBinding>() {
+class RecyclerViewAdvancedCustomLayoutManger2Activity : BaseViewBindingActivity<ActivityCustomLayoutMangerBinding>() {
     override fun initView() {
         mBinding.recyclerV.run {
-            layoutManager = AdvancedCustomLayoutManger(context)
+            layoutManager = AdvancedCustomLayoutManger2(context)
             adapter = ItemDecorationAdapter(generateFakeData())
              addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL).apply {
                  setDrawable(getDrawable(R.drawable.item_divider)!!)
@@ -26,8 +26,8 @@ class RecyclerViewAdvancedCustomLayoutMangerActivity : BaseViewBindingActivity<A
     }
 }
 
-// 参考: https://blog.csdn.net/harvic880925/article/details/84866486
-class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager() {
+// 参考: https://blog.csdn.net/harvic880925/article/details/84979161
+class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager() {
     // 总共的滑动距离
     private var sumDy = 0
     // item的高度和
@@ -106,71 +106,82 @@ class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager()
         // 回收越界的子view
         for (i in (childCount - 1)..0) {
             val child = getChildAt(i) ?: continue
+            val pos = getPosition(child)
+            val rect = itemRects[pos]
+
             if (travel > 0) {
                 // 当前item上移动 getDecoratedMeasuredHeight(child) - travel后, 超出上边界
                 if (getDecoratedBottom(child) - travel < 0) {
-                    removeAndRecycleView(child, recycler)
-                    continue
+                    if (!Rect.intersects(rect, getVisibleArea())) {
+                        removeAndRecycleView(child, recycler)
+                        continue
+                    } else {
+                        // 屏幕的item直接变化, 不需要remove
+                        layoutDecoratedWithMargins(child, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
+                        child.rotationY = child.rotationY + 1
+                    }
                 }
             } else if (travel < 0) {
                 // 下移动超出下边界
                 if  (getDecoratedBottom(child) - travel > height - paddingBottom){
-                    removeAndRecycleView(child, recycler)
-                    continue
+                    if (!Rect.intersects(rect, getVisibleArea())) {
+                        removeAndRecycleView(child, recycler)
+                        continue
+                    } else {
+                        // 屏幕的item直接变化, 不需要remove
+                        layoutDecoratedWithMargins(child, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
+                        child.rotationY = child.rotationY + 1
+                    }
                 }
             }
         }
 
-        val visibleRect: Rect = getVisibleArea(travel)
-        if (travel >=0) {
-            val lastView = getChildAt(childCount - 1) ?: return dy
-            val minPos = getPosition(lastView) + 1
+        val lastView = getChildAt(childCount - 1) ?: return dy
+        val firstView = getChildAt(0) ?: return dy
+        // 先把所有的view detach
+        detachAndScrapAttachedViews(recycler)
+        sumDy += travel
+        if (travel >= 0) {
+            val minPos = getPosition(firstView)
             for (i in minPos until itemCount) {
-                val rect = itemRects[i]
-                if (Rect.intersects(visibleRect, rect)) {
-                    val c = recycler.getViewForPosition(i)
-                    addView(c)
-                    measureChildWithMargins(c, 0, 0)
-                    layoutDecorated(c, rect.left, rect.top - sumDy, rect.right, rect.bottom -sumDy)
-                } else {
-                    break
-                }
+                insertView(i, getVisibleArea(), recycler, false)
             }
         } else {
-            val firstView = getChildAt(0) ?: return dy
-            val pos = getPosition(firstView)
-            val maxPos = if (pos > 0) pos - 1 else pos
+            val maxPos = getPosition(lastView)
             for (i in maxPos downTo 0) {
-                val rect = itemRects[i]
-                if (Rect.intersects(visibleRect, rect)) {
-                    val c = recycler.getViewForPosition(i)
-                    addView(c)
-                    measureChildWithMargins(c, 0, 0)
-                    layoutDecoratedWithMargins(c, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
-                } else {
-                    break
-                }
+                insertView(i, getVisibleArea(), recycler, true)
             }
         }
 
-
-        sumDy += travel
-        // 平滑容器内的item
-        offsetChildrenVertical(-travel)
-        return dy
+        return travel
     }
 
     // 新增travel移动后, 当前屏幕所在的位置
     // sumDy 上次移动距离
-    // travel 这次移动距离
-    private fun getVisibleArea(travel: Int): Rect {
-        return Rect(paddingLeft, paddingTop + sumDy + travel,
-            width + paddingRight, getVerticalSpace() + sumDy + travel)
+    private fun getVisibleArea(): Rect {
+        return Rect(paddingLeft, paddingTop + sumDy ,
+            width + paddingRight, getVerticalSpace() + sumDy )
     }
 
     // 当前RecyclerView可见垂直高度
     private fun getVerticalSpace(): Int {
         return height - paddingBottom - paddingTop
+    }
+
+    private fun insertView(pos: Int, visibleRect: Rect, recycler: RecyclerView.Recycler, isFirstPos: Boolean) {
+        val rect = itemRects[pos]
+        if (Rect.intersects(visibleRect, rect)) {
+            val child = recycler.getViewForPosition(pos)
+            if (isFirstPos) {
+                addView(child, 0)
+            } else {
+                addView(child)
+            }
+            measureChildWithMargins(child, 0, 0)
+            layoutDecoratedWithMargins(child, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
+
+            child.rotationY = child.rotationY + 1
+        }
     }
 }
 

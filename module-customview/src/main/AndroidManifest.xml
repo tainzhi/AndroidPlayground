@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".RecyclerViewCustomLayoutMangerActivity"/>
         <activity android:name=".RecyclerViewAdvancedCustomLayoutMangerActivity"/>
+        <activity android:name=".RecyclerViewAdvancedCustomLayoutManger2Activity"/>
         <activity android:name=".RecyclerViewItemDecorationActivity" />
         <activity android:name=".ShopCarAnimationActivity" />
         <activity android:name=".ScrollPickerActivity" />
