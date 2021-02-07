@@ -3,8 +3,7 @@ package com.tainzhi.sample.customview
 import android.content.Context
 import android.graphics.Rect
 import android.util.SparseArray
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.util.SparseBooleanArray
 import androidx.recyclerview.widget.RecyclerView
 import com.tainzhi.android.common.base.ui.BaseViewBindingActivity
 import com.tainzhi.sample.customview.databinding.ActivityCustomLayoutMangerBinding
@@ -15,9 +14,6 @@ class RecyclerViewAdvancedCustomLayoutManger2Activity : BaseViewBindingActivity<
         mBinding.recyclerV.run {
             layoutManager = AdvancedCustomLayoutManger2(context)
             adapter = ItemDecorationAdapter(generateFakeData())
-             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL).apply {
-                 setDrawable(getDrawable(R.drawable.item_divider)!!)
-             })
         }
     }
 
@@ -36,6 +32,8 @@ class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager(
     private var itemHeight = 0
     // 记录每个item的位置
     private val itemRects = SparseArray<Rect>()
+    // 保存已经布局好的item
+    private val hasAttachedItems = SparseBooleanArray()
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
         return RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT)
     }
@@ -60,6 +58,7 @@ class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager(
         // item大小固定, 为了布局方便, 记录下来其位置
         for (i in 0 until itemCount) {
             itemRects.put(i, Rect(0, offsetY, itemWidth, offsetY + itemHeight))
+            hasAttachedItems.put(i, false)
             offsetY += itemHeight
         }
 
@@ -100,47 +99,29 @@ class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager(
             // 已经到底, 不能在滑动
             travel = totalHeight - getVerticalSpace() - sumDy
         }
+        
+        sumDy += travel
 
         // travel >= 0 向上滚动
         // travel < 0  向下滚动
         // 回收越界的子view
-        for (i in (childCount - 1)..0) {
+        for (i in (childCount - 1) downTo 0) {
             val child = getChildAt(i) ?: continue
             val pos = getPosition(child)
             val rect = itemRects[pos]
-
-            if (travel > 0) {
-                // 当前item上移动 getDecoratedMeasuredHeight(child) - travel后, 超出上边界
-                if (getDecoratedBottom(child) - travel < 0) {
-                    if (!Rect.intersects(rect, getVisibleArea())) {
-                        removeAndRecycleView(child, recycler)
-                        continue
-                    } else {
-                        // 屏幕的item直接变化, 不需要remove
-                        layoutDecoratedWithMargins(child, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
-                        child.rotationY = child.rotationY + 1
-                    }
-                }
-            } else if (travel < 0) {
-                // 下移动超出下边界
-                if  (getDecoratedBottom(child) - travel > height - paddingBottom){
-                    if (!Rect.intersects(rect, getVisibleArea())) {
-                        removeAndRecycleView(child, recycler)
-                        continue
-                    } else {
-                        // 屏幕的item直接变化, 不需要remove
-                        layoutDecoratedWithMargins(child, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
-                        child.rotationY = child.rotationY + 1
-                    }
-                }
+            if (!Rect.intersects(rect, getVisibleArea())) {
+                removeAndRecycleView(child, recycler)
+                hasAttachedItems.put(pos, false)
+            } else {
+                // 屏幕的item直接变化, 不需要remove
+                layoutDecoratedWithMargins(child, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
+                child.rotationY = child.rotationY + 1
+                hasAttachedItems.put(pos, true)
             }
         }
 
         val lastView = getChildAt(childCount - 1) ?: return dy
         val firstView = getChildAt(0) ?: return dy
-        // 先把所有的view detach
-        detachAndScrapAttachedViews(recycler)
-        sumDy += travel
         if (travel >= 0) {
             val minPos = getPosition(firstView)
             for (i in minPos until itemCount) {
@@ -170,7 +151,7 @@ class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager(
 
     private fun insertView(pos: Int, visibleRect: Rect, recycler: RecyclerView.Recycler, isFirstPos: Boolean) {
         val rect = itemRects[pos]
-        if (Rect.intersects(visibleRect, rect)) {
+        if (Rect.intersects(visibleRect, rect) && !hasAttachedItems[pos]) {
             val child = recycler.getViewForPosition(pos)
             if (isFirstPos) {
                 addView(child, 0)
@@ -181,6 +162,7 @@ class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager(
             layoutDecoratedWithMargins(child, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
 
             child.rotationY = child.rotationY + 1
+            hasAttachedItems.put(pos, true)
         }
     }
 }

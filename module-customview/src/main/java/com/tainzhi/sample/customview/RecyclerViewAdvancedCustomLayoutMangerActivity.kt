@@ -10,36 +10,42 @@ import com.tainzhi.android.common.base.ui.BaseViewBindingActivity
 import com.tainzhi.sample.customview.databinding.ActivityCustomLayoutMangerBinding
 import kotlin.math.max
 
-class RecyclerViewAdvancedCustomLayoutMangerActivity : BaseViewBindingActivity<ActivityCustomLayoutMangerBinding>() {
+class RecyclerViewAdvancedCustomLayoutMangerActivity :
+    BaseViewBindingActivity<ActivityCustomLayoutMangerBinding>() {
     override fun initView() {
         mBinding.recyclerV.run {
             layoutManager = AdvancedCustomLayoutManger(context)
             adapter = ItemDecorationAdapter(generateFakeData())
-             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL).apply {
-                 setDrawable(getDrawable(R.drawable.item_divider)!!)
-             })
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL).apply {
+                setDrawable(getDrawable(R.drawable.item_divider)!!)
+            })
         }
     }
-
+    
     private fun generateFakeData(): List<String> {
-        return List(30) { index -> "Item $index"}
+        return List(30) { index -> "Item $index" }
     }
 }
 
 // 参考: https://blog.csdn.net/harvic880925/article/details/84866486
-class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager() {
+class AdvancedCustomLayoutManger(context: Context) : RecyclerView.LayoutManager() {
     // 总共的滑动距离
     private var sumDy = 0
+    
     // item的高度和
     private var totalHeight = 0
     private var itemWidth = 0
     private var itemHeight = 0
+    
     // 记录每个item的位置
     private val itemRects = SparseArray<Rect>()
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
-        return RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+        return RecyclerView.LayoutParams(
+            RecyclerView.LayoutParams.WRAP_CONTENT,
+            RecyclerView.LayoutParams.WRAP_CONTENT
+        )
     }
-
+    
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State?) {
         // adapter中没有数据, 将所有的item从屏幕上剥离, 清空当前屏幕
         if (itemCount == 0) {
@@ -48,21 +54,21 @@ class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager()
         }
         // 将所有的item view从RecyclerView剥离, 然后再重新添加addView
         detachAndScrapAttachedViews(recycler)
-
+        
         // 申请一个 HolderView
         val childView = recycler.getViewForPosition(0)
         // 测量HolderView后, 方便得出 width & height
         measureChildWithMargins(childView, 0, 0)
         itemWidth = getDecoratedMeasuredWidth(childView)
         itemHeight = getDecoratedMeasuredHeight(childView)
-
+        
         var offsetY = 0
         // item大小固定, 为了布局方便, 记录下来其位置
         for (i in 0 until itemCount) {
             itemRects.put(i, Rect(0, offsetY, itemWidth, offsetY + itemHeight))
             offsetY += itemHeight
         }
-
+        
         // 可见item 数目
         val visibleCount = getVerticalSpace() / itemHeight
         for (i in 0..visibleCount) {
@@ -76,11 +82,11 @@ class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager()
         // offsetY应该是比RecyclerView的真正高度小的，而此时的真正的高度应该是RecyclerView本身所设置的高度。
         totalHeight = max(offsetY, getVerticalSpace())
     }
-
+    
     override fun canScrollVertically(): Boolean {
         return true
     }
-
+    
     override fun scrollVerticallyBy(
         dy: Int,
         recycler: RecyclerView.Recycler,
@@ -100,7 +106,7 @@ class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager()
             // 已经到底, 不能在滑动
             travel = totalHeight - getVerticalSpace() - sumDy
         }
-
+        
         // travel >= 0 向上滚动
         // travel < 0  向下滚动
         // 回收越界的子view
@@ -114,15 +120,15 @@ class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager()
                 }
             } else if (travel < 0) {
                 // 下移动超出下边界
-                if  (getDecoratedBottom(child) - travel > height - paddingBottom){
+                if (getDecoratedBottom(child) - travel > height - paddingBottom) {
                     removeAndRecycleView(child, recycler)
                     continue
                 }
             }
         }
-
+        
         val visibleRect: Rect = getVisibleArea(travel)
-        if (travel >=0) {
+        if (travel >= 0) {
             val lastView = getChildAt(childCount - 1) ?: return dy
             val minPos = getPosition(lastView) + 1
             for (i in minPos until itemCount) {
@@ -131,7 +137,7 @@ class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager()
                     val c = recycler.getViewForPosition(i)
                     addView(c)
                     measureChildWithMargins(c, 0, 0)
-                    layoutDecorated(c, rect.left, rect.top - sumDy, rect.right, rect.bottom -sumDy)
+                    layoutDecorated(c, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
                 } else {
                     break
                 }
@@ -146,28 +152,36 @@ class AdvancedCustomLayoutManger(context: Context): RecyclerView.LayoutManager()
                     val c = recycler.getViewForPosition(i)
                     addView(c)
                     measureChildWithMargins(c, 0, 0)
-                    layoutDecoratedWithMargins(c, rect.left, rect.top - sumDy, rect.right, rect.bottom - sumDy)
+                    layoutDecoratedWithMargins(
+                        c,
+                        rect.left,
+                        rect.top - sumDy,
+                        rect.right,
+                        rect.bottom - sumDy
+                    )
                 } else {
                     break
                 }
             }
         }
-
-
+        
+        
         sumDy += travel
         // 平滑容器内的item
         offsetChildrenVertical(-travel)
         return dy
     }
-
+    
     // 新增travel移动后, 当前屏幕所在的位置
     // sumDy 上次移动距离
     // travel 这次移动距离
     private fun getVisibleArea(travel: Int): Rect {
-        return Rect(paddingLeft, paddingTop + sumDy + travel,
-            width + paddingRight, getVerticalSpace() + sumDy + travel)
+        return Rect(
+            paddingLeft, paddingTop + sumDy + travel,
+            width + paddingRight, getVerticalSpace() + sumDy + travel
+        )
     }
-
+    
     // 当前RecyclerView可见垂直高度
     private fun getVerticalSpace(): Int {
         return height - paddingBottom - paddingTop
