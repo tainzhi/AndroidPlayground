@@ -1,8 +1,12 @@
 package com.tainzhi.sample.customview
 
+import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.tainzhi.android.common.base.ui.BaseViewBindingActivity
@@ -91,6 +95,25 @@ class ShopCarAdapter(
     override fun convert(holder: BaseViewHolder, item: String) {
         Glide.with(context)
             .load(item)
-            .into(holder.getView(R.id.itemIv))
+            .into(object: CustomTarget<Drawable>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    holder.getView<ImageView>(R.id.itemIv).setImageDrawable(resource)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+
+            })
+//
+//        thread(true) {
+//            val target: FutureTarget<File> = Glide.with(context)
+//                .downloadOnly()
+//                .load(item)
+//                .submit()
+//            val downloadFile = target.get()
+//        }
     }
 }

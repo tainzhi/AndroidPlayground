@@ -24,10 +24,13 @@ class RecyclerViewCustomLayoutMangerActivity : BaseViewBindingActivity<ActivityC
     }
 }
 
+/**
+ * 没有回收复用功能, 需要自定义实现
+ */
 class CustomLayoutManger(context: Context): RecyclerView.LayoutManager() {
     // 总共的滑动距离
     private var sumDy = 0
-    // item的高度和
+    // item的高度和, 显然是可以超出屏幕的范围的
     private var totalHeight = 0
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
         return RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT)
@@ -44,6 +47,8 @@ class CustomLayoutManger(context: Context): RecyclerView.LayoutManager() {
             layoutDecorated(view, 0, offsetY, width, offsetY + height)
             offsetY += height
         }
+        // offsetY是所有item的总高度，而当item填不满RecyclerView时，
+        // offsetY应该是比RecyclerView的真正高度小的，而此时的真正的高度应该是RecyclerView本身所设置的高度。
         totalHeight = max(offsetY, getVerticalSpace())
     }
 
