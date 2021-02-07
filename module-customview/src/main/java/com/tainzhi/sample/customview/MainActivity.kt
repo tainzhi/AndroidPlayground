@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             NameClass("水平滚动选择器", ScrollPickerActivity::class.java),
             NameClass("购物车动画", ShopCarAnimationActivity::class.java),
             NameClass("自定义ItemDecoration", RecyclerViewItemDecorationActivity::class.java),
+            NameClass("自定义LayoutManager", RecyclerViewCustomLayoutMangerActivity::class.java),
         )
 
         customRV.run {

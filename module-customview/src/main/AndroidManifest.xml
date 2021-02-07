@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecyclerViewItemDecorationActivity"></activity>
+        <activity android:name=".RecyclerViewCustomLayoutMangerActivity"></activity>
+        <activity android:name=".RecyclerViewItemDecorationActivity" />
         <activity android:name=".ShopCarAnimationActivity" />
         <activity android:name=".ScrollPickerActivity" />
         <activity android:name=".VerificationCodeActivity" />

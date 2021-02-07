@@ -70,6 +70,7 @@ class LinearItemDecoration(val context: Context): RecyclerView.ItemDecoration() 
         val layoutManager = parent.layoutManager
         parent.children.forEach { child->
             // child为Recyclerview的item
+            // 在ItemDecoration的左空间画一个圆
             val cx = layoutManager!!.getLeftDecorationWidth(child) / 2
             val cy = child.top + child.height / 2
             c.drawCircle(cx.toFloat(), cy.toFloat(), circleRadius.toFloat(), mPaint)

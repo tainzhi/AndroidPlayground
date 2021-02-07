@@ -11,6 +11,8 @@ git clone --recursive https://github.com/tainzhi/AndroidPlayground
 - 波浪形态的圆形进度条
 - 水平或者竖直滑动选择器(String, Bitmap)等等
 - 加入购物车动画
+- 自定义RecyclerView ItemDecoration
+- 自定义RecyclerView LayoutManager
 
 ## module-android-api
 android控件和api使用demo
