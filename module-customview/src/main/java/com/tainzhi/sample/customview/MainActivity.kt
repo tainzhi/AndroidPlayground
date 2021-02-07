@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             NameClass("自定义LayoutManager", RecyclerViewCustomLayoutMangerActivity::class.java),
             NameClass("自定义高级LayoutManager, 简单复用", RecyclerViewAdvancedCustomLayoutMangerActivity::class.java),
             NameClass("自定义高级LayoutManager, 高级复用", RecyclerViewAdvancedCustomLayoutManger2Activity::class.java),
+            NameClass("终极LayoutManager, 酷炫3D效果", RecyclerViewAdvancedCustomLayoutManger3Activity::class.java),
         )
 
         customRV.run {

@@ -44,6 +44,8 @@ class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager(
             detachAndScrapAttachedViews(recycler)
             return
         }
+        hasAttachedItems.clear()
+        itemRects.clear()
         // 将所有的item view从RecyclerView剥离, 然后再重新添加addView
         detachAndScrapAttachedViews(recycler)
 
