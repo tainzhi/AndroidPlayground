@@ -14,7 +14,7 @@ class RecyclerViewAdvancedCustomLayoutMangerActivity :
     BaseViewBindingActivity<ActivityCustomLayoutMangerBinding>() {
     override fun initView() {
         mBinding.recyclerV.run {
-            layoutManager = AdvancedCustomLayoutManger(context)
+            layoutManager = AdvancedCustomLayoutManager(context)
             adapter = ItemDecorationAdapter(generateFakeData())
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL).apply {
                 setDrawable(getDrawable(R.drawable.item_divider)!!)
@@ -28,7 +28,7 @@ class RecyclerViewAdvancedCustomLayoutMangerActivity :
 }
 
 // 参考: https://blog.csdn.net/harvic880925/article/details/84866486
-class AdvancedCustomLayoutManger(context: Context) : RecyclerView.LayoutManager() {
+class AdvancedCustomLayoutManager(context: Context) : RecyclerView.LayoutManager() {
     // 总共的滑动距离
     private var sumDy = 0
     

@@ -17,7 +17,9 @@
         <activity android:name=".RecyclerViewCustomLayoutMangerActivity"/>
         <activity android:name=".RecyclerViewAdvancedCustomLayoutMangerActivity"/>
         <activity android:name=".RecyclerViewAdvancedCustomLayoutManger2Activity"/>
-        <activity android:name=".RecyclerViewAdvancedCustomLayoutManger3Activity"/>
+        <activity android:name=".RecyclerViewAdvancedCustomLayoutManger3Activity"
+            android:screenOrientation="landscape"
+            />
         <activity android:name=".RecyclerViewItemDecorationActivity" />
         <activity android:name=".ShopCarAnimationActivity" />
         <activity android:name=".ScrollPickerActivity" />

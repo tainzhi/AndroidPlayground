@@ -12,7 +12,7 @@ import kotlin.math.max
 class RecyclerViewAdvancedCustomLayoutManger2Activity : BaseViewBindingActivity<ActivityCustomLayoutMangerBinding>() {
     override fun initView() {
         mBinding.recyclerV.run {
-            layoutManager = AdvancedCustomLayoutManger2(context)
+            layoutManager = AdvancedCustomLayoutManager2(context)
             adapter = ItemDecorationAdapter(generateFakeData())
         }
     }
@@ -23,7 +23,7 @@ class RecyclerViewAdvancedCustomLayoutManger2Activity : BaseViewBindingActivity<
 }
 
 // 参考: https://blog.csdn.net/harvic880925/article/details/84979161
-class AdvancedCustomLayoutManger2(context: Context): RecyclerView.LayoutManager() {
+class AdvancedCustomLayoutManager2(context: Context): RecyclerView.LayoutManager() {
     // 总共的滑动距离
     private var sumDy = 0
     // item的高度和

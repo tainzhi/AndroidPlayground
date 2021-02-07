@@ -2,8 +2,12 @@ package com.tainzhi.sample.customview
 
 import android.content.Context
 import android.graphics.Rect
+import android.hardware.SensorManager
+import android.util.AttributeSet
 import android.util.SparseArray
 import android.util.SparseBooleanArray
+import android.view.View
+import android.view.ViewConfiguration
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,9 +15,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.tainzhi.android.common.base.ui.BaseViewBindingActivity
 import com.tainzhi.sample.customview.databinding.ActivityCustomLayoutManger3Binding
-import kotlin.math.max
 
-class RecyclerViewAdvancedCustomLayoutManger3Activity : BaseViewBindingActivity<ActivityCustomLayoutManger3Binding>() {
+class RecyclerViewAdvancedCustomLayoutManger3Activity :
+    BaseViewBindingActivity<ActivityCustomLayoutManger3Binding>() {
     override fun initView() {
         mBinding.recyclerV.run {
             layoutManager = AdvancedCustomLayoutManger3(context)
@@ -46,146 +50,212 @@ class RecyclerViewAdvancedCustomLayoutManger3Activity : BaseViewBindingActivity<
     }
 }
 
-class ItemImageDecorationAdapter(datas: List<String>): BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_image,
+class ItemImageDecorationAdapter(datas: List<String>) : BaseQuickAdapter<String, BaseViewHolder>(
+    R.layout.item_image,
     datas as MutableList<String>
 ) {
     override fun convert(holder: BaseViewHolder, item: String) {
         Glide.with(context)
             .load(item)
-            .into( holder.getView<ImageView>(R.id.itemImageV))
+            .into(holder.getView<ImageView>(R.id.itemImageV))
     }
 
 }
 
 // 参考: https://blog.csdn.net/harvic880925/article/details/84979161
 // 水平的
-class AdvancedCustomLayoutManger3(context: Context): RecyclerView.LayoutManager() {
+class AdvancedCustomLayoutManger3(context: Context) : RecyclerView.LayoutManager() {
     // 总共的滑动距离
-    private var sumDx = 0
+    private var mSumDx = 0
+
     // item的宽度和
-    private var totalWidth = 0
-    private var itemWidth = 0
-    private var itemHeight = 0
+    private var mTotalWidth = 0
+    private var mItemWidth = 0
+    private var mItemHeight = 0
+
+    // item的一半宽度
+    private var mInternalWidth = 0
+
+    // item移动后的位置
+    private var mStartX = 0
+
     // 记录每个item的位置
-    private val itemRects = SparseArray<Rect>()
+    private val mItemRects = SparseArray<Rect>()
+
     // 保存已经布局好的item
-    private val hasAttachedItems = SparseBooleanArray()
+    private val mHasAttachedItems = SparseBooleanArray()
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
-        return RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT)
+        return RecyclerView.LayoutParams(
+            RecyclerView.LayoutParams.MATCH_PARENT,
+            RecyclerView.LayoutParams.MATCH_PARENT
+        )
     }
-    
+
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State?) {
-        // adapter中没有数据, 将所有的item从屏幕上剥离, 清空当前屏幕
-        if (itemCount == 0) {
+        if (itemCount == 0) { //没有Item，界面空着吧
             detachAndScrapAttachedViews(recycler)
             return
         }
-        hasAttachedItems.clear()
-        itemRects.clear()
-        // 将所有的item view从RecyclerView剥离, 然后再重新添加addView
+        mHasAttachedItems.clear()
+        mItemRects.clear()
+
         detachAndScrapAttachedViews(recycler)
-        
-        // 申请一个 HolderView
-        val childView = recycler.getViewForPosition(0)
-        // 测量HolderView后, 方便得出 width & height
+
+        //将item的位置存储起来
+        val childView: View = recycler.getViewForPosition(0)
         measureChildWithMargins(childView, 0, 0)
-        itemWidth = getDecoratedMeasuredWidth(childView)
-        itemHeight = getDecoratedMeasuredHeight(childView)
-        
+        mItemWidth = getDecoratedMeasuredWidth(childView)
+        mItemHeight = getDecoratedMeasuredHeight(childView)
+        mInternalWidth = mItemWidth / 2
+
+        mStartX = width / 2 - mInternalWidth
+
+        //定义水平方向的偏移量
         var offsetX = 0
-        // item大小固定, 为了布局方便, 记录下来其位置
+
         for (i in 0 until itemCount) {
-            itemRects.put(i, Rect(offsetX, 0, offsetX +itemWidth, itemHeight))
-            hasAttachedItems.put(i, false)
-            offsetX += itemWidth
+            val rect = Rect(mStartX + offsetX, 0, mStartX + offsetX + mItemWidth, mItemHeight)
+            mItemRects.put(i, rect)
+            mHasAttachedItems.put(i, false)
+            offsetX += mInternalWidth
         }
-        
-        // 可见item 数目
-        val visibleCount = getHorizontalSpace() / itemWidth
+        offsetX += mStartX
+
+        val visibleCount: Int = getHorizontalSpace() / mInternalWidth
+        val visibleRect = getVisibleArea()
         for (i in 0..visibleCount) {
-            insertView(i, getVisibleArea(), recycler, false)
+            insertView(i, visibleRect, recycler, false)
         }
-        // offsetY是所有item的总高度，而当item填不满RecyclerView时，
-        // offsetY应该是比RecyclerView的真正高度小的，而此时的真正的高度应该是RecyclerView本身所设置的高度。
-        totalWidth = max(offsetX, getHorizontalSpace())
+
+        //如果所有子View的宽度和没有填满RecyclerView的宽度，
+        // 则将宽度设置为RecyclerView的宽度
+
+        //如果所有子View的宽度和没有填满RecyclerView的宽度，
+        // 则将宽度设置为RecyclerView的宽度
+        mTotalWidth = Math.max(offsetX, getHorizontalSpace())
     }
-    
+
     override fun canScrollHorizontally(): Boolean {
         return true
     }
-    
+
     override fun scrollHorizontallyBy(
         dx: Int,
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State?
     ): Int {
-        if (childCount == 0) return dx
-        // dx 表示手指在屏幕上的滑动位移
-        // -dx <0 向上滑动
-        // dx >0  向下滑动
-        var travel = dx
-        // 已经到顶, 不能再移动
-        if (sumDx + dx < 0) {
-            travel = -sumDx
-        } else if (sumDx + dx > totalWidth - getHorizontalSpace()) {
-            // msumDx + dx 表示当前的移动距离，
-            // mTotalHeight - getVerticalSpace()表示当滑动到底时滚动的总距离；
-            // 已经到底, 不能在滑动
-            travel = totalWidth - getHorizontalSpace() - sumDx
+        if (childCount <= 0) {
+            return dx
         }
-    
-        sumDx += travel
-    
-        // travel >= 0 向上滚动
-        // travel < 0  向下滚动
-        // 回收越界的子view
-        for (i in (childCount - 1) downTo 0) {
-            val child = getChildAt(i) ?: continue
-            val pos = getPosition(child)
-            val rect = itemRects[pos]
-            if (!Rect.intersects(rect, getVisibleArea())) {
+
+        var travel = dx
+        //如果滑动到最顶部
+        //如果滑动到最顶部
+        if (mSumDx + dx < 0) {
+            travel = -mSumDx
+        } else if (mSumDx + dx > getMaxOffset()) {
+            //如果滑动到最底部
+            travel = getMaxOffset() - mSumDx
+        }
+
+        mSumDx += travel
+
+        val visibleRect = getVisibleArea()
+
+        //回收越界子View
+        for (i in childCount - 1 downTo 0) {
+            val child = getChildAt(i)?: continue
+            val position = getPosition(child)
+            val rect: Rect = mItemRects.get(position)
+            if (!Rect.intersects(rect, visibleRect)) {
                 removeAndRecycleView(child, recycler)
-                hasAttachedItems.put(pos, false)
+                mHasAttachedItems.put(position, false)
             } else {
-                // 屏幕的item直接变化, 不需要remove
-                layoutDecoratedWithMargins(child, rect.left - sumDx, rect.top, rect.right- sumDx, rect.bottom )
-                hasAttachedItems.put(pos, true)
+                layoutDecoratedWithMargins(
+                    child,
+                    rect.left - mSumDx,
+                    rect.top,
+                    rect.right - mSumDx,
+                    rect.bottom
+                )
+                handleChildView(child, rect.left - mStartX - mSumDx)
+                mHasAttachedItems.put(position, true)
             }
         }
-    
-        val lastView = getChildAt(childCount - 1) ?: return dx
-        val firstView = getChildAt(0) ?: return dx
+
+        //填充空白区域
+
+        //填充空白区域
+        val lastView = getChildAt(childCount - 1)
+        val firstView = getChildAt(0)
         if (travel >= 0) {
-            val minPos = getPosition(firstView)
+            val minPos = getPosition(firstView!!)
             for (i in minPos until itemCount) {
-                insertView(i, getVisibleArea(), recycler, false)
+                insertView(i, visibleRect, recycler, false)
             }
         } else {
-            val maxPos = getPosition(lastView)
+            val maxPos = getPosition(lastView!!)
             for (i in maxPos downTo 0) {
-                insertView(i, getVisibleArea(), recycler, true)
+                insertView(i, visibleRect, recycler, true)
             }
         }
-    
         return travel
     }
-    
-    
+
+    fun getCenterPosition(): Int {
+        var pos = mSumDx / mInternalWidth
+        val more = mSumDx % mInternalWidth
+        if (more > mInternalWidth * 0.5f) pos++
+        return pos
+    }
+
+    fun getFirstVisiblePosition(): Int {
+        if (childCount <= 0) return 0
+        val view = getChildAt(0) ?: return 0
+        return getPosition(view)
+    }
+
+    fun calculateDistance(velocityX: Int, distance: Double): Double {
+        val extra: Int = mSumDx % mInternalWidth
+        val realDistance: Double
+        realDistance = if (velocityX > 0) {
+            if (distance < mInternalWidth) {
+                (mInternalWidth - extra).toDouble()
+            } else {
+                distance - distance % mInternalWidth- extra
+            }
+        } else {
+            if (distance < mInternalWidth) {
+                extra.toDouble()
+            } else {
+                distance - distance % mInternalWidth + extra
+            }
+        }
+        return realDistance
+    }
+
     // 新增travel移动后, 当前屏幕所在的位置
     // sumDy 上次移动距离
     private fun getVisibleArea(): Rect {
-        return Rect(paddingLeft + sumDx, paddingTop,
-            width + sumDx - paddingRight, height - paddingBottom)
+        return Rect(
+            paddingLeft + mSumDx, paddingTop,
+            width + mSumDx - paddingRight, height - paddingBottom
+        )
     }
-    
+
     // 当前RecyclerView可见垂直高度
     private fun getHorizontalSpace(): Int {
         return width - paddingLeft - paddingRight
     }
-    
-    private fun insertView(pos: Int, visibleRect: Rect, recycler: RecyclerView.Recycler, isFirstPos: Boolean) {
-        val rect = itemRects[pos]
-        if (Rect.intersects(visibleRect, rect) && !hasAttachedItems[pos]) {
+
+    private fun insertView(
+        pos: Int,
+        visibleRect: Rect,
+        recycler: RecyclerView.Recycler,
+        isFirstPos: Boolean
+    ) {
+        val rect = mItemRects[pos]
+        if (Rect.intersects(visibleRect, rect) && !mHasAttachedItems[pos]) {
             val child = recycler.getViewForPosition(pos)
             if (isFirstPos) {
                 addView(child, 0)
@@ -193,9 +263,149 @@ class AdvancedCustomLayoutManger3(context: Context): RecyclerView.LayoutManager(
                 addView(child)
             }
             measureChildWithMargins(child, 0, 0)
-            layoutDecoratedWithMargins(child, rect.left - sumDx, rect.top , rect.right - sumDx, rect.bottom)
-            hasAttachedItems.put(pos, true)
+            layoutDecoratedWithMargins(
+                child,
+                rect.left - mSumDx,
+                rect.top,
+                rect.right - mSumDx,
+                rect.bottom
+            )
+            handleChildView(child, rect.left - mStartX - mSumDx)
+            mHasAttachedItems.put(pos, true)
         }
     }
+
+    private fun handleChildView(child: View, moveX: Int) {
+        val radio = computeScale(moveX)
+        child.scaleX = radio
+        child.scaleY = radio
+
+        val rotation = computeRotationY(moveX);
+        child.rotationY = rotation
+    }
+
+    private fun computeScale(x: Int): Float {
+        var scale: Float = 1 - Math.abs(x * 1.0f / (8f * mInternalWidth))
+        if (scale < 0) scale = 0f
+        if (scale > 1) scale = 1f
+        return scale
+    }
+
+    private fun getMaxOffset(): Int {
+        return (itemCount - 1) * mInternalWidth
+    }
+
+    private val M_MAX_ROTATION_Y = 30.0f
+
+    private fun computeRotationY(x: Int): Float {
+        var rotationY: Float
+        rotationY = -M_MAX_ROTATION_Y * x / mInternalWidth
+        if (Math.abs(rotationY) > M_MAX_ROTATION_Y) {
+            rotationY = if (rotationY > 0) {
+                M_MAX_ROTATION_Y
+            } else {
+                -M_MAX_ROTATION_Y
+            }
+        }
+        return rotationY
+    }
+
+}
+
+// https://blog.csdn.net/harvic880925/article/details/86606873
+class CustomRecyclerView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : RecyclerView(context, attrs, defStyleAttr) {
+    init {
+        isChildrenDrawingOrderEnabled = true
+    }
+
+    override fun getChildDrawingOrder(childCount: Int, i: Int): Int {
+        val center: Int = (getAdvancedCustomLayoutManager3().getCenterPosition()
+                - getAdvancedCustomLayoutManager3().getFirstVisiblePosition()) //计算正在显示的所有Item的中间位置
+        val order: Int = if (i == center) {
+            childCount - 1
+        } else if (i > center) {
+            center + childCount - 1 - i
+        } else {
+            i
+        }
+        return order
+    }
+    fun getAdvancedCustomLayoutManager3(): AdvancedCustomLayoutManger3 {
+        return layoutManager as AdvancedCustomLayoutManger3
+    }
+
+
+    override fun fling(velocityX: Int, velocityY: Int): Boolean {
+        //缩小滚动距离
+        var flingX = (velocityX * 0.40f).toInt()
+        val manger: AdvancedCustomLayoutManger3 = getAdvancedCustomLayoutManager3()
+        val distance = getSplineFlingDistance(flingX)
+        val newDistance: Double = manger.calculateDistance(velocityX, distance)
+        val fixVelocityX = getVelocity(newDistance)
+        flingX = if (velocityX > 0) {
+            fixVelocityX
+        } else {
+            -fixVelocityX
+        }
+        return super.fling(flingX, velocityY)
+    }
+
+
+    /**
+     * 根据松手后的滑动速度计算出fling的距离
+     *
+     * @param velocity
+     * @return
+     */
+    private fun getSplineFlingDistance(velocity: Int): Double {
+        val l = getSplineDeceleration(velocity)
+        val decelMinusOne = DECELERATION_RATE - 1.0
+        return mFlingFriction * getPhysicalCoeff() * Math.exp(DECELERATION_RATE / decelMinusOne * l)
+    }
+
+    /**
+     * 根据距离计算出速度
+     *
+     * @param distance
+     * @return
+     */
+    private fun getVelocity(distance: Double): Int {
+        val decelMinusOne = DECELERATION_RATE - 1.0
+        val aecel =
+            Math.log(distance / (mFlingFriction * mPhysicalCoeff)) * decelMinusOne / DECELERATION_RATE
+        return Math.abs((Math.exp(aecel) * (mFlingFriction * mPhysicalCoeff) / INFLEXION).toInt())
+    }
+
+    /**
+     * --------------flling辅助类---------------
+     */
+    private val INFLEXION = 0.35f // Tension lines cross at (INFLEXION, 1)
+
+    private val mFlingFriction = ViewConfiguration.getScrollFriction()
+    private val DECELERATION_RATE = (Math.log(0.78) / Math.log(0.9)).toFloat()
+    private var mPhysicalCoeff = 0f
+
+    private fun getSplineDeceleration(velocity: Int): Double {
+        val ppi = this.resources.displayMetrics.density * 160.0f
+        val mPhysicalCoeff = (SensorManager.GRAVITY_EARTH // g (m/s^2)
+                * 39.37f // inch/meter
+                * ppi
+                * 0.84f) // look and feel tuning
+        return Math.log((INFLEXION * Math.abs(velocity) / (mFlingFriction * mPhysicalCoeff)).toDouble())
+    }
+
+    private fun getPhysicalCoeff(): Float {
+        if (mPhysicalCoeff == 0f) {
+            val ppi = this.resources.displayMetrics.density * 160.0f
+            mPhysicalCoeff = (SensorManager.GRAVITY_EARTH // g (m/s^2)
+                    * 39.37f // inch/meter
+                    * ppi
+                    * 0.84f) // look and feel tuning
+        }
+        return mPhysicalCoeff
+    }
+
 }
 
