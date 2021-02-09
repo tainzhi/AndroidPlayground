@@ -2,7 +2,7 @@ import com.tainzhi.android.buildsrc.Libs
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 //apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -22,8 +22,4 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-}
-
-dependencies {
-//    api(Libs.Kotlin.stdlib)
 }
