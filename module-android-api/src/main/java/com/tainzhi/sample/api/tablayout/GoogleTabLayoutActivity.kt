@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.tainzhi.sample.api.R
 import com.tainzhi.sample.api.adapter.SimpleFragmentPagerAdapter
-import kotlin.collections.ArrayList
 
 class GoogleTabLayoutActivity : AppCompatActivity() {
     private val mTabLayout: TabLayout by lazy { findViewById<TabLayout>(R.id.tablayout) }
@@ -21,8 +19,8 @@ class GoogleTabLayoutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_tab_layout)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+//        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+//        setSupportActionBar(toolbar)
         init()
     }
 

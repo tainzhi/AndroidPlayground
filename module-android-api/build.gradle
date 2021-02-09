@@ -64,7 +64,6 @@ dependencies {
     implementation(Libs.AndroidX.Navigation.uiKtx)
     implementation(Libs.Google.material)
     implementation(Libs.baseRecyclerViewAdapterHelper)
-
     implementation(Libs.ARouter.api)
     kapt(Libs.ARouter.compiler)
 }

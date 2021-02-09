@@ -4,22 +4,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Binder
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
-import android.os.Looper
-import android.os.Message
-import android.os.Process
+import android.os.*
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.tainzhi.sample.api.R
-import kotlinx.android.synthetic.main.activity_service.addBookBtn
-import kotlinx.android.synthetic.main.activity_service.bindBtn
-import kotlinx.android.synthetic.main.activity_service.getBooksBtn
-import kotlinx.android.synthetic.main.activity_service.killBtn
-import kotlinx.android.synthetic.main.activity_service.runStateDetailTv
-import kotlinx.android.synthetic.main.activity_service.unBindBtn
+import kotlinx.android.synthetic.main.activity_service.*
 import kotlin.random.Random
 
 class ServiceActivity : AppCompatActivity() {
@@ -108,7 +97,7 @@ class ServiceActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if (bookManager.asBinder().isBinderAlive) {
+        if (this::bookManager.isInitialized && bookManager.asBinder().isBinderAlive) {
             bookManager.unregisterCallback(onIOnNewBookArrivedListener)
         }
         unbindService(connection)
