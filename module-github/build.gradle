@@ -85,11 +85,10 @@ dependencies {
     implementation Libs.Dagger.android
     implementation Libs.Dagger.androidSupport
     kapt Libs.Dagger.androidProcessor
+    implementation(Libs.timber)
+    implementation(Libs.Glide.glide)
 
     implementation(Libs.ARouter.api)
     kapt(Libs.ARouter.compiler)
-
-    implementation(Libs.timber)
-    implementation(Libs.Glide.glide)
 
 }
