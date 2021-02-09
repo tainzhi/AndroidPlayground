@@ -61,13 +61,12 @@ dependencies {
     implementation(Libs.Google.material)
     implementation(Libs.AndroidX.Lifecycle.extensions)
 
-    implementation(Libs.ARouter.api)
     implementation(Libs.baseRecyclerViewAdapterHelper)
     implementation(Libs.Glide.glide)
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     kapt(Libs.Glide.compiler)
     implementation(Libs.circleImageView)
     implementation(Libs.recyclical)
+
+    implementation(Libs.ARouter.api)
+    kapt(Libs.ARouter.compiler)
 }
